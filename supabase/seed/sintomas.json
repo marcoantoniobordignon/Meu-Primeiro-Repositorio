@@ -1,0 +1,34 @@
+[
+  { "slug": "enjoo", "nome": "Enjoo", "grupo": "digestivo", "semanas_frequentes": [[5, 16]] },
+  { "slug": "vomito", "nome": "Vômito", "grupo": "digestivo", "semanas_frequentes": [[6, 14]] },
+  { "slug": "azia", "nome": "Azia", "grupo": "digestivo", "semanas_frequentes": [[14, 42]] },
+  { "slug": "prisao_ventre", "nome": "Prisão de ventre", "grupo": "digestivo", "semanas_frequentes": [[8, 42]] },
+  { "slug": "muita_fome", "nome": "Muita fome", "grupo": "digestivo", "semanas_frequentes": [[13, 28]] },
+  { "slug": "aversao_cheiros", "nome": "Aversão a cheiros", "grupo": "digestivo", "semanas_frequentes": [[5, 13]] },
+  { "slug": "gases", "nome": "Gases", "grupo": "digestivo", "semanas_frequentes": [[10, 42]] },
+
+  { "slug": "cansaco", "nome": "Cansaço", "grupo": "corpo", "semanas_frequentes": [[4, 13], [30, 42]] },
+  { "slug": "seios_sensiveis", "nome": "Seios sensíveis", "grupo": "corpo", "semanas_frequentes": [[4, 12]] },
+  { "slug": "tontura", "nome": "Tontura", "grupo": "corpo", "semanas_frequentes": [[8, 20]] },
+  { "slug": "dor_cabeca", "nome": "Dor de cabeça", "grupo": "corpo", "semanas_frequentes": [[6, 20]] },
+  { "slug": "dor_ligamento", "nome": "Dor na lateral da barriga", "grupo": "corpo", "semanas_frequentes": [[16, 26]] },
+  { "slug": "dor_costas", "nome": "Dor nas costas", "grupo": "corpo", "semanas_frequentes": [[20, 42]] },
+  { "slug": "caibra", "nome": "Cãibra", "grupo": "corpo", "semanas_frequentes": [[24, 42]] },
+  { "slug": "inchaco", "nome": "Inchaço", "grupo": "corpo", "semanas_frequentes": [[26, 42]] },
+  { "slug": "falta_ar", "nome": "Falta de ar", "grupo": "corpo", "semanas_frequentes": [[28, 36]] },
+  { "slug": "pressao_pelvica", "nome": "Pressão na pelve", "grupo": "corpo", "semanas_frequentes": [[34, 42]] },
+
+  { "slug": "humor_oscilando", "nome": "Humor oscilando", "grupo": "humor", "semanas_frequentes": [[4, 12], [36, 42]] },
+  { "slug": "ansiedade", "nome": "Ansiedade", "grupo": "humor", "semanas_frequentes": [[8, 14], [34, 42]] },
+  { "slug": "choro_facil", "nome": "Choro fácil", "grupo": "humor", "semanas_frequentes": [[5, 13]] },
+  { "slug": "irritada", "nome": "Irritada", "grupo": "humor", "semanas_frequentes": [[6, 12], [36, 42]] },
+  { "slug": "bem_disposta", "nome": "Bem disposta", "grupo": "humor", "semanas_frequentes": [[14, 27]] },
+
+  { "slug": "muito_sono", "nome": "Muito sono", "grupo": "sono", "semanas_frequentes": [[4, 13]] },
+  { "slug": "insonia", "nome": "Insônia", "grupo": "sono", "semanas_frequentes": [[28, 42]] },
+  { "slug": "sonhos_vividos", "nome": "Sonhos vívidos", "grupo": "sono", "semanas_frequentes": [[14, 42]] },
+
+  { "slug": "chutes", "nome": "Chutes", "grupo": "bebe", "semanas_frequentes": [[18, 42]], "especial": "chutes" },
+  { "slug": "contracoes", "nome": "Contrações", "grupo": "bebe", "semanas_frequentes": [[30, 42]], "especial": "contracoes" },
+  { "slug": "solucos_bebe", "nome": "Soluços do bebê", "grupo": "bebe", "semanas_frequentes": [[24, 42]] }
+]

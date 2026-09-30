@@ -31,9 +31,10 @@ export interface Perfil {
   modo: Momento;
   dpp?: DataISO;
   nascidoEm?: DataISO;
-  sintomasHoje?: { data: DataISO; ids: string[] };
   pushPermitido?: boolean;
   anonima: boolean;
+  /** Spec 14 define; até lá, 'free'. */
+  plano?: "free" | "trial" | "ativo";
   onboardingConcluidoEm: string;
 }
 
@@ -75,16 +76,16 @@ export function limparEstado() {
   }
 }
 
-/** Fecha o onboarding: grava o perfil e apaga o rascunho. */
-export function concluir(e: EstadoOnboarding, anonima: boolean, hoje: DataISO): Perfil {
+/** Fecha o onboarding: grava o perfil e apaga o rascunho. Os sintomas vão para a coleção (spec 06). */
+export function concluir(e: EstadoOnboarding, anonima: boolean): Perfil {
   const perfil: Perfil = {
     nome: e.nome?.trim() || undefined,
     modo: e.momento ?? "gestacao",
     dpp: e.dpp,
     nascidoEm: e.nascidoEm,
-    sintomasHoje: e.sintomas?.length ? { data: hoje, ids: e.sintomas } : undefined,
     pushPermitido: e.pushPermitido,
     anonima,
+    plano: "free",
     onboardingConcluidoEm: new Date().toISOString(),
   };
   try {
@@ -102,6 +103,23 @@ export function lerPerfil(): Perfil | null {
     return bruto ? (JSON.parse(bruto) as Perfil) : null;
   } catch {
     return null;
+  }
+}
+
+export function guardarPerfil(perfil: Perfil): Perfil {
+  try {
+    localStorage.setItem(CHAVE_PERFIL, JSON.stringify(perfil));
+  } catch {
+    /* nada */
+  }
+  return perfil;
+}
+
+export function apagarPerfil() {
+  try {
+    localStorage.removeItem(CHAVE_PERFIL);
+  } catch {
+    /* nada */
   }
 }
 

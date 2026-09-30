@@ -11,7 +11,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "supabase:types": "supabase gen types typescript --local > src/lib/supabase/types.generated.ts"
+    "supabase:types": "supabase gen types typescript --local > src/lib/supabase/types.generated.ts",
+    "conteudo:build": "node scripts/conteudo-build.mjs",
+    "pretest": "node scripts/conteudo-build.mjs",
+    "prebuild": "node scripts/conteudo-build.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",

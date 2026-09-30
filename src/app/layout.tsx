@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Outfit } from "next/font/google";
 
 import { ProvedorTema } from "@/components/ui/ProvedorTema";
+import { ProvedorToast } from "@/components/ui/Toast";
 import { coresMeta } from "@/styles/cores-meta";
 import "@/styles/globals.css";
 
@@ -43,7 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" data-tema="auto" className={`${outfit.variable} ${garamond.variable}`}>
       <body className="min-h-dvh">
-        <ProvedorTema>{children}</ProvedorTema>
+        <ProvedorTema>
+          <ProvedorToast>{children}</ProvedorToast>
+        </ProvedorTema>
       </body>
     </html>
   );

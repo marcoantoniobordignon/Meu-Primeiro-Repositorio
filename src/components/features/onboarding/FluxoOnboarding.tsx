@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Progresso } from "@/components/ui/Progresso";
 import { onboarding as copy } from "@/copy/onboarding";
 import { track } from "@/lib/analytics";
+import { novoId } from "@/lib/dados/colecao";
+import { sintomas } from "@/lib/dados/colecoes";
 import { paraISO } from "@/lib/dates";
 import {
   concluir,
@@ -68,7 +70,13 @@ export function FluxoOnboarding() {
   const finalizar = useCallback(
     (e: EstadoOnboarding) => {
       const sessao = sessaoAtual();
-      concluir(e, sessao?.anonima ?? true, paraISO(new Date()));
+      concluir(e, sessao?.anonima ?? true);
+      // Tela 5: "isso vira seu diário". Grava com a data de hoje (spec 06).
+      const hoje = paraISO(new Date());
+      for (const slug of e.sintomas ?? []) {
+        sintomas.salvar({ id: novoId(), data: hoje, slug, intensidade: 1, origem: "onboarding" });
+        track("sintoma_registrado", { slug, intensidade: 1, origem: "onboarding" });
+      }
       track("onb_concluido", {
         segundos: Math.round((Date.now() - e.iniciadoEm) / 1000),
         telas_puladas: e.puladas.length,

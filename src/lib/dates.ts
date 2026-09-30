@@ -84,6 +84,76 @@ export function semanaGestacional(dpp: DataISO, hoje: DataISO = paraISO(new Date
   };
 }
 
+/** HG-01: semana exibida fica entre 1 e 42. */
+export function semanaExibida(semana: number): number {
+  return Math.min(42, Math.max(1, semana));
+}
+
+/** HG-02/03: legenda sob o anel. */
+export function legendaSemana(g: SemanaGestacional): { texto: string; tom: "normal" | "acento" } {
+  if (g.diasParaDpp < 0) {
+    const d = -g.diasParaDpp;
+    return { texto: d === 1 ? "1 dia além da data" : `${d} dias além da data`, tom: "acento" };
+  }
+  if (g.semana >= 37) return { texto: "pode ser a qualquer momento", tom: "acento" };
+  if (g.diasParaDpp < 14) return { texto: g.diasParaDpp === 1 ? "1 dia para o parto" : `${g.diasParaDpp} dias para o parto`, tom: "normal" };
+  return { texto: g.semanasParaDpp === 1 ? "1 semana para o parto" : `${g.semanasParaDpp} semanas para o parto`, tom: "normal" };
+}
+
+/** HG-04: saudação por hora local. */
+export function saudacaoPorHora(hora: number): "Bom dia" | "Boa tarde" | "Boa noite" {
+  if (hora >= 5 && hora <= 11) return "Bom dia";
+  if (hora >= 12 && hora <= 17) return "Boa tarde";
+  return "Boa noite";
+}
+
+/**
+ * SIN-05: a data do registro é o dia local; entre 0h e 4h, pode contar para ontem
+ * se a pessoa confirmar. Aqui só dizemos se a pergunta cabe.
+ */
+export function dataDoRegistro(agora: Date = new Date()): { hoje: DataISO; ontem: DataISO; madrugada: boolean } {
+  const hoje = paraISO(agora);
+  return { hoje, ontem: somarDias(hoje, -1), madrugada: agora.getHours() < 4 };
+}
+
+/** "hoje às 14:30", "amanhã às 14:30", "sex., 3 de out. às 14:30". */
+export function formatarQuando(isoDataHora: string, agora: Date = new Date()): string {
+  const d = new Date(isoDataHora);
+  const hora = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  const dias = diasEntre(paraISO(agora), paraISO(d));
+  if (dias === 0) return `hoje às ${hora}`;
+  if (dias === 1) return `amanhã às ${hora}`;
+  if (dias === -1) return `ontem às ${hora}`;
+  const data = d.toLocaleDateString("pt-BR", { weekday: "short", day: "numeric", month: "short" });
+  return `${data} às ${hora}`;
+}
+
+/** "há 2 min", "há 1 h", "agora". */
+export function haQuantoTempo(iso: string, agora: Date = new Date()): string {
+  const min = Math.floor((agora.getTime() - new Date(iso).getTime()) / 60_000);
+  if (min < 1) return "agora";
+  if (min < 60) return `há ${min} min`;
+  const h = Math.floor(min / 60);
+  return h < 24 ? `há ${h} h` : `há ${Math.floor(h / 24)} d`;
+}
+
+/** "3 min 20 s", "45 s". */
+export function formatarDuracao(segundos: number): string {
+  const s = Math.max(0, Math.round(segundos));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  if (m === 0) return `${r} s`;
+  return r === 0 ? `${m} min` : `${m} min ${r} s`;
+}
+
+/** "Hoje", "Ontem", "seg., 28 de set.". */
+export function rotuloDia(iso: DataISO, hoje: DataISO = paraISO(new Date())): string {
+  const dias = diasEntre(iso, hoje);
+  if (dias === 0) return "Hoje";
+  if (dias === 1) return "Ontem";
+  return deISO(iso).toLocaleDateString("pt-BR", { weekday: "short", day: "numeric", month: "short" });
+}
+
 /** ONB-02: DPP mais de 2 semanas no passado pede confirmação "o bebê já nasceu?". */
 export function dppNoPassado(dpp: DataISO, hoje: DataISO = paraISO(new Date())): boolean {
   return diasEntre(dpp, hoje) > 14;

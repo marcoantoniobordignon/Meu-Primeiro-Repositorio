@@ -50,17 +50,17 @@ describe("telas puláveis", () => {
 describe("concluir", () => {
   it("grava o perfil, limpa o rascunho e mantém sessão anônima (ONB-06)", () => {
     guardarEstado({ ...estadoInicial(), tela: 7, dpp: "2027-02-02", nome: "  Helena ", sintomas: ["enjoo"] });
-    const p = concluir(lerEstado()!, true, "2026-09-30");
+    const p = concluir(lerEstado()!, true);
     expect(p.nome).toBe("Helena");
     expect(p.modo).toBe("gestacao");
-    expect(p.sintomasHoje).toEqual({ data: "2026-09-30", ids: ["enjoo"] });
+    expect(p.plano).toBe("free");
     expect(p.anonima).toBe(true);
     expect(lerEstado()).toBeNull();
     expect(lerPerfil()?.dpp).toBe("2027-02-02");
   });
 
   it("ONB-01: já com o bebê nasce em modo bebê", () => {
-    const p = concluir({ ...estadoInicial(), tela: 7, momento: "bebe", nascidoEm: "2026-08-01" }, true, "2026-09-30");
+    const p = concluir({ ...estadoInicial(), tela: 7, momento: "bebe", nascidoEm: "2026-08-01" }, true);
     expect(p.modo).toBe("bebe");
     expect(p.nascidoEm).toBe("2026-08-01");
   });

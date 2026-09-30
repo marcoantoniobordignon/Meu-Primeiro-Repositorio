@@ -16,6 +16,10 @@ export default tseslint.config(
     },
   },
   {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: { globals: { console: "readonly", process: "readonly" } },
+  },
+  {
     // DS-01 / CLAUDE.md: nenhum hex solto em componente ou tela. Cor só via tokens.css.
     files: ["src/components/**/*.{ts,tsx}", "src/app/**/*.{ts,tsx}"],
     rules: {

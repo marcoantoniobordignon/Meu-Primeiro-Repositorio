@@ -5,8 +5,8 @@ import { useState } from "react";
 import { Botao } from "@/components/ui/Botao";
 import { Chip } from "@/components/ui/Chip";
 import { onboarding as copy } from "@/copy/onboarding";
-import { sintomasDaSemana, sintomasPosParto } from "@/copy/sintomas";
 import { paraISO, semanaGestacional } from "@/lib/dates";
+import { frequentesNaSemana, frequentesPosParto } from "@/lib/sintomas/catalogo";
 
 import type { PropsTela } from "./FluxoOnboarding";
 import { Pergunta } from "./Pergunta";
@@ -14,11 +14,13 @@ import { Pergunta } from "./Pergunta";
 /** Tela 5: os 4 sintomas mais frequentes da semana; "isso vira seu diário". */
 export function TelaComoEsta({ estado, avancar }: PropsTela) {
   const semana = estado.dpp ? semanaGestacional(estado.dpp, paraISO(new Date())).semana : 0;
-  const opcoes = estado.momento === "bebe" ? sintomasPosParto() : sintomasDaSemana(semana);
+  const opcoes = (estado.momento === "bebe" ? frequentesPosParto() : frequentesNaSemana(semana))
+    .filter((s) => !s.especial)
+    .slice(0, 4);
   const [marcados, setMarcados] = useState<string[]>(estado.sintomas ?? []);
 
-  function alternar(id: string, ligado: boolean) {
-    setMarcados((m) => (ligado ? [...m, id] : m.filter((x) => x !== id)));
+  function alternar(slug: string, ligado: boolean) {
+    setMarcados((m) => (ligado ? [...m, slug] : m.filter((x) => x !== slug)));
   }
 
   return (
@@ -33,7 +35,7 @@ export function TelaComoEsta({ estado, avancar }: PropsTela) {
     >
       <div className="flex flex-wrap gap-2.5">
         {opcoes.map((s) => (
-          <Chip key={s.id} cor="acento" selecionado={marcados.includes(s.id)} onToggle={(v) => alternar(s.id, v)}>
+          <Chip key={s.slug} cor="acento" selecionado={marcados.includes(s.slug)} onToggle={(v) => alternar(s.slug, v)}>
             {s.nome}
           </Chip>
         ))}
