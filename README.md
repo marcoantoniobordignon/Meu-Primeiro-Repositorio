@@ -23,6 +23,10 @@ pnpm supabase:functions        # serve as Edge Functions; a de voz precisa de AN
 
 Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interpretar-registro` e `supabase secrets set ANTHROPIC_API_KEY=...`. Deploy do app na Vercel com as duas variáveis públicas.
 
+## Deploy na Vercel
+
+O projeto é importado do GitHub com o preset Next.js; nada precisa ser configurado. Cada push na `main` gera um deploy de produção; cada PR gera um preview. Sem variáveis de ambiente o app sobe em modo 100 % local. Para ligar o Supabase, adicione `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` em *Settings → Environment Variables* e faça um redeploy.
+
 ## Verificar
 
 ```bash
