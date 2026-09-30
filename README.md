@@ -1,5 +1,16 @@
-# Meu primeiro repositorio
+# Meu Primeiro Repositório
 
- Este é meu primeiro repositório.
+Projeto reiniciado do zero.
 
- Acabei de fazer minha primeira modificação que será comitada.
+## Estrutura
+
+```
+.
+├── index.html   # página inicial
+├── style.css    # estilos
+└── script.js    # scripts
+```
+
+## Como usar
+
+Abra o arquivo `index.html` no navegador.
