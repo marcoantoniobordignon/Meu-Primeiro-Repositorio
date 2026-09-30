@@ -1,0 +1,201 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* O Tailwind só enxerga os tokens; nenhuma cor nova nasce aqui. */
+@theme inline {
+  --color-primaria: var(--cor-primaria);
+  --color-primaria-texto: var(--cor-primaria-texto);
+  --color-primaria-suave: var(--cor-primaria-suave);
+  --color-acento: var(--cor-acento);
+  --color-acento-suave: var(--cor-acento-suave);
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-mudo: var(--texto-mudo);
+  --color-fio: var(--fio);
+  --color-sono: var(--reg-sono);
+  --color-mamada: var(--reg-mamada);
+  --color-fralda: var(--reg-fralda);
+  --color-banho: var(--reg-banho);
+  --color-erro: var(--erro);
+  --color-sucesso: var(--sucesso);
+
+  --radius-card: var(--raio);
+  --radius-pilula: var(--raio-pilula);
+
+  --spacing-1: var(--esp-1);
+  --spacing-2: var(--esp-2);
+  --spacing-3: var(--esp-3);
+  --spacing-4: var(--esp-4);
+  --spacing-5: var(--esp-5);
+  --spacing-6: var(--esp-6);
+  --spacing-7: var(--esp-7);
+
+  --font-sans: var(--fonte);
+  --font-serifa: var(--fonte-serifa);
+
+  --shadow-mais: var(--sombra-mais);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: var(--fonte);
+    font-size: 14px;
+    line-height: 1.4;
+    font-feature-settings: "tnum";
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  /* Foco visível em tudo que é interativo, sem depender do navegador. */
+  :focus-visible {
+    outline: 2px solid var(--cor-primaria);
+    outline-offset: 3px;
+    border-radius: var(--raio-pilula);
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+
+  input,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* iOS: sem zoom automático em campos abaixo de 16px. */
+  input[type="text"],
+  input[type="date"],
+  input[type="email"] {
+    font-size: 16px;
+  }
+}
+
+@layer utilities {
+  /* Tipografia nomeada da spec 02. */
+  .tipo-heroi {
+    font-family: var(--fonte);
+    font-weight: 300;
+    font-size: 54px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .tipo-heroi-rotulo {
+    font-family: var(--fonte-serifa);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .tipo-saudacao {
+    font-family: var(--fonte);
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .tipo-titulo-secao {
+    font-family: var(--fonte);
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .tipo-corpo {
+    font-family: var(--fonte);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .tipo-meta {
+    font-family: var(--fonte);
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--texto-mudo);
+  }
+  .tipo-voz {
+    font-family: var(--fonte-serifa);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+  }
+
+  /* Título de pergunta do onboarding: grande, leve, uma pergunta por tela. */
+  .tipo-pergunta {
+    font-family: var(--fonte);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  /* Respiro do app + área segura do aparelho, num utilitário só. */
+  .safe-top {
+    padding-top: calc(env(safe-area-inset-top, 0px) + var(--esp-4));
+  }
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--esp-2));
+  }
+
+  .scroll-x-sem-barra {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .scroll-x-sem-barra::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Transição de tela do onboarding: entra deslizando de leve. */
+@keyframes tela-entra {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes tela-entra-volta {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.anim-tela-entra {
+  animation: tela-entra var(--anim-tela) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.anim-tela-entra-volta {
+  animation: tela-entra-volta var(--anim-tela) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.anim-surge {
+  animation: surge var(--anim-tela) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.anim-girar {
+  animation: girar 800ms linear infinite;
+}

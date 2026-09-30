@@ -1,0 +1,85 @@
+/* Fonte única de verdade para cor, raio, espaçamento e fonte (spec 02). */
+:root {
+  --cor-primaria: #31bcd3;
+  --cor-primaria-texto: #158fa3;
+  --cor-primaria-suave: #ddf4f7;
+  --cor-acento: #f0707d;
+  --cor-acento-suave: #fde3e5;
+
+  --fundo: #faf6f4;
+  --superficie: #ffffff;
+  --texto: #2b2a28;
+  --texto-mudo: #7a7570;
+  --fio: #ede6e1;
+
+  --reg-sono: #7b6fe0;
+  --reg-mamada: #f0707d;
+  --reg-fralda: #f2b441;
+  --reg-banho: #5cc8a8;
+
+  --erro: #d7263d;
+  --sucesso: #2e9e6b;
+
+  --raio: 18px;
+  --raio-pilula: 999px;
+
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 24px;
+  --esp-6: 32px;
+  --esp-7: 48px;
+
+  --fonte: var(--fonte-outfit), "Outfit", system-ui, sans-serif;
+  --fonte-serifa: var(--fonte-garamond), "EB Garamond", Georgia, serif;
+
+  /* Única sombra permitida: o botão "+" flutuante. */
+  --sombra-mais: 0 8px 18px rgba(49, 188, 211, 0.4);
+
+  --anim-sheet: 240ms;
+  --anim-toast: 180ms;
+  --anim-anel: 600ms;
+  --anim-tela: 260ms;
+
+  color-scheme: light;
+}
+
+[data-tema="escuro"] {
+  --fundo: #171513;
+  --superficie: #221f1c;
+  --texto: #f1ece7;
+  --texto-mudo: #a29b94;
+  --fio: #2e2a26;
+  --cor-primaria-texto: #6fd0e0;
+  --cor-primaria-suave: #153840;
+  --cor-acento-suave: #3a2427;
+
+  color-scheme: dark;
+}
+
+/* DS-02: 'auto' segue o sistema, sem recarregar a página. */
+@media (prefers-color-scheme: dark) {
+  [data-tema="auto"] {
+    --fundo: #171513;
+    --superficie: #221f1c;
+    --texto: #f1ece7;
+    --texto-mudo: #a29b94;
+    --fio: #2e2a26;
+    --cor-primaria-texto: #6fd0e0;
+    --cor-primaria-suave: #153840;
+    --cor-acento-suave: #3a2427;
+
+    color-scheme: dark;
+  }
+}
+
+/* DS-05: com "reduzir movimento", tudo instantâneo. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --anim-sheet: 0ms;
+    --anim-toast: 0ms;
+    --anim-anel: 0ms;
+    --anim-tela: 0ms;
+  }
+}

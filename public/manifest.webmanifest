@@ -1,0 +1,16 @@
+{
+  "name": "Ninho",
+  "short_name": "Ninho",
+  "description": "Sua gestação e o primeiro ano do bebê, semana a semana.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf6f4",
+  "theme_color": "#31bcd3",
+  "icons": [
+    { "src": "/icons/icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icons/icone-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
