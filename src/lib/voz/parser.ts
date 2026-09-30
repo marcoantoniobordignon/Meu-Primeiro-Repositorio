@@ -14,6 +14,8 @@ export interface ContextoVoz {
   bebes?: { id: string; nome: string }[];
   bebeAtivoId?: string;
   sonoEmAndamento?: boolean;
+  /** VOZ-03: só os últimos 3 registros do bebê vão para a function, nunca o histórico. */
+  ultimosRegistros?: { tipo: string; inicio: string; fim: string | null; resumo: string }[];
 }
 
 export type RegistroVoz =

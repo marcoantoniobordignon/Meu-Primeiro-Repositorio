@@ -75,11 +75,11 @@ export function validarInicio(inicio: Date, agora: Date = new Date()): "ok" | "f
   return "ok";
 }
 
-/** Arredonda para o múltiplo de 5 minutos mais próximo (BEB-06). */
+/** Arredonda para baixo, ao múltiplo de 5 minutos (BEB-06): "agora" nunca cai no futuro. */
 export function arredondar5min(d: Date): Date {
   const r = new Date(d);
   r.setSeconds(0, 0);
-  r.setMinutes(Math.round(r.getMinutes() / 5) * 5);
+  r.setMinutes(Math.floor(r.getMinutes() / 5) * 5);
   return r;
 }
 

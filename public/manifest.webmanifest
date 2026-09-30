@@ -12,5 +12,9 @@
   "icons": [
     { "src": "/icons/icone.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "/icons/icone-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Registrar", "short_name": "Registrar", "url": "/registrar?origem=atalho", "icons": [{ "src": "/icons/icone.svg", "sizes": "any" }] },
+    { "name": "Bebê", "short_name": "Bebê", "url": "/bebe", "icons": [{ "src": "/icons/icone.svg", "sizes": "any" }] }
   ]
 }

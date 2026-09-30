@@ -14,6 +14,7 @@ import { cortesiaFim, semanasNoNascimento, semanasSeprematuro, validarNascimento
 import { novoId } from "@/lib/dados/colecao";
 import { bebes } from "@/lib/dados/colecoes";
 import { diasEntre, paraISO } from "@/lib/dates";
+import { iniciarCortesiaRemota, temServidor } from "@/lib/familia/servidor";
 import { atualizarPerfil, usePerfil } from "@/lib/perfil";
 
 interface Props {
@@ -72,9 +73,11 @@ export function SheetNascimento({ aberto, onFechar }: Props) {
     nomes.forEach((nome, i) =>
       bebes.salvar({ id: novoId(), nome: nome.trim(), nascido_em: nascido.toISOString(), prematuro_semanas: prematuroSemanas, ordem: i, aviso_soneca: false, registrado_em: agora }),
     );
+    // VIR-02/08: a cortesia é calculada aqui (funciona sem rede) e confirmada pelo servidor quando houver.
     const cortesia = cortesiaFim(nascido.toISOString(), perfil?.plano === "ativo");
     atualizarPerfil({ modo: "bebe", nascidoEm: paraISO(nascido), cortesiaFim: cortesia, bebeAtivoId: undefined });
     if (cortesia) track("cortesia_iniciada", {});
+    if (temServidor()) void iniciarCortesiaRemota(nascido.toISOString());
     track("nascimento_registrado", {
       semanas_gestacao: perfil?.dpp ? semanasNoNascimento(paraISO(nascido), perfil.dpp) : 40,
       prematuro: prematuroSemanas !== null,

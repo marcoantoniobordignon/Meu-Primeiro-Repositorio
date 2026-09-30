@@ -63,12 +63,14 @@ describe("BEB-05 · volumes frequentes", () => {
 });
 
 describe("BEB-06/07 · validação de início", () => {
-  it("rejeita futuro e mais de 24 h; arredonda de 5 em 5", () => {
+  it("rejeita futuro e mais de 24 h; arredonda de 5 em 5 para baixo, nunca para o futuro", () => {
     expect(validarInicio(min(5), t0)).toBe("futuro");
     expect(validarInicio(min(-25 * 60), t0)).toBe("antigo");
     expect(validarInicio(min(-30), t0)).toBe("ok");
-    expect(arredondar5min(new Date(2026, 8, 30, 10, 13)).getMinutes()).toBe(15);
-    expect(arredondar5min(new Date(2026, 8, 30, 10, 12)).getMinutes()).toBe(10);
+    expect(arredondar5min(new Date(2026, 8, 30, 10, 13)).getMinutes()).toBe(10);
+    expect(arredondar5min(new Date(2026, 8, 30, 10, 14, 59)).getMinutes()).toBe(10);
+    const agora = new Date(2026, 8, 30, 10, 13, 40);
+    expect(validarInicio(arredondar5min(agora), agora)).toBe("ok");
   });
 });
 

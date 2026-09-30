@@ -13,6 +13,7 @@ import { track } from "@/lib/analytics";
 import { membros as colecao } from "@/lib/dados/colecoes";
 import { haQuantoTempo } from "@/lib/dates";
 import { nomePapel } from "@/lib/familia/regras";
+import { removerMembroRemoto, temServidor } from "@/lib/familia/servidor";
 import { useFamilia } from "@/lib/familia/useFamilia";
 
 /** Spec 12: membros com papel e último acesso; convidar e remover (CUI-01/08). */
@@ -21,10 +22,15 @@ export default function PaginaFamilia() {
   const [convidando, setConvidando] = useState(false);
   const { mostrar } = useToast();
 
-  function remover(id: string, papel: string) {
-    colecao.apagar(id);
-    track("membro_removido", { papel });
-    mostrar(copy.removido);
+  async function remover(id: string, profileId: string, papel: string) {
+    try {
+      if (temServidor()) await removerMembroRemoto(profileId);
+      colecao.apagar(id);
+      track("membro_removido", { papel });
+      mostrar(copy.removido);
+    } catch {
+      mostrar(copy.erroGerar);
+    }
   }
 
   return (
@@ -52,7 +58,7 @@ export default function PaginaFamilia() {
                     </span>
                   </span>
                   {permissoes.removerMembro && m.profile_id !== meuId && (
-                    <Botao variant="fantasma" onClick={() => remover(m.id, m.papel)}>
+                    <Botao variant="fantasma" onClick={() => remover(m.id, m.profile_id, m.papel)}>
                       {copy.remover}
                     </Botao>
                   )}

@@ -3,12 +3,14 @@ import { useSyncExternalStore } from "react";
 /**
  * Coleção local (localStorage) com o formato de registro da spec 01:
  * id gerado no cliente, atualizado_em para resolver conflito, apagado_em para
- * soft delete. A outbox de sincronização se encaixa aqui depois sem mudar as telas.
+ * soft delete. Toda escrita avisa os ganchos (a outbox se registra ali) e
+ * `mesclar` aplica o que veio do servidor sem duplicar (ARQ-02).
  */
 export interface Registro {
   id: string;
   atualizado_em: string;
   apagado_em?: string | null;
+  criado_por?: string;
 }
 
 export function novoId(): string {
@@ -26,6 +28,17 @@ export interface Colecao<T extends Registro> {
   apagar(id: string): void;
   limpar(): void;
   assinar(cb: () => void): () => void;
+  /** ARQ-02: aplica registros do servidor; vence o maior atualizado_em. Retorna quantos mudaram. */
+  mesclar(doServidor: T[]): number;
+}
+
+type GanchoEscrita = (colecao: string, registro: Registro) => void;
+const ganchos = new Set<GanchoEscrita>();
+
+/** A outbox usa isto para enfileirar toda escrita local (nunca as vindas do servidor). */
+export function aoEscrever(cb: GanchoEscrita): () => void {
+  ganchos.add(cb);
+  return () => ganchos.delete(cb);
 }
 
 const VAZIO: never[] = [];
@@ -58,6 +71,11 @@ export function criarColecao<T extends Registro>(chave: string): Colecao<T> {
     ouvintes.forEach((cb) => cb());
   }
 
+  function substituir(itens: T[], novo: T): T[] {
+    const i = itens.findIndex((r) => r.id === novo.id);
+    return i >= 0 ? itens.map((r, j) => (j === i ? novo : r)) : [...itens, novo];
+  }
+
   if (typeof window !== "undefined") {
     window.addEventListener("storage", (e) => {
       if (e.key === chave) {
@@ -81,14 +99,17 @@ export function criarColecao<T extends Registro>(chave: string): Colecao<T> {
     salvar(item) {
       const agora = new Date().toISOString();
       const novo = { ...item, atualizado_em: agora } as T;
-      const itens = ler();
-      const i = itens.findIndex((r) => r.id === novo.id);
-      escrever(i >= 0 ? itens.map((r, j) => (j === i ? novo : r)) : [...itens, novo]);
+      escrever(substituir(ler(), novo));
+      ganchos.forEach((g) => g(chave, novo));
       return novo;
     },
     apagar(id) {
       const agora = new Date().toISOString();
-      escrever(ler().map((r) => (r.id === id ? { ...r, apagado_em: agora, atualizado_em: agora } : r)));
+      const atual = ler().find((r) => r.id === id);
+      if (!atual) return;
+      const novo = { ...atual, apagado_em: agora, atualizado_em: agora };
+      escrever(substituir(ler(), novo));
+      ganchos.forEach((g) => g(chave, novo));
     },
     limpar() {
       escrever([]);
@@ -96,6 +117,19 @@ export function criarColecao<T extends Registro>(chave: string): Colecao<T> {
     assinar(cb) {
       ouvintes.add(cb);
       return () => ouvintes.delete(cb);
+    },
+    mesclar(doServidor) {
+      let itens = ler();
+      let mudou = 0;
+      for (const remoto of doServidor) {
+        const local = itens.find((r) => r.id === remoto.id);
+        if (!local || remoto.atualizado_em > local.atualizado_em) {
+          itens = substituir(itens, remoto);
+          mudou++;
+        }
+      }
+      if (mudou) escrever(itens);
+      return mudou;
     },
   };
 }

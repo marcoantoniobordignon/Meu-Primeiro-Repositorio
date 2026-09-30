@@ -8,12 +8,13 @@ import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
 import { vozCopy as copy } from "@/copy/voz";
 import { track } from "@/lib/analytics";
-import { mamadaEmAndamento, sonoEmAndamento } from "@/lib/bebe/registros";
+import { detalheDoRegistro, doBebe, mamadaEmAndamento, sonoEmAndamento } from "@/lib/bebe/registros";
 import { registrosBebe, vozPendentes, type RegistroBebe } from "@/lib/dados/colecoes";
 import { novoId } from "@/lib/dados/colecao";
 import { estaOnline } from "@/lib/plataforma";
 import { aplicarRegistros } from "@/lib/voz/aplicar";
-import { interpretarLocal, type ContextoVoz, type ModoVoz } from "@/lib/voz/parser";
+import { interpretar, marcarInterpretacao } from "@/lib/voz/interpretar";
+import type { ContextoVoz, ModoVoz } from "@/lib/voz/parser";
 import { ouvir, suportaReconhecimento, type SessaoVoz } from "@/lib/voz/reconhecer";
 
 type Estado = "parado" | "ouvindo" | "processando" | "entendi" | "nao_entendi" | "sem_suporte" | "sem_permissao";
@@ -38,6 +39,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
   const [resumo, setResumo] = useState("");
   const [sugestoes, setSugestoes] = useState<string[]>([]);
   const [criados, setCriados] = useState<RegistroBebe[]>([]);
+  const interpretacaoId = useRef<string | null | undefined>(null);
   const sessao = useRef<SessaoVoz | null>(null);
   const inicioToque = useRef(0);
   const inicioFala = useRef(0);
@@ -57,17 +59,25 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
     }
   };
 
-  const interpretar = useCallback(
-    (texto: string) => {
+  const processar = useCallback(
+    async (texto: string) => {
       const t0 = Date.now();
+      const todos = registrosBebe.listar();
       const contexto: ContextoVoz = {
         modo,
         agora: new Date(),
         bebes,
         bebeAtivoId,
-        sonoEmAndamento: bebeAtivoId ? Boolean(sonoEmAndamento(registrosBebe.listar(), bebeAtivoId)) : false,
+        sonoEmAndamento: bebeAtivoId ? Boolean(sonoEmAndamento(todos, bebeAtivoId)) : false,
+        ultimosRegistros: bebeAtivoId
+          ? doBebe(todos, bebeAtivoId)
+              .sort((a, b) => b.inicio.localeCompare(a.inicio))
+              .slice(0, 3)
+              .map((x) => ({ tipo: x.tipo, inicio: x.inicio, fim: x.fim, resumo: detalheDoRegistro(x) }))
+          : undefined,
       };
-      const r = interpretarLocal(texto, contexto);
+      const r = await interpretar(texto, contexto);
+      interpretacaoId.current = r.interpretacaoId;
       track("voz_interpretada", { tipos: r.registros.map((x) => x.tipo).join(","), n: r.registros.length, confianca: r.confianca, ms: Date.now() - t0 });
 
       if (r.registros.length === 0 || r.confianca < 0.6) {
@@ -93,6 +103,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
 
       const aplicado = aplicarRegistros(r.registros, bebeAtivoId);
       track("voz_aceita", { n: r.registros.length });
+      void marcarInterpretacao(r.interpretacaoId, "aceita", true);
       vibrar(30);
       setResumo(r.resumo);
       setCriados(aplicado.registros);
@@ -114,7 +125,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
         track("voz_transcrita", { ms: Date.now() - inicioFala.current, chars: texto.length });
         setParcial(texto);
         setEstado("processando");
-        window.setTimeout(() => interpretar(texto), 60);
+        window.setTimeout(() => void processar(texto), 60);
       },
       onErro: (motivo) => {
         if (motivo === "sem_permissao") {
@@ -132,7 +143,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
     track("voz_iniciada", { modo, motor: "web_speech" });
     setEstado("ouvindo");
     limite.current = window.setTimeout(() => sessao.current?.parar(), MAX_MS);
-  }, [estado, modo, interpretar]);
+  }, [estado, modo, processar]);
 
   const soltar = useCallback(() => {
     if (limite.current) window.clearTimeout(limite.current);
@@ -203,6 +214,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
                   variant="fantasma"
                   onClick={() => {
                     track("voz_corrigida", { tipo: criados[0]!.tipo });
+                    void marcarInterpretacao(interpretacaoId.current, "corrigida", true);
                     setEstado("parado");
                     onCorrigir(criados[0]!);
                   }}

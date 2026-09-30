@@ -16,6 +16,8 @@ export const familiaCopy = {
   copiado: "Link copiado ✓",
   compartilhar: "Compartilhar",
   aviso: "Sem servidor ainda: por enquanto, o link só funciona neste aparelho.",
+  erroGerar: "Não deu para gerar o link agora. Tenta de novo?",
+  erroAceitar: "Não deu para entrar agora. Tenta de novo com internet?",
   papeis: {
     parceiro: { titulo: "Parceiro(a)", desc: "Vê e registra tudo" },
     avo: { titulo: "Avó/Avô", desc: "Registra e vê o bebê; não vê seus sintomas" },

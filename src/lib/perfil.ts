@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 import { apagarPerfil, guardarPerfil, lerPerfil, type Perfil } from "@/lib/onboarding/estado";
 
 const ouvintes = new Set<() => void>();
+const ganchos = new Set<(p: Perfil) => void>();
 let cache: Perfil | null | undefined;
 
 function ler(): Perfil | null {
@@ -26,11 +27,18 @@ export function usePerfil(): Perfil | null | undefined {
   return useSyncExternalStore(assinar, ler, () => undefined);
 }
 
+/** A sincronização se registra aqui para mandar o perfil ao servidor. */
+export function aoMudarPerfil(cb: (p: Perfil) => void): () => void {
+  ganchos.add(cb);
+  return () => ganchos.delete(cb);
+}
+
 export function atualizarPerfil(mudancas: Partial<Perfil>): Perfil | null {
   const atual = ler();
   if (!atual) return null;
   cache = guardarPerfil({ ...atual, ...mudancas });
   avisar();
+  ganchos.forEach((g) => g(cache!));
   return cache;
 }
 
@@ -45,3 +53,5 @@ export function temPlano(perfil: Perfil | null | undefined, agora: Date = new Da
   if (perfil?.plano === "ativo" || perfil?.plano === "trial") return true;
   return Boolean(perfil?.cortesiaFim && new Date(perfil.cortesiaFim).getTime() > agora.getTime());
 }
+
+export type { Perfil };

@@ -2,6 +2,20 @@
 
 ## Não lançado
 
+### Spec 01 · Arquitetura (Supabase de verdade)
+- `supabase/migrations/0001_schema.sql`: profiles, familias, membros_familia, bebes, registros, sintomas (+ catálogo), consultas, sessoes_chutes, contracoes, pos_parto_checkins, conteudos, conteudos_lidos, convites, voz_interpretacoes e admins. RLS por `familia_id` via `membros_familia`; sintomas e check-ins da mãe invisíveis para avó e cuidadora (CUI-04/05); só mãe e parceiro apagam registros de outros.
+- Triggers: `handle_new_user` cria perfil, família e membro 'mae' no primeiro login (ARQ-03); `preencher_familia`/`preencher_autor` a partir da sessão; `manter_mais_recente` resolve conflito pelo maior `atualizado_em` (ARQ-02).
+- RPCs: `criar_convite`, `convite_publico`, `aceitar_convite`, `remover_membro`, `iniciar_cortesia`, `meus_membros`, `minha_familia`; view `v_modo` (NAV-01). Teste pgTAP em `supabase/tests/rls.test.sql`.
+- Cliente offline-first: outbox em IndexedDB com retry 1 s/4 s/16 s/60 s/5 min (ARQ-01), sincronização push+pull com merge por `atualizado_em`, promoção da sessão local para a anônima do Supabase, faixa "Sem conexão, salvando aqui" (ARQ-04) e aviso de pendências há mais de 24 h.
+- Sessão anônima real com `signInAnonymously`, reaproveitando a sessão persistida pelo SDK; cadastro por `linkIdentity` preserva o uid.
+- PWA: service worker com Serwist (pré-cache do build, cache de runtime, fallback `/~offline`), atalhos "Registrar" e "Bebê" no manifest.
+- Edge Functions: `interpretar-registro` (Deno + SDK da Anthropic, Claude Haiku 4.5, temperatura 0, ferramenta JSON estrita, prompt de sistema em cache, JWT obrigatório, grava em `voz_interpretacoes` para medir precisão) e `enviar-push` (esqueleto para a spec 13). No cliente, `interpretar()` usa a function com rede e cai no parser local sem ela.
+- GA4 via gtag quando `NEXT_PUBLIC_GA_ID` existe; `track()` já era tipado.
+- Playwright com 3 fluxos críticos (`pnpm e2e`): onboarding até a Hoje em 4 toques, registro do bebê com timer que sobrevive ao reload e apagar com desfazer, virada do parto com cortesia e desfazer em 24 h.
+- `types.generated.ts` escrito à mão a partir da migration, com teste que confere tabela por tabela até o `pnpm supabase:types` rodar no CI.
+- Correção achada pelo E2E: `arredondar5min` arredondava para cima e um registro "agora" podia cair 2 min no futuro, sendo recusado em silêncio (BEB-07). Agora arredonda para baixo.
+- Fora desta versão: Stripe (spec 14), Storage de fotos, fallback de voz por gravação de áudio, painel de conteúdo.
+
 ### Spec 12 · Cuidadores (local)
 - Modelo de família, membros e convites em coleções locais; quem passa pelo onboarding é a dona.
 - Permissões por papel (CUI-01/04): mãe e parceiro veem tudo; avó e cuidador registram e veem tiles, dia e previsão, mas não sintomas, check-in pós-parto nem assinatura. A home e o "+" respeitam isso.

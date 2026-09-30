@@ -12,6 +12,7 @@ import { track } from "@/lib/analytics";
 import { novoId } from "@/lib/dados/colecao";
 import { convites, type Papel } from "@/lib/dados/colecoes";
 import { CONVITE_VALIDADE_MS, gerarToken } from "@/lib/familia/regras";
+import { criarConviteRemoto, temServidor } from "@/lib/familia/servidor";
 import { useFamilia } from "@/lib/familia/useFamilia";
 
 interface Props {
@@ -33,11 +34,25 @@ export function SheetConvite({ aberto, onFechar }: Props) {
     setPapel((podeConvidar.split(",")[0] as Exclude<Papel, "mae">) || "cuidador");
   }, [aberto, podeConvidar]);
 
-  function gerar() {
-    const token = gerarToken();
-    convites.salvar({ id: novoId(), token, papel, criado_por: meuId, expira_em: new Date(Date.now() + CONVITE_VALIDADE_MS).toISOString() });
-    track("convite_gerado", { papel });
-    setLink(`${location.origin}/convite/${token}`);
+  const [gerando, setGerando] = useState(false);
+  const remoto = temServidor();
+
+  async function gerar() {
+    setGerando(true);
+    try {
+      let token: string | null = null;
+      if (remoto) token = await criarConviteRemoto(papel);
+      if (!token) {
+        token = gerarToken();
+        convites.salvar({ id: novoId(), token, papel, criado_por: meuId, expira_em: new Date(Date.now() + CONVITE_VALIDADE_MS).toISOString() });
+      }
+      track("convite_gerado", { papel });
+      setLink(`${location.origin}/convite/${token}`);
+    } catch {
+      mostrar(copy.erroGerar);
+    } finally {
+      setGerando(false);
+    }
   }
 
   async function copiar() {
@@ -86,10 +101,10 @@ export function SheetConvite({ aberto, onFechar }: Props) {
                 </Botao>
               )}
             </div>
-            <p className="tipo-meta">{copy.aviso}</p>
+            {!remoto && <p className="tipo-meta">{copy.aviso}</p>}
           </>
         ) : (
-          <Botao largura="total" tamanho="lg" onClick={gerar}>
+          <Botao largura="total" tamanho="lg" onClick={gerar} carregando={gerando}>
             {copy.gerar}
           </Botao>
         )}

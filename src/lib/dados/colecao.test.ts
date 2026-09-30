@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { criarColecao, type Registro } from "./colecao";
+import { aoEscrever, criarColecao, type Registro } from "./colecao";
 
 interface Item extends Registro {
   nome: string;
@@ -38,5 +38,37 @@ describe("coleção local", () => {
     parar();
     c.salvar({ id: "b", nome: "dois" });
     expect(chamadas).toBe(1);
+  });
+
+  it("gancho de escrita recebe salvar e apagar, não o merge do servidor", () => {
+    const c = criarColecao<Item>("teste.gancho");
+    const vistos: string[] = [];
+    const parar = aoEscrever((chave, r) => vistos.push(`${chave}:${r.id}:${r.apagado_em ? "x" : "ok"}`));
+    c.salvar({ id: "a", nome: "um" });
+    c.apagar("a");
+    c.mesclar([{ id: "b", nome: "do servidor", atualizado_em: "2026-01-01T00:00:00Z" }]);
+    parar();
+    expect(vistos).toEqual(["teste.gancho:a:ok", "teste.gancho:a:x"]);
+  });
+});
+
+describe("ARQ-02 · mesclar com o servidor", () => {
+  it("vence o maior atualizado_em; nunca duplica", () => {
+    const c = criarColecao<Item>("teste.merge");
+    c.salvar({ id: "a", nome: "local novo" });
+    const antigo = { id: "a", nome: "servidor antigo", atualizado_em: "2020-01-01T00:00:00Z" };
+    const futuro = { id: "a", nome: "servidor novo", atualizado_em: "2099-01-01T00:00:00Z" };
+    expect(c.mesclar([antigo])).toBe(0);
+    expect(c.listar()[0]?.nome).toBe("local novo");
+    expect(c.mesclar([futuro, { id: "b", nome: "outro", atualizado_em: "2026-01-01T00:00:00Z" }])).toBe(2);
+    expect(c.listar().map((i) => i.nome)).toEqual(["servidor novo", "outro"]);
+    expect(c.listarTodos()).toHaveLength(2);
+  });
+
+  it("um apagado no servidor some localmente", () => {
+    const c = criarColecao<Item>("teste.merge-apagado");
+    c.salvar({ id: "a", nome: "vivo" });
+    c.mesclar([{ id: "a", nome: "vivo", atualizado_em: "2099-01-01T00:00:00Z", apagado_em: "2099-01-01T00:00:00Z" }]);
+    expect(c.listar()).toHaveLength(0);
   });
 });

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Outfit } from "next/font/google";
 
+import { Analytics } from "@/components/ui/Analytics";
 import { ProvedorTema } from "@/components/ui/ProvedorTema";
 import { ProvedorToast } from "@/components/ui/Toast";
 import { coresMeta } from "@/styles/cores-meta";
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ProvedorTema>
           <ProvedorToast>{children}</ProvedorToast>
         </ProvedorTema>
+        <Analytics />
       </body>
     </html>
   );

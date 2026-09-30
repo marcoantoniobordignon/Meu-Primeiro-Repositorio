@@ -4,7 +4,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: [".next/**", "node_modules/**", "next-env.d.ts", "public/**"],
+    ignores: [".next/**", "node_modules/**", "next-env.d.ts", "public/**", "supabase/functions/**", "test-results/**", "playwright-report/**"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

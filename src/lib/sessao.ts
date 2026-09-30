@@ -1,10 +1,12 @@
-import { supabase } from "@/lib/supabase/client";
+import { supabase, supabaseConfigurado } from "@/lib/supabase/client";
 
 const CHAVE = "ninho.sessao";
 
 export interface Sessao {
   uid: string;
   anonima: boolean;
+  /** true quando o uid é do Supabase; false quando foi gerado neste aparelho. */
+  remota: boolean;
 }
 
 function gerarUid(): string {
@@ -31,32 +33,48 @@ function guardarLocal(sessao: Sessao) {
 
 /**
  * ARQ-03 / spec 04: sessão anônima criada silenciosamente na primeira tela.
- * Com Supabase configurado usa signInAnonymously; sem ele, gera um uid local.
- * Nunca lança: sem rede, cai no uid local e sincroniza depois.
+ * Com Supabase configurado usa signInAnonymously e, se já houver sessão salva
+ * pelo SDK, reaproveita. Sem rede, cai num uid local e o `promoverSessao`
+ * troca pelo uid remoto quando a rede volta. Nunca lança.
  */
 export async function garantirSessaoAnonima(): Promise<Sessao> {
   const existente = lerLocal();
-  if (existente) return existente;
+  if (existente?.remota) return existente;
 
   const sb = await supabase();
   if (sb) {
     try {
-      const { data } = await sb.auth.signInAnonymously();
-      if (data.user) {
-        const s = { uid: data.user.id, anonima: true };
+      const { data: atual } = await sb.auth.getSession();
+      const user = atual.session?.user ?? (await sb.auth.signInAnonymously()).data.user;
+      if (user) {
+        const s: Sessao = { uid: user.id, anonima: user.is_anonymous ?? true, remota: true };
         guardarLocal(s);
         return s;
       }
     } catch {
-      /* sem rede: segue local */
+      /* sem rede: segue local e tenta de novo depois */
     }
   }
 
-  const s = { uid: gerarUid(), anonima: true };
+  if (existente) return existente;
+  const s: Sessao = { uid: gerarUid(), anonima: true, remota: false };
   guardarLocal(s);
   return s;
 }
 
 export function sessaoAtual(): Sessao | null {
   return lerLocal();
+}
+
+/** Atualiza o cache local depois de um login/logout do SDK (linkIdentity, magic link). */
+export async function sincronizarSessao(): Promise<Sessao | null> {
+  if (!supabaseConfigurado()) return lerLocal();
+  const sb = await supabase();
+  if (!sb) return lerLocal();
+  const { data } = await sb.auth.getSession();
+  const user = data.session?.user;
+  if (!user) return lerLocal();
+  const s: Sessao = { uid: user.id, anonima: user.is_anonymous ?? false, remota: true };
+  guardarLocal(s);
+  return s;
 }

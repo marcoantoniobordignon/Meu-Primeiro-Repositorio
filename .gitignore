@@ -9,3 +9,12 @@ next-env.d.ts
 .vercel
 coverage/
 .DS_Store
+# service worker gerado pelo Serwist no build
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+# e2e
+test-results/
+playwright-report/
+supabase/.temp/
+supabase/.branches/

@@ -1,0 +1,232 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+import { aoEscrever } from "@/lib/dados/colecao";
+import { membros, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
+import { garantirSessaoAnonima, sessaoAtual, sincronizarSessao } from "@/lib/sessao";
+import { chamarRpc, supabase, supabaseConfigurado, tabela, type Cliente } from "@/lib/supabase/client";
+import type { NomeTabela } from "@/lib/supabase/types.generated";
+
+import { mapeamentoDaColecao, mapeamentos, paraServidor } from "./mapa";
+import { assinarOutbox, concluir, enfileirar, falhou, pendentes, prontos, temPendenteAntigo, type ItemOutbox } from "./outbox";
+
+const CHAVE_ULTIMA = "ninho.sync.ultima";
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+let iniciado = false;
+let rodando = false;
+let timer: number | null = null;
+const ouvintes = new Set<() => void>();
+let estado = { online: true, pendentes: 0, pendenteAntigo: false, sincronizando: false, remoto: false };
+
+function avisar(mudancas: Partial<typeof estado>) {
+  estado = { ...estado, ...mudancas };
+  ouvintes.forEach((cb) => cb());
+}
+
+function lerUltima(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(CHAVE_ULTIMA) ?? "{}") as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
+function guardarUltima(u: Record<string, string>) {
+  try {
+    localStorage.setItem(CHAVE_ULTIMA, JSON.stringify(u));
+  } catch {
+    /* nada */
+  }
+}
+
+/** Registros criados com uid local (sem rede) não podem levar criado_por: o servidor preenche. */
+function limparAutor(payload: Record<string, unknown>): Record<string, unknown> {
+  const p = { ...payload };
+  if (typeof p.criado_por === "string" && !UUID.test(p.criado_por)) delete p.criado_por;
+  return p;
+}
+
+async function contarPendentes() {
+  const lista = await pendentes();
+  avisar({ pendentes: lista.length, pendenteAntigo: temPendenteAntigo(lista) });
+}
+
+/** Envia o que está pronto na outbox (ARQ-01), na ordem, com backoff por item. */
+export async function empurrar(sb: Cliente): Promise<void> {
+  const lista = prontos(await pendentes());
+  for (const item of lista) {
+    try {
+      await enviarItem(sb, item);
+      await concluir(item);
+    } catch (e) {
+      await falhou(item, e instanceof Error ? e.message : String(e));
+    }
+  }
+}
+
+async function enviarItem(sb: Cliente, item: ItemOutbox) {
+  const conflito = mapeamentos.find((m) => m.tabela === item.tabela)?.conflito ?? "id";
+  const { error } = await tabela(sb, item.tabela).upsert(limparAutor(item.payload), { onConflict: conflito });
+  if (error) {
+    // 23505 = violação de unique (ex.: o mesmo sintoma do dia criado em dois aparelhos): o servidor já tem; descarta.
+    if (error.code === "23505") return;
+    throw new Error(error.message);
+  }
+}
+
+/** Puxa o que mudou no servidor desde a última vez e mescla por atualizado_em (ARQ-02). */
+export async function puxar(sb: Cliente): Promise<void> {
+  const ultima = lerUltima();
+  for (const m of mapeamentos) {
+    const desde = ultima[m.tabela] ?? "1970-01-01T00:00:00Z";
+    const { data, error } = await tabela(sb, m.tabela).select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+    if (error || !data) continue;
+    const linhas = data as { id: string; atualizado_em: string }[];
+    m.colecao.mesclar(linhas as never);
+    const maior = linhas[linhas.length - 1]?.atualizado_em;
+    if (maior) ultima[m.tabela] = maior;
+  }
+  guardarUltima(ultima);
+  await puxarFamilia(sb);
+}
+
+/** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */
+async function puxarFamilia(sb: Cliente): Promise<void> {
+  const [{ data: fam }, { data: lista }] = await Promise.all([
+    chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null }[]>(sb, "minha_familia"),
+    chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string }[]>(sb, "meus_membros"),
+  ]);
+  const f = fam?.[0];
+  if (f) {
+    atualizarPerfil({
+      papel: f.papel as Papel,
+      plano: (f.plano === "expirado" ? "free" : f.plano) as Perfil["plano"],
+      cortesiaFim: f.cortesia_fim,
+    });
+  }
+  const atuais = membros.listarTodos();
+  for (const l of lista ?? []) {
+    const existente = atuais.find((m) => m.profile_id === l.profile_id);
+    const registro: Membro = {
+      id: existente?.id ?? l.profile_id,
+      profile_id: l.profile_id,
+      nome: l.nome ?? "Alguém",
+      papel: l.papel as Papel,
+      convidado_por: l.convidado_por,
+      ultimo_acesso_em: l.ultimo_acesso_em,
+      atualizado_em: new Date().toISOString(),
+      apagado_em: null,
+    };
+    membros.mesclar([registro]);
+  }
+}
+
+/** Sessão local (criada sem rede) vira remota; registros com autor local ganham o uid real. */
+async function promoverSessao(): Promise<boolean> {
+  const antes = sessaoAtual();
+  const depois = await garantirSessaoAnonima();
+  if (!depois.remota) return false;
+  if (antes && !antes.remota) {
+    for (const m of mapeamentos) {
+      for (const r of m.colecao.listarTodos()) {
+        if (r.criado_por === antes.uid) m.colecao.mesclar([{ ...r, criado_por: depois.uid, atualizado_em: new Date(Date.now() + 1).toISOString() }]);
+      }
+    }
+    const eu = membros.listarTodos().find((x) => x.profile_id === antes.uid);
+    if (eu) membros.mesclar([{ ...eu, profile_id: depois.uid, atualizado_em: new Date(Date.now() + 1).toISOString() }]);
+  }
+  return true;
+}
+
+export async function sincronizar(): Promise<void> {
+  if (rodando || !supabaseConfigurado() || typeof navigator !== "undefined" && !navigator.onLine) return;
+  const sb = await supabase();
+  if (!sb) return;
+  rodando = true;
+  avisar({ sincronizando: true });
+  try {
+    const remota = await promoverSessao();
+    avisar({ remoto: remota });
+    if (!remota) return;
+    await empurrar(sb);
+    await puxar(sb);
+  } catch {
+    /* tenta de novo no próximo ciclo */
+  } finally {
+    rodando = false;
+    avisar({ sincronizando: false });
+    void contarPendentes();
+  }
+}
+
+export function enfileirarPerfil(p: Perfil) {
+  const s = sessaoAtual();
+  if (!s?.remota) return;
+  void enfileirar("profiles", {
+    id: s.uid,
+    nome: p.nome ?? null,
+    modo: p.modo,
+    dpp: p.dpp ?? null,
+    bebe_ativo_id: p.bebeAtivoId ?? null,
+    telefone_equipe: p.telefoneEquipe ?? null,
+    onboarding_concluido_em: p.onboardingConcluidoEm,
+    ultimo_acesso_em: new Date().toISOString(),
+    atualizado_em: new Date().toISOString(),
+  });
+}
+
+/** Liga a sincronização uma vez por sessão do navegador. Sem Supabase, não faz nada. */
+export function iniciarSincronizacao() {
+  if (iniciado || typeof window === "undefined") return;
+  iniciado = true;
+  avisar({ online: navigator.onLine, remoto: sessaoAtual()?.remota ?? false });
+  void contarPendentes();
+  assinarOutbox(() => void contarPendentes());
+  window.addEventListener("online", () => {
+    avisar({ online: true });
+    void sincronizar();
+  });
+  window.addEventListener("offline", () => avisar({ online: false }));
+  if (!supabaseConfigurado()) return;
+
+  // Toda escrita local vai para a outbox com o nome da tabela.
+  aoEscrever((chave, registro) => {
+    const m = mapeamentoDaColecao(chave);
+    if (m) void enfileirar(m.tabela as NomeTabela, paraServidor(registro));
+  });
+  aoMudarPerfil(enfileirarPerfil);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") void sincronizar();
+  });
+  void supabase().then((sb) =>
+    sb?.auth.onAuthStateChange(() => {
+      void sincronizarSessao().then(() => sincronizar());
+    }),
+  );
+  timer = window.setInterval(() => void sincronizar(), 60_000);
+  void sincronizar();
+}
+
+export function pararSincronizacao() {
+  if (timer) window.clearInterval(timer);
+  timer = null;
+  iniciado = false;
+}
+
+/** Estado para a faixa de rede (ARQ-04) e o aviso de pendências antigas. */
+export function useEstadoRede() {
+  const [s, setS] = useState(estado);
+  useEffect(() => {
+    const cb = () => setS(estado);
+    ouvintes.add(cb);
+    cb();
+    return () => {
+      ouvintes.delete(cb);
+    };
+  }, []);
+  return s;
+}
