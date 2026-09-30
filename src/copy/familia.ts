@@ -1,0 +1,37 @@
+/** Copy de cuidadores (spec 12). */
+export const familiaCopy = {
+  titulo: "Família",
+  apoio: "Quem acompanha com você. Uma assinatura vale para todos.",
+  convidar: "Convidar alguém",
+  membros: "Quem participa",
+  voce: "você",
+  ultimoAcesso: (t: string) => `último acesso ${t}`,
+  remover: "Remover",
+  removido: "Acesso removido. Os registros continuam.",
+  papelRotulo: "Papel",
+  sheetTitulo: "Convidar",
+  sheetApoio: "Escolha o papel e mande o link. Vale por 72 horas e serve uma vez.",
+  gerar: "Gerar link",
+  copiar: "Copiar link",
+  copiado: "Link copiado ✓",
+  compartilhar: "Compartilhar",
+  aviso: "Sem servidor ainda: por enquanto, o link só funciona neste aparelho.",
+  papeis: {
+    parceiro: { titulo: "Parceiro(a)", desc: "Vê e registra tudo" },
+    avo: { titulo: "Avó/Avô", desc: "Registra e vê o bebê; não vê seus sintomas" },
+    cuidador: { titulo: "Cuidador(a)", desc: "Registra e vê o bebê; não vê seus sintomas" },
+  },
+  semPermissao: "Só quem criou a família convida e remove.",
+
+  convite: {
+    titulo: (quem: string, bebe: string) => `${quem} te convidou para acompanhar ${bebe}`,
+    apoio: (papel: string) => `Você entra como ${papel}.`,
+    entrar: "Entrar na família",
+    nome: "Como a gente te chama?",
+    invalido: "Esse convite já foi usado, peça outro.",
+    expirado: "Esse convite expirou, peça outro.",
+    trocar: "Você já está numa família. Entrar nesta sai da anterior.",
+    trocarConfirma: "Sair e entrar",
+    entrou: "Você entrou na família ✓",
+  },
+} as const;

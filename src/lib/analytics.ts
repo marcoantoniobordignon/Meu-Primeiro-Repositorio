@@ -28,7 +28,7 @@ export type Eventos = {
   chutes_sessao: { total: number; minutos: number };
   contracoes_sessao: { n: number; alerta_padrao: boolean };
   // spec 06
-  sintoma_registrado: { slug: string; intensidade: number; origem: "chip" | "sheet" | "onboarding" };
+  sintoma_registrado: { slug: string; intensidade: number; origem: "chip" | "sheet" | "onboarding" | "voz" };
   sintoma_removido: { slug: string };
   diario_visto: { dias_com_registro: number };
   resumo_copiado: { dias: number; sintomas: number };
@@ -37,6 +37,37 @@ export type Eventos = {
   story_concluida: { id: string; cards: number; segundos: number };
   story_guardada: { id: string };
   story_bloqueada_premium: { id: string };
+  // spec 08
+  voz_iniciada: { modo: Modo; motor: "web_speech" | "gravacao" };
+  voz_transcrita: { ms: number; chars: number };
+  voz_interpretada: { tipos: string; n: number; confianca: number; ms: number };
+  voz_aceita: { n: number };
+  voz_corrigida: { tipo: string };
+  voz_nao_entendida: { motivo: string };
+  voz_sem_permissao: Record<string, never>;
+  // spec 09
+  home_bebe_vista: { bebes: number; sono_em_andamento: boolean };
+  registro_criado: { tipo: string; origem: string; atraso_min: number; autor_papel?: string };
+  registro_editado: { tipo: string; campo: string };
+  registro_apagado: { tipo: string; desfeito: boolean };
+  timer_iniciado: { tipo: string; lado?: string };
+  timer_encerrado: { tipo: string; minutos: number };
+  dia_visto: { registros: number };
+  // spec 10
+  previsao_vista: { estado: string; base: string };
+  previsao_aviso_ligado: { ligado: boolean };
+  previsao_acerto: { diff_min: number };
+  // spec 11
+  nascimento_registrado: { semanas_gestacao: number; prematuro: boolean; gemeos: boolean; dias_apos_dpp: number };
+  nascimento_desfeito: Record<string, never>;
+  cortesia_iniciada: Record<string, never>;
+  cortesia_encerrada: { converteu: boolean };
+  pos_parto_checkin: { dia: number; sinal_alerta: boolean };
+  // spec 12
+  convite_gerado: { papel: string };
+  convite_aberto: { valido: boolean };
+  convite_aceito: { papel: string; tinha_conta: boolean };
+  membro_removido: { papel: string };
 };
 
 type Gtag = (comando: "event", nome: string, params?: Record<string, unknown>) => void;

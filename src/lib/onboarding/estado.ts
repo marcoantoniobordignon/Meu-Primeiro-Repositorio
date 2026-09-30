@@ -35,6 +35,14 @@ export interface Perfil {
   anonima: boolean;
   /** Spec 14 define; até lá, 'free'. */
   plano?: "free" | "trial" | "ativo";
+  /** VIR-02: fim da cortesia de 7 dias após o nascimento. */
+  cortesiaFim?: string | null;
+  /** BEB-11: último bebê selecionado. */
+  bebeAtivoId?: string;
+  /** Spec 12: papel de quem usa este aparelho. */
+  papel?: "mae" | "parceiro" | "avo" | "cuidador";
+  /** Para o botão "ligar para minha equipe" (spec 11). */
+  telefoneEquipe?: string;
   onboardingConcluidoEm: string;
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bookmark, CalendarDays, ChevronRight, NotebookPen } from "lucide-react";
+import { Baby, Bookmark, CalendarDays, ChevronRight, NotebookPen, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -89,6 +89,8 @@ export default function PaginaEu() {
 
       <Card compacto>
         <div className="-mx-4 divide-y divide-fio">
+          {perfil.modo === "bebe" && atalho("/eu/bebe", copy.bebe, Baby)}
+          {atalho("/eu/familia", copy.familia, Users)}
           {atalho("/eu/consultas", copy.consultas, CalendarDays)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
           {atalho("/eu/guardados", copy.guardados, Bookmark)}

@@ -8,6 +8,8 @@ export const euCopy = {
   tema: "Aparência",
   temas: { auto: "Automático", claro: "Claro", escuro: "Escuro" },
   consultas: "Consultas",
+  bebe: "Bebê",
+  familia: "Família",
   guardados: "Guardados",
   diario: "Diário de sintomas",
   conta: "Conta",

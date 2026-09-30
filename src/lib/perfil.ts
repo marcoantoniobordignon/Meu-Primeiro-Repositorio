@@ -40,7 +40,8 @@ export function limparPerfil() {
   avisar();
 }
 
-/** Spec 14 decide o plano; até lá, 'ativo' e 'trial' liberam o conteúdo premium. */
-export function temPlano(perfil: Perfil | null | undefined): boolean {
-  return perfil?.plano === "ativo" || perfil?.plano === "trial";
+/** Spec 14 decide o plano; até lá, 'ativo', 'trial' e a cortesia pós-parto (VIR-02) liberam o Completo. */
+export function temPlano(perfil: Perfil | null | undefined, agora: Date = new Date()): boolean {
+  if (perfil?.plano === "ativo" || perfil?.plano === "trial") return true;
+  return Boolean(perfil?.cortesiaFim && new Date(perfil.cortesiaFim).getTime() > agora.getTime());
 }

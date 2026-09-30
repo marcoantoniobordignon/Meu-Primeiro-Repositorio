@@ -159,10 +159,70 @@ export function dppNoPassado(dpp: DataISO, hoje: DataISO = paraISO(new Date())):
   return diasEntre(dpp, hoje) > 14;
 }
 
-/** Idade do bebê em dias, semanas e meses aproximados. */
-export function idadeBebe(nascidoEm: DataISO, hoje: DataISO = paraISO(new Date())) {
-  const dias = Math.max(0, diasEntre(nascidoEm, hoje));
+/** Idade do bebê em dias, semanas e meses aproximados. Aceita "YYYY-MM-DD" ou ISO com hora. */
+export function idadeBebe(nascidoEm: string, hoje: DataISO = paraISO(new Date())) {
+  const dias = Math.max(0, diasEntre(nascidoEm.slice(0, 10), hoje));
   return { dias, semanas: Math.floor(dias / 7), meses: Math.floor(dias / 30.4375) };
+}
+
+/**
+ * BEB-10: "3 meses e 2 semanas" com meses completos de calendário e semanas restantes.
+ * Retorna também o progresso no primeiro ano (0–1) para o anel.
+ */
+export function idadeDetalhada(nascidoEm: string, hoje: DataISO = paraISO(new Date())) {
+  const nasc = deISO(nascidoEm.slice(0, 10));
+  const h = deISO(hoje);
+  let meses = (h.getFullYear() - nasc.getFullYear()) * 12 + (h.getMonth() - nasc.getMonth());
+  const marco = new Date(nasc);
+  marco.setMonth(nasc.getMonth() + meses);
+  if (marco > h) {
+    meses--;
+    marco.setMonth(nasc.getMonth() + meses);
+  }
+  meses = Math.max(0, meses);
+  const diasRestantes = Math.max(0, diasEntre(paraISO(marco), hoje));
+  const semanas = Math.floor(diasRestantes / 7);
+  const dias = Math.max(0, diasEntre(nascidoEm.slice(0, 10), hoje));
+  return { meses, semanas, dias, progressoAno: Math.min(1, dias / 365) };
+}
+
+/** Idade corrigida para prematuro: desconta as semanas que faltaram para 40. */
+export function idadeCorrigida(nascidoEm: string, prematuroSemanas: number, hoje: DataISO = paraISO(new Date())) {
+  const ajuste = Math.max(0, 40 - prematuroSemanas) * 7;
+  return idadeDetalhada(somarDias(nascidoEm.slice(0, 10), ajuste), hoje);
+}
+
+/** "3 meses e 2 semanas", "2 semanas", "5 dias". */
+export function textoIdade(i: { meses: number; semanas: number; dias: number }): string {
+  if (i.meses === 0 && i.semanas === 0) return i.dias === 1 ? "1 dia" : `${i.dias} dias`;
+  const m = i.meses === 1 ? "1 mês" : `${i.meses} meses`;
+  const s = i.semanas === 1 ? "1 semana" : `${i.semanas} semanas`;
+  if (i.meses === 0) return s;
+  return i.semanas === 0 ? m : `${m} e ${s}`;
+}
+
+/** "há 1 h 12", "há 5 min", "agora" — para os tiles (BEB-01). */
+export function haTempoCurto(iso: string, agora: Date = new Date()): string {
+  const min = Math.max(0, Math.floor((agora.getTime() - new Date(iso).getTime()) / 60_000));
+  if (min < 1) return "agora";
+  if (min < 60) return `há ${min} min`;
+  const h = Math.floor(min / 60);
+  const r = min % 60;
+  if (h >= 24) return `há ${Math.floor(h / 24)} d`;
+  return r === 0 ? `há ${h} h` : `há ${h} h ${String(r).padStart(2, "0")}`;
+}
+
+export function formatarHora(iso: string): string {
+  return new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+}
+
+/** "1 h 12", "12 min" — duração em minutos, para timers e linha do tempo. */
+export function formatarMinutos(min: number): string {
+  const m = Math.max(0, Math.round(min));
+  if (m < 60) return `${m} min`;
+  const h = Math.floor(m / 60);
+  const r = m % 60;
+  return r === 0 ? `${h} h` : `${h} h ${String(r).padStart(2, "0")}`;
 }
 
 const fmtLonga = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long" });

@@ -23,13 +23,8 @@
   --radius-card: var(--raio);
   --radius-pilula: var(--raio-pilula);
 
-  --spacing-1: var(--esp-1);
-  --spacing-2: var(--esp-2);
-  --spacing-3: var(--esp-3);
-  --spacing-4: var(--esp-4);
-  --spacing-5: var(--esp-5);
-  --spacing-6: var(--esp-6);
-  --spacing-7: var(--esp-7);
+  /* Espaçamento: a escala de 4 px do Tailwind já cobre os tokens --esp-* (4, 8, 12, 16, 24, 32, 48
+     = gap-1, 2, 3, 4, 6, 8, 12). Não sobrescrever --spacing-N: isso muda h-7, size-7, gap-6 etc. */
 
   --font-sans: var(--fonte);
   --font-serifa: var(--fonte-serifa);
