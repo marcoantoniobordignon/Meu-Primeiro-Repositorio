@@ -1,0 +1,28 @@
+/** Copy da aba Eu (mínimo desta versão; a spec 03 completa). */
+export const euCopy = {
+  titulo: "Eu",
+  nome: "Nome",
+  semNome: "Sem nome",
+  dpp: "Data prevista do parto",
+  nascimento: "Data de nascimento do bebê",
+  tema: "Aparência",
+  temas: { auto: "Automático", claro: "Claro", escuro: "Escuro" },
+  consultas: "Consultas",
+  bebe: "Bebê",
+  familia: "Família",
+  guardados: "Guardados",
+  diario: "Diário de sintomas",
+  conta: "Conta",
+  anonima: "Só neste aparelho",
+  recomecar: "Apagar tudo e recomeçar",
+  recomecarConfirma: "Isso apaga seus dados deste aparelho. Digite \"apagar\" para confirmar.",
+  confirmar: "Confirmar",
+  cancelar: "Cancelar",
+  placeholders: {
+    bebe: "Depois do parto, tudo do bebê fica aqui.",
+    registrarNascimento: "Registrar nascimento",
+    enxoval: "O enxoval chega em breve.",
+    meAvise: "Me avise",
+    avisado: "A gente te avisa ✓",
+  },
+} as const;

@@ -1,0 +1,23 @@
+/** Copy de consultas (spec 05). */
+export const consultasCopy = {
+  titulo: "Consultas",
+  nova: "Nova consulta",
+  editar: "Editar consulta",
+  data: "Data",
+  hora: "Hora",
+  tipo: "Tipo",
+  profissional: "Profissional (opcional)",
+  local: "Local (opcional)",
+  notas: "Notas (opcional)",
+  salvar: "Salvar",
+  apagar: "Apagar",
+  salva: "Consulta salva ✓",
+  apagada: "Consulta apagada",
+  marcarRealizada: "Marcar como realizada",
+  realizada: "Realizada",
+  futuras: "Próximas",
+  passadas: "Anteriores",
+  vazio: "Nenhuma consulta marcada. Adicione a próxima para receber o lembrete.",
+  adicionar: "Adicionar consulta",
+  erroData: "Escolha data e hora.",
+} as const;

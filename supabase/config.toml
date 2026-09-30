@@ -1,0 +1,51 @@
+# Configuração local do Supabase (spec 01). `supabase start` sobe Postgres, Auth e Functions.
+project_id = "ninho"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.pooler]
+enabled = false
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/hoje", "http://127.0.0.1:3000/hoje"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+# ARQ-03: sessão anônima que vira conta sem migrar nada.
+enable_anonymous_sign_ins = true
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false
+
+[auth.external.google]
+enabled = false
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"
+redirect_uri = ""
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+
+[functions.interpretar-registro]
+verify_jwt = true
+
+[functions.enviar-push]
+verify_jwt = true

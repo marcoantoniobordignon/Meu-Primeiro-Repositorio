@@ -1,0 +1,30 @@
+/** Copy do registro por voz (spec 08). */
+export const vozCopy = {
+  segure: "Segure para falar",
+  dica: "Segure para falar",
+  ouvindo: "Ouvindo…",
+  solte: "Solte para registrar",
+  processando: "Entendendo…",
+  registrado: "Registrado ✓",
+  corrigir: "Corrigir",
+  naoEntendi: "Não entendi",
+  naoEntendiApoio: (frase: string) => (frase ? `Ouvi “${frase}”.` : "Não ouvi nada."),
+  sugestao: "Quer registrar",
+  registrarAMao: "Registrar à mão",
+  semSuporte: "Este navegador não transcreve voz. Registre à mão abaixo.",
+  semPermissao: "Sem acesso ao microfone. Libere nas configurações do navegador ou registre à mão.",
+  guardei: "Guardei sua fala, registro quando tiver rede.",
+  exemplos: {
+    bebe: "“mamou 12 minutos no direito”, “dormiu”, “trocou fralda de cocô”",
+    gestacao: "“estou com azia”, “senti três chutes”, “contração de 50 segundos”",
+  },
+  tipos: {
+    mamada: "Mamada",
+    fralda: "Fralda",
+    sono: "Sono",
+    banho: "Banho",
+    sintoma: "Sintoma",
+    chute: "Chute",
+    contracao: "Contração",
+  } as Record<string, string>,
+} as const;

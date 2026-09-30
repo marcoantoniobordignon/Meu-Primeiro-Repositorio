@@ -1,0 +1,78 @@
+/** Copy da virada do parto e do pós-parto (spec 11). Lista de sinais: rascunho, revisão clínica obrigatória. */
+export const nascimentoCopy = {
+  nasceu: "Nasceu!",
+  nasceuDesc: "Registrar o nascimento",
+  sheetTitulo: "Nasceu!",
+  nome: "Nome do bebê",
+  nomePlaceholder: "Como vai chamar",
+  data: "Data",
+  hora: "Hora",
+  prematuro: "Nasceu antes da 37ª semana",
+  semanas: "Semanas de gestação",
+  gemeos: "Adicionar outro bebê",
+  removerGemeo: "Remover",
+  salvar: "Registrar nascimento",
+  erroNome: "Dá um nome, mesmo que provisório.",
+  erroFuturo: "Essa data ainda não chegou.",
+  confirmarAntigo: "Faz mais de um ano. Está certo?",
+  confirmarSim: "Sim, está certo",
+
+  bemVindo: {
+    titulo: (nome: string) => nome,
+    frase: "bem-vindo ao mundo",
+    fraseDois: "bem-vindos ao mundo",
+    cta: "Ver o bebê",
+  },
+
+  faixaDpp: "A data prevista já passou. Quando nascer, é só registrar.",
+  faixaDppCta: "Nasceu",
+
+  cortesia: (ate: string) => `Completo liberado até ${ate}, por conta da casa.`,
+
+  eu: {
+    titulo: "Bebê",
+    corrigir: "Corrigir nascimento",
+    naoNasceu: "Não nasceu ainda",
+    naoNasceuApoio: "Volta ao modo gestação e mantém tudo o que você registrou. Só nas primeiras 24 h.",
+    desfeito: "Voltamos ao modo gestação.",
+    salvo: "Nascimento atualizado ✓",
+    telefone: "Telefone da equipe",
+    telefoneAjuda: "Para o botão de ligar no pós-parto.",
+  },
+
+  checkin: {
+    titulo: "Como você está?",
+    apoio: "Um toque por dia, nas primeiras 6 semanas. Só para você.",
+    dor: "Dor",
+    dorNiveis: ["Nenhuma", "Leve", "Moderada", "Forte"],
+    sangramento: "Sangramento",
+    sangramentoNiveis: { nenhum: "Nenhum", leve: "Leve", moderado: "Moderado", intenso: "Intenso" },
+    humor: "Humor",
+    humorNiveis: ["😞", "😕", "😐", "🙂", "😊"],
+    salvar: "Guardar",
+    salvo: "Check-in guardado ✓",
+    alertaTitulo: "Isso merece uma conversa com sua equipe hoje.",
+    alertaApoio: "Não é um alarme. É um sinal que vale checar com quem te acompanha.",
+    verSinais: "Ver os sinais",
+    ligar: "Ligar para minha equipe",
+    semTelefone: "Cadastre o telefone da equipe em Eu → Bebê",
+  },
+
+  sinais: {
+    titulo: "Sinais que pedem contato",
+    apoio: "Se sentir qualquer um destes, ligue para sua equipe ou vá ao pronto atendimento. Rascunho para revisão clínica.",
+    lista: [
+      "Sangramento que encharca um absorvente por hora, por 2 horas",
+      "Coágulos maiores que um ovo",
+      "Febre acima de 38 °C",
+      "Dor forte na barriga, no corte ou nos pontos, que piora",
+      "Vermelhidão, calor ou secreção com cheiro no corte ou nos pontos",
+      "Dor de cabeça forte com visão embaçada ou inchaço no rosto",
+      "Dor ou inchaço numa perna só",
+      "Falta de ar ou dor no peito",
+      "Um peito vermelho, quente e dolorido, com febre",
+      "Tristeza que não passa, vontade de sumir ou medo de machucar o bebê",
+    ],
+    fecho: "Na dúvida, fale com quem te acompanha.",
+  },
+} as const;
