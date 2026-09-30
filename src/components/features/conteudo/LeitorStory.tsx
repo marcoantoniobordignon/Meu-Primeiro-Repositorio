@@ -11,7 +11,7 @@ import { track } from "@/lib/analytics";
 import { novoId } from "@/lib/dados/colecao";
 import { useColecao } from "@/lib/dados/colecao";
 import { conteudosLidos } from "@/lib/dados/colecoes";
-import { conteudoPorId, nomeCategoria, type Conteudo } from "@/lib/conteudo/banco";
+import { conteudoPorId, nomeCategoria, useBanco, type Conteudo } from "@/lib/conteudo/banco";
 import { blocos, type Trecho } from "@/lib/conteudo/markdown";
 import { cardsParaLeitura } from "@/lib/conteudo/stories";
 import { paraISO, semanaGestacional } from "@/lib/dates";
@@ -49,7 +49,8 @@ export function LeitorStory({ id, posicao }: Props) {
   const perfil = usePerfil();
   const lidos = useColecao(conteudosLidos);
   const { mostrar } = useToast();
-  const conteudo = conteudoPorId(id);
+  const todos = useBanco();
+  const conteudo = conteudoPorId(id, todos);
   const [indice, setIndice] = useState(0);
   const inicio = useRef(Date.now());
   const registroLido = lidos.find((l) => l.conteudo_id === id);

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -7,7 +7,12 @@ import { describe, expect, it } from "vitest";
  * toda tabela da migration existe em types.generated.ts (e vice-versa).
  */
 describe("types.generated.ts ↔ migration", () => {
-  const sql = readFileSync(path.resolve(__dirname, "../../../supabase/migrations/0001_schema.sql"), "utf8");
+  const pasta = path.resolve(__dirname, "../../../supabase/migrations");
+  const sql = readdirSync(pasta)
+    .filter((f) => f.endsWith(".sql"))
+    .sort()
+    .map((f) => readFileSync(path.join(pasta, f), "utf8"))
+    .join("\n");
   const tipos = readFileSync(path.resolve(__dirname, "./types.generated.ts"), "utf8");
 
   const tabelasSql = [...sql.matchAll(/create table public\.(\w+)/g)].map((m) => m[1]!).sort();

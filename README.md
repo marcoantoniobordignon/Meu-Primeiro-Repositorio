@@ -34,7 +34,7 @@ pnpm lint
 pnpm typecheck
 pnpm test          # unitários (Vitest); compila o banco de conteúdo antes
 pnpm build         # gera também o service worker (public/sw.js)
-pnpm e2e           # Playwright, 3 fluxos críticos, contra o build
+pnpm e2e           # Playwright, 3 fluxos críticos do app + 2 do painel, contra o build
 pnpm supabase:test # pgTAP: RLS entre famílias e privacidade da mãe (precisa do Supabase local)
 pnpm supabase:types # regenera src/lib/supabase/types.generated.ts (precisa do Supabase local)
 ```
@@ -49,6 +49,14 @@ Em container como root, o Playwright precisa de `PLAYWRIGHT_NO_SANDBOX=1` (e `PL
 - **Sessão**: anônima no primeiro toque (Supabase `signInAnonymously`); sem rede, um uid local que é promovido ao uid real quando a rede volta. Criar conta usa `linkIdentity`, então o uid não muda e nada migra.
 - **Família**: `familia_id` e `criado_por` são preenchidos por trigger a partir da sessão; o cliente nunca manda. RLS filtra tudo por `membros_familia`. Sintomas e check-ins da mãe são invisíveis para avó e cuidadora.
 - **Voz**: com rede, a Edge Function `interpretar-registro` (Claude Haiku 4.5, JSON estrito, prompt em cache) interpreta; sem rede ou se ela falhar, o parser local de regras assume.
+
+## Painel de admin
+
+`/admin` é a área da equipe: visão geral (famílias, ativas, novas, plano, uso por dia, registros por tipo, sintomas mais marcados), usuárias (distribuição por semana e mês do bebê, papéis, planos, lista de famílias sem nome nem dado de saúde), conteúdo (lista, calendário "por dia" que simula o carrossel e editor com preview e as regras da spec 07), voz (precisão da interpretação) e sistema (o que está ligado).
+
+- **Acesso**: link mágico por e-mail; só entra quem está na tabela `admins` (`supabase/seed.sql`). As RPCs `admin_*` (`supabase/migrations/0002_admin.sql`) são `security definer` e exigem `eh_admin()`; devolvem só agregados.
+- **Sem Supabase**: o painel roda em modo demonstração, com faixa avisando e números fictícios, para dar para ver e testar o layout.
+- **Conteúdo editado no painel** vai para a tabela `conteudos`; o app puxa na sincronização e mescla com o bundle (o servidor vence pelo id). O bundle continua saindo de `content/*.md`.
 
 ## Conteúdo
 
@@ -74,5 +82,6 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 | 10 Previsão de soneca | pronta; o push do aviso é a spec 13 |
 | 11 Virada do parto | **pronta** |
 | 12 Cuidadores | pronta com RPCs; sem servidor, o convite vale só no mesmo aparelho. Falta o QR |
+| Painel de admin | **pronto**: métricas agregadas, usuárias, conteúdo (lista, por dia, editor), voz e sistema; demonstração sem Supabase |
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).

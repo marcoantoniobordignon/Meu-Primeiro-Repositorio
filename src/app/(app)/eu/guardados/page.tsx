@@ -10,12 +10,14 @@ import { Vazio } from "@/components/ui/Vazio";
 import { conteudoCopy as copy } from "@/copy/conteudo";
 import { useColecao } from "@/lib/dados/colecao";
 import { conteudosLidos } from "@/lib/dados/colecoes";
+import { useBanco } from "@/lib/conteudo/banco";
 import { guardadas } from "@/lib/conteudo/stories";
 
 /** CON-03: guardadas continuam acessíveis depois de expirar do carrossel. */
 export default function PaginaGuardados() {
   const lidos = useColecao(conteudosLidos);
-  const lista = guardadas(lidos);
+  const todos = useBanco();
+  const lista = guardadas(lidos, todos);
 
   return (
     <div>
