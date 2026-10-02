@@ -99,6 +99,17 @@ export interface Database {
       meus_membros: { Args: Record<string, never>; Returns: { profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string }[] };
       minha_familia: { Args: Record<string, never>; Returns: { familia_id: string; papel: string; plano: string; trial_fim: string | null; cortesia_fim: string | null; modo: string }[] };
       familia_do_usuario: { Args: Record<string, never>; Returns: string | null };
+      // Painel de admin (0002_admin.sql): só agregados, exigem eh_admin().
+      admin_eu: { Args: Record<string, never>; Returns: Json };
+      admin_resumo: { Args: Record<string, never>; Returns: Json };
+      admin_serie_diaria: { Args: { p_dias?: number }; Returns: { dia: string; novas: number; ativas: number; registros: number; leituras: number }[] };
+      admin_distribuicoes: { Args: Record<string, never>; Returns: Json };
+      admin_familias: {
+        Args: { p_limite?: number; p_offset?: number };
+        Returns: { id: string; modo: string; semana: number | null; mes_bebe: number | null; membros: number; plano: string; criado_em: string; ultimo_acesso_em: string | null; registros: number }[];
+      };
+      admin_leituras: { Args: Record<string, never>; Returns: { conteudo_id: string; leituras: number; guardados: number }[] };
+      admin_voz: { Args: { p_limite?: number }; Returns: Json };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

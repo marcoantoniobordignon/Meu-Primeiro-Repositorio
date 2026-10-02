@@ -5,6 +5,7 @@ import { conteudoCopy as copy } from "@/copy/conteudo";
 import { useColecao } from "@/lib/dados/colecao";
 import { conteudosLidos } from "@/lib/dados/colecoes";
 import { paraISO } from "@/lib/dates";
+import { useBanco } from "@/lib/conteudo/banco";
 import { storiesDoDia } from "@/lib/conteudo/stories";
 
 interface Props {
@@ -15,8 +16,9 @@ interface Props {
 /** CON-01..04: carrossel dos 3 stories do dia; lidas ficam esmaecidas. */
 export function StoriesDoDia({ semana, mesBebe }: Props) {
   const lidos = useColecao(conteudosLidos);
+  const todos = useBanco();
   const hoje = paraISO(new Date());
-  const stories = storiesDoDia(lidos, { hoje, semana, mesBebe });
+  const stories = storiesDoDia(lidos, { hoje, semana, mesBebe }, todos);
   if (stories.length === 0) return null;
 
   return (

@@ -19,12 +19,18 @@ export function chamarRpc<T>(sb: Cliente, nome: string, args?: Record<string, un
   return rpc(nome, args);
 }
 
+export interface ConsultaSolta extends PromiseLike<Resposta<unknown[]>> {
+  gt(coluna: string, valor: unknown): ConsultaSolta;
+  eq(coluna: string, valor: unknown): ConsultaSolta;
+  order(coluna: string, o: { ascending: boolean }): ConsultaSolta;
+  limit(n: number): ConsultaSolta;
+}
+
 export interface TabelaSolta {
   upsert(valores: unknown, opcoes?: { onConflict?: string }): PromiseLike<Resposta<unknown>>;
   update(valores: Record<string, unknown>): { eq(coluna: string, valor: unknown): PromiseLike<Resposta<unknown>> };
-  select(colunas?: string): {
-    gt(coluna: string, valor: unknown): { order(coluna: string, o: { ascending: boolean }): { limit(n: number): PromiseLike<Resposta<unknown[]>> } };
-  };
+  delete(): { eq(coluna: string, valor: unknown): PromiseLike<Resposta<unknown>> };
+  select(colunas?: string): ConsultaSolta;
 }
 
 export function tabela(sb: Cliente, nome: string): TabelaSolta {

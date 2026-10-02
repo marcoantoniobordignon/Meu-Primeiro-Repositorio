@@ -2,6 +2,27 @@
 
 ## Não lançado
 
+### Bebê 3D · fatia vertical (semana 20)
+- Rota `/hoje/bebe-3d` em tela cheia, lazy e sem SSR; card hero "Veja seu bebê hoje" na Hoje. Abre na semana do perfil (por enquanto só a 20 tem cena; as outras caem na mais próxima).
+- Cena com three.js + React Three Fiber: sol quente fora da barriga, preenchimento frio, environment sintético, névoa, parede do útero com veias pulsando no ritmo do coração, janela de sol (god rays), placenta com lóbulos, cordão umbilical espiralado que segue o bebê, partículas em suspensão que reagem à câmera.
+- Bebê placeholder gerado por código (campo implícito de cápsulas com kernel de Wyvill → marching cubes → suavização → pesos de pele por proximidade ao osso), com rosto (pálpebras fechadas, nariz, boca, queixo), orelhas e dedos. Geração num Web Worker. Esqueleto de 19 ossos com os nomes da especificação de assets.
+- Pele com dispersão subsuperficial por contraluz (espessura por vértice: dedos e orelhas acendem contra o sol), vérnix e modo ultrassom no shader.
+- Animação procedural em camadas (B3D-01/04, com testes): repouso flutuante, respiração e batimento por semana, gestos sorteados por idade gestacional (mãos, polegar, chute, espreguiçar, soluço, virar a cabeça, piscar) com entrada e saída suaves e sem repetição; "reduzir movimento" deixa só repouso e coração.
+- Câmera: órbita com inércia e pinça, auto-órbita após 6 s, enquadramentos Rosto (na direção do rosto), Mãos e Corpo calculados pela largura necessária e pelo aspecto da tela; foco da profundidade de campo segue o enquadramento.
+- Pós: AgX, god rays, DoF, bloom contido, vinheta e grão; MSAA 4× no nível alto. Níveis de qualidade alto/médio/baixo com detecção por GPU e ajuste ao vivo; medidor de fps na tela.
+- Dados da semana 20 (comprimento, peso, comparação, marcos, descrição em texto) em `src/conteudo/semanas-3d.json`, marcados para revisão médica, com fontes (NHS, ACOG, Hadlock). Escala do bebê e raio do útero coerentes por semana (B3D-02/03, com testes).
+- `docs/bebe-3d-assets.md` (especificação para comprar ou encomendar o modelo definitivo) e `public/bebe3d/MANIFESTO.md` (origem e licença de cada asset). Teste E2E da entrada e da ficha.
+
+### Painel de admin (`/admin`)
+- Visão geral: famílias, novas no período (com variação contra o período anterior), ativas em 1/7/30 dias, planos, gestação × bebê, funil perfil → onboarding → e-mail, séries diárias de famílias e uso, registros por tipo e sintomas mais marcados (só contagem).
+- Usuárias: gestantes por semana, bebês por mês, papéis, planos, origem dos registros e lista de famílias paginada, sem nome nem dado de saúde.
+- Conteúdo: lista com busca, filtros e leituras/guardados por story; calendário "por dia" que simula o carrossel dos próximos 7 dias para qualquer semana ou mês do bebê usando a mesma `storiesDoDia` do app; editor com preview em formato de celular, slug automático, categoria, faixa, dia fixo, premium/publicado e validação das regras CON-07/08 antes de salvar (ADM-01/02, com testes).
+- Voz: taxa de aceitação, correções, confiança média, tempo mediano e as últimas interpretações. Sistema: status do Supabase, Edge Function, GA4 e banco de conteúdo, com o passo a passo para ligar.
+- Servidor: `supabase/migrations/0002_admin.sql` com as RPCs `admin_eu`, `admin_resumo`, `admin_serie_diaria`, `admin_distribuicoes`, `admin_familias`, `admin_leituras` e `admin_voz`, todas `security definer` exigindo `eh_admin()`. Login por link mágico; só e-mails da tabela `admins` entram.
+- App: passa a puxar a tabela `conteudos` na sincronização e mesclar com o bundle (`useBanco`), então o que a equipe edita no painel chega às mães sem novo deploy.
+- Sem Supabase, o painel mostra dados de demonstração com faixa de aviso. Gráficos em SVG próprio, com hover, legenda e versão em tabela; cores só por token, claro e escuro.
+- Playwright: 2 fluxos do painel (validação e publicação de conteúdo; visão geral e calendário).
+
 ### Spec 01 · Arquitetura (Supabase de verdade)
 - `supabase/migrations/0001_schema.sql`: profiles, familias, membros_familia, bebes, registros, sintomas (+ catálogo), consultas, sessoes_chutes, contracoes, pos_parto_checkins, conteudos, conteudos_lidos, convites, voz_interpretacoes e admins. RLS por `familia_id` via `membros_familia`; sintomas e check-ins da mãe invisíveis para avó e cuidadora (CUI-04/05); só mãe e parceiro apagam registros de outros.
 - Triggers: `handle_new_user` cria perfil, família e membro 'mae' no primeiro login (ARQ-03); `preencher_familia`/`preencher_autor` a partir da sessão; `manter_mais_recente` resolve conflito pelo maior `atualizado_em` (ARQ-02).
