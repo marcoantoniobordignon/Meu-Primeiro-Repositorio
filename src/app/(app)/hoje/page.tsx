@@ -9,6 +9,7 @@ import { CardSoneca } from "@/components/features/bebe/CardSoneca";
 import { SeletorBebe } from "@/components/features/bebe/SeletorBebe";
 import { SheetsRegistro, type EstadoSheet } from "@/components/features/bebe/SheetsRegistro";
 import { TilesBebe } from "@/components/features/bebe/TilesBebe";
+import { CardHero3D } from "@/components/features/bebe3d/CardHero3D";
 import { StoriesDoDia } from "@/components/features/conteudo/StoriesDoDia";
 import { AnelSemana } from "@/components/features/home/AnelSemana";
 import { CardConsulta } from "@/components/features/home/CardConsulta";
@@ -129,6 +130,7 @@ export default function PaginaHoje() {
           )}
           <CardsAtivos onAbrirChutes={() => setSheet("chutes")} onAbrirContracoes={() => setSheet("contracoes")} />
           {g && <AnelSemana g={g} />}
+          {g && <CardHero3D semana={g.semana} />}
 
           {permissoes.verSintomas && (
             <section className="flex flex-col gap-3">

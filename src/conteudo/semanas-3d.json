@@ -1,0 +1,27 @@
+{
+  "revisao_medica": "pendente",
+  "fontes": [
+    "NHS, Week-by-week guide to pregnancy (nhs.uk/start-for-life)",
+    "ACOG, How Your Fetus Grows During Pregnancy (acog.org)",
+    "Hadlock FP et al., Radiology 1992: curvas de comprimento e peso fetal (medianas)"
+  ],
+  "aviso": "Ilustração artística baseada em médias de desenvolvimento. Cada bebê é único. Não substitui o acompanhamento pré-natal.",
+  "semanas": [
+    {
+      "semana": 20,
+      "comprimento_cm": 16.4,
+      "comprimento_texto": "cerca de 16 cm da cabeça ao bumbum, uns 25 cm até os pés",
+      "peso_g": 300,
+      "peso_texto": "cerca de 300 g",
+      "comparacao": "uma banana",
+      "emoji": "🍌",
+      "marcos": [
+        "Já dá para sentir os primeiros movimentos: no começo parecem bolhas ou borboletas.",
+        "A pele ganha o vérnix, uma camada cremosa que protege dentro do líquido.",
+        "Ouve a sua voz e os sons do seu corpo. Falar com o bebê já faz sentido."
+      ],
+      "descricao_cena": "Bebê encolhido, com a cabeça grande em proporção ao corpo, joelhos dobrados perto do peito e as mãos próximas do rosto. A pele é translúcida e deixa a luz passar nas orelhas e nos dedos. O cordão umbilical sai da barriga e se enrola até a placenta, presa na parede do útero.",
+      "revisao_medica": "pendente"
+    }
+  ]
+}

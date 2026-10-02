@@ -58,6 +58,16 @@ Em container como root, o Playwright precisa de `PLAYWRIGHT_NO_SANDBOX=1` (e `PL
 - **Sem Supabase**: o painel roda em modo demonstração, com faixa avisando e números fictícios, para dar para ver e testar o layout.
 - **Conteúdo editado no painel** vai para a tabela `conteudos`; o app puxa na sincronização e mescla com o bundle (o servidor vence pelo id). O bundle continua saindo de `content/*.md`.
 
+## Bebê 3D (`/hoje/bebe-3d`)
+
+Cena do bebê dentro do útero, semana a semana. Entrada pelo card "Veja seu bebê hoje" na Hoje. Código isolado em `src/components/features/bebe3d/` e `src/lib/bebe3d/`, carregado com `next/dynamic` (o three.js só desce quando a tela abre). Estado atual: fatia vertical da semana 20 com placeholder gerado por código; as outras semanas, a vista Barriga e o modo Ultrassom vêm depois da aprovação.
+
+- **Trocar o modelo**: colocar `public/bebe3d/bebe.glb` conforme `docs/bebe-3d-assets.md` (nomes de ossos, blend shapes, mapa de espessura) e registrar a licença em `public/bebe3d/MANIFESTO.md`. Em `Bebe.tsx`, carregar o glTF no lugar de `gerarMalhaBebeAsync` e passar `nodes` com os mesmos nomes; o controlador de animação e a pele continuam iguais.
+- **Ajustar a luz**: cores em `src/lib/bebe3d/paleta.ts`; intensidades e posições em `Cena.tsx` (sol, preenchimento, ambiente, environment sintético); dispersão da pele em `src/lib/bebe3d/pele.ts` (`uEscala`, `uPotencia`, `uCorSss`); parede do útero em `Utero.tsx`; pós-processamento (god rays, profundidade de campo, bloom, vinheta, grão) em `Pos.tsx`.
+- **Níveis de qualidade**: `src/lib/bebe3d/qualidade.ts` (alto, médio, baixo: DPR, partículas, pós, resolução do marching cubes). A detecção inicial usa a GPU; o `PerformanceMonitor` desce ou sobe um degrau ao vivo. Forçar com `?qualidade=baixo` na URL; `?inspecao=1` mostra só o bebê com luz neutra (desenvolvimento). O medidor no canto superior direito mostra fps e nível.
+- **Dados**: `src/conteudo/semanas-3d.json` (medidas, comparação, marcos, descrição em texto), tudo marcado `revisao_medica: pendente`. Escala e raio do útero por semana em `src/lib/bebe3d/semanas.ts`.
+- **Acessibilidade**: respeita "reduzir movimento" (só repouso e coração, sem auto-órbita); descrição da cena em texto para leitor de tela; sem WebGL2, mostra a descrição e a ficha.
+
 ## Conteúdo
 
 Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pnpm conteudo:build` gera `src/conteudo/banco.json`; roda sozinho antes de `test` e `build`. O teste em `src/lib/conteudo/stories.test.ts` barra "sempre", "nunca" e "garantido" e exige a frase de encaminhamento no fim de toda story de saúde. `pnpm conteudo:sync` sobe o banco para a tabela `conteudos`.
@@ -83,5 +93,6 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 | 11 Virada do parto | **pronta** |
 | 12 Cuidadores | pronta com RPCs; sem servidor, o convite vale só no mesmo aparelho. Falta o QR |
 | Painel de admin | **pronto**: métricas agregadas, usuárias, conteúdo (lista, por dia, editor), voz e sistema; demonstração sem Supabase |
+| Bebê 3D | fatia vertical: semana 20 com luz, pele com SSS, animação procedural, pós-processamento e níveis de qualidade; placeholder gerado por código. Faltam as outras semanas, a vista Barriga, o ultrassom 4D e o modelo licenciado |
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).

@@ -19,6 +19,12 @@
   --color-banho: var(--reg-banho);
   --color-erro: var(--erro);
   --color-sucesso: var(--sucesso);
+  --color-utero-fundo: var(--utero-fundo);
+  --color-utero-ambar: var(--utero-ambar);
+  --color-utero-rosa: var(--utero-rosa);
+  --color-utero-texto: var(--utero-texto);
+  --color-utero-texto-mudo: var(--utero-texto-mudo);
+  --color-utero-vidro: var(--utero-vidro);
 
   --radius-card: var(--raio);
   --radius-pilula: var(--raio-pilula);
@@ -179,6 +185,30 @@
 @keyframes girar {
   to {
     transform: rotate(360deg);
+  }
+}
+/* Coração: pulso curto e assimétrico, como um batimento de verdade. */
+@keyframes coracao {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.12);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.06);
+  }
+}
+.anim-coracao {
+  animation: coracao 1.1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-coracao {
+    animation: none;
   }
 }
 
