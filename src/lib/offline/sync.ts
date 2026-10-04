@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { membros, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { conteudosRemotos, membros, type Membro, type Papel } from "@/lib/dados/colecoes";
 import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
 import { garantirSessaoAnonima, sessaoAtual, sincronizarSessao } from "@/lib/sessao";
 import { chamarRpc, supabase, supabaseConfigurado, tabela, type Cliente } from "@/lib/supabase/client";
@@ -89,8 +89,20 @@ export async function puxar(sb: Cliente): Promise<void> {
     const maior = linhas[linhas.length - 1]?.atualizado_em;
     if (maior) ultima[m.tabela] = maior;
   }
+  await puxarConteudos(sb, ultima);
   guardarUltima(ultima);
   await puxarFamilia(sb);
+}
+
+/** Conteúdo editado no painel: a RLS já filtra o publicado; mescla por atualizado_em. */
+async function puxarConteudos(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  const desde = ultima.conteudos ?? "1970-01-01T00:00:00Z";
+  const { data, error } = await tabela(sb, "conteudos").select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+  if (error || !data) return;
+  const linhas = data as { id: string; atualizado_em: string }[];
+  conteudosRemotos.mesclar(linhas as never);
+  const maior = linhas[linhas.length - 1]?.atualizado_em;
+  if (maior) ultima.conteudos = maior;
 }
 
 /** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */

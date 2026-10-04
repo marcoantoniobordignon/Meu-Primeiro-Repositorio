@@ -23,6 +23,10 @@ pnpm supabase:functions        # serve as Edge Functions; a de voz precisa de AN
 
 Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interpretar-registro` e `supabase secrets set ANTHROPIC_API_KEY=...`. Deploy do app na Vercel com as duas variáveis públicas.
 
+## Deploy na Vercel
+
+O projeto é importado do GitHub com o preset Next.js; nada precisa ser configurado. Cada push na `main` gera um deploy de produção; cada PR gera um preview. Sem variáveis de ambiente o app sobe em modo 100 % local. Para ligar o Supabase, adicione `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` em *Settings → Environment Variables* e faça um redeploy.
+
 ## Verificar
 
 ```bash
@@ -30,7 +34,7 @@ pnpm lint
 pnpm typecheck
 pnpm test          # unitários (Vitest); compila o banco de conteúdo antes
 pnpm build         # gera também o service worker (public/sw.js)
-pnpm e2e           # Playwright, 3 fluxos críticos, contra o build
+pnpm e2e           # Playwright, 3 fluxos críticos do app + 2 do painel, contra o build
 pnpm supabase:test # pgTAP: RLS entre famílias e privacidade da mãe (precisa do Supabase local)
 pnpm supabase:types # regenera src/lib/supabase/types.generated.ts (precisa do Supabase local)
 ```
@@ -45,6 +49,24 @@ Em container como root, o Playwright precisa de `PLAYWRIGHT_NO_SANDBOX=1` (e `PL
 - **Sessão**: anônima no primeiro toque (Supabase `signInAnonymously`); sem rede, um uid local que é promovido ao uid real quando a rede volta. Criar conta usa `linkIdentity`, então o uid não muda e nada migra.
 - **Família**: `familia_id` e `criado_por` são preenchidos por trigger a partir da sessão; o cliente nunca manda. RLS filtra tudo por `membros_familia`. Sintomas e check-ins da mãe são invisíveis para avó e cuidadora.
 - **Voz**: com rede, a Edge Function `interpretar-registro` (Claude Haiku 4.5, JSON estrito, prompt em cache) interpreta; sem rede ou se ela falhar, o parser local de regras assume.
+
+## Painel de admin
+
+`/admin` é a área da equipe: visão geral (famílias, ativas, novas, plano, uso por dia, registros por tipo, sintomas mais marcados), usuárias (distribuição por semana e mês do bebê, papéis, planos, lista de famílias sem nome nem dado de saúde), conteúdo (lista, calendário "por dia" que simula o carrossel e editor com preview e as regras da spec 07), voz (precisão da interpretação) e sistema (o que está ligado).
+
+- **Acesso**: link mágico por e-mail; só entra quem está na tabela `admins` (`supabase/seed.sql`). As RPCs `admin_*` (`supabase/migrations/0002_admin.sql`) são `security definer` e exigem `eh_admin()`; devolvem só agregados.
+- **Sem Supabase**: o painel roda em modo demonstração, com faixa avisando e números fictícios, para dar para ver e testar o layout.
+- **Conteúdo editado no painel** vai para a tabela `conteudos`; o app puxa na sincronização e mescla com o bundle (o servidor vence pelo id). O bundle continua saindo de `content/*.md`.
+
+## Bebê 3D (`/hoje/bebe-3d`)
+
+Cena do bebê dentro do útero, semana a semana. Entrada pelo card "Veja seu bebê hoje" na Hoje. Código isolado em `src/components/features/bebe3d/` e `src/lib/bebe3d/`, carregado com `next/dynamic` (o three.js só desce quando a tela abre). Estado atual: fatia vertical da semana 20 com placeholder gerado por código; as outras semanas, a vista Barriga e o modo Ultrassom vêm depois da aprovação.
+
+- **Trocar o modelo**: colocar `public/bebe3d/bebe.glb` conforme `docs/bebe-3d-assets.md` (nomes de ossos, blend shapes, mapa de espessura) e registrar a licença em `public/bebe3d/MANIFESTO.md`. Em `Bebe.tsx`, carregar o glTF no lugar de `gerarMalhaBebeAsync` e passar `nodes` com os mesmos nomes; o controlador de animação e a pele continuam iguais.
+- **Ajustar a luz**: cores em `src/lib/bebe3d/paleta.ts`; intensidades e posições em `Cena.tsx` (sol, preenchimento, ambiente, environment sintético); dispersão da pele em `src/lib/bebe3d/pele.ts` (`uEscala`, `uPotencia`, `uCorSss`); parede do útero em `Utero.tsx`; pós-processamento (god rays, profundidade de campo, bloom, vinheta, grão) em `Pos.tsx`.
+- **Níveis de qualidade**: `src/lib/bebe3d/qualidade.ts` (alto, médio, baixo: DPR, partículas, pós, resolução do marching cubes). A detecção inicial usa a GPU; o `PerformanceMonitor` desce ou sobe um degrau ao vivo. Forçar com `?qualidade=baixo` na URL; `?inspecao=1` mostra só o bebê com luz neutra (desenvolvimento). O medidor no canto superior direito mostra fps e nível.
+- **Dados**: `src/conteudo/semanas-3d.json` (medidas, comparação, marcos, descrição em texto), tudo marcado `revisao_medica: pendente`. Escala e raio do útero por semana em `src/lib/bebe3d/semanas.ts`.
+- **Acessibilidade**: respeita "reduzir movimento" (só repouso e coração, sem auto-órbita); descrição da cena em texto para leitor de tela; sem WebGL2, mostra a descrição e a ficha.
 
 ## Conteúdo
 
@@ -70,5 +92,7 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 | 10 Previsão de soneca | pronta; o push do aviso é a spec 13 |
 | 11 Virada do parto | **pronta** |
 | 12 Cuidadores | pronta com RPCs; sem servidor, o convite vale só no mesmo aparelho. Falta o QR |
+| Painel de admin | **pronto**: métricas agregadas, usuárias, conteúdo (lista, por dia, editor), voz e sistema; demonstração sem Supabase |
+| Bebê 3D | fatia vertical: semana 20 com luz, pele com SSS, animação procedural, pós-processamento e níveis de qualidade; placeholder gerado por código. Faltam as outras semanas, a vista Barriga, o ultrassom 4D e o modelo licenciado |
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).

@@ -34,6 +34,14 @@
   --fonte: var(--fonte-outfit), "Outfit", system-ui, sans-serif;
   --fonte-serifa: var(--fonte-garamond), "EB Garamond", Georgia, serif;
 
+  /* Aba 3D do bebê: a UI sobre a cena usa estes tons quentes (a cena em si vive em src/lib/bebe3d/paleta.ts). */
+  --utero-fundo: #2a1210;
+  --utero-ambar: #ffb36b;
+  --utero-rosa: #ff8f7a;
+  --utero-texto: #fff1e6;
+  --utero-texto-mudo: #d9b8ab;
+  --utero-vidro: rgba(42, 18, 16, 0.55);
+
   /* Única sombra permitida: o botão "+" flutuante. */
   --sombra-mais: 0 8px 18px rgba(49, 188, 211, 0.4);
 

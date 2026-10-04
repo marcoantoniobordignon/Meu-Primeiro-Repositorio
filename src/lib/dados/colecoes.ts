@@ -127,6 +127,9 @@ export const membros = criarColecao<Membro>("ninho.membros");
 export const convites = criarColecao<Convite>("ninho.convites");
 export const vozPendentes = criarColecao<VozPendente>("ninho.voz_pendentes");
 
+/** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
+export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
+
 export const todasColecoes = [
   sintomas,
   consultas,
