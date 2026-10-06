@@ -13,7 +13,7 @@ describe("ARQ-01 · outbox com retry exponencial", () => {
   it("enfileira, uma entrada por registro (a última escrita vence)", async () => {
     await enfileirar("sintomas", { id: "a", intensidade: 1 }, 100);
     await enfileirar("sintomas", { id: "a", intensidade: 3 }, 200);
-    await enfileirar("consultas", { id: "b" }, 300);
+    await enfileirar("appointments", { id: "b" }, 300);
     const lista = await pendentes();
     expect(lista).toHaveLength(2);
     expect(lista[0]?.payload.intensidade).toBe(3);

@@ -14,6 +14,24 @@ describe("CUI-01/04 · permissões por papel", () => {
   });
 });
 
+describe("Funcionalidades 02–06 · o que cada papel vê", () => {
+  it("medicamentos e medidas só a gestante; parceiro vê exames, diário e agenda", () => {
+    expect(permissoes("mae")).toMatchObject({ verMedicamentos: true, verMedidas: true, gerirConsultas: true, verAgenda: true, verFotosBarriga: true, tirarFotosBarriga: true, verDiario: true, verExames: true });
+    expect(permissoes("parceiro")).toMatchObject({ verMedicamentos: false, verMedidas: false, gerirConsultas: false, verAgenda: true, verFotosBarriga: false, tirarFotosBarriga: false, verDiario: true, verExames: true });
+  });
+
+  it("a gestante liga as fotos e desliga a agenda do parceiro", () => {
+    expect(permissoes("parceiro", { belly_photos: true })).toMatchObject({ verFotosBarriga: true, tirarFotosBarriga: false, verAgenda: true });
+    expect(permissoes("parceiro", { agenda: false })).toMatchObject({ verAgenda: false });
+  });
+
+  it("avó e cuidador não veem nada de saúde da gestação, nem com permissões", () => {
+    for (const p of ["avo", "cuidador"] as const) {
+      expect(permissoes(p, { agenda: true, belly_photos: true })).toMatchObject({ verMedicamentos: false, verExames: false, verAgenda: false, verMedidas: false, verFotosBarriga: false, verDiario: false });
+    }
+  });
+});
+
 describe("CUI-02 · convite", () => {
   const agora = new Date("2026-09-30T10:00:00Z");
   const base: Convite = { id: "c", token: "t", papel: "cuidador", criado_por: "mae", expira_em: "2026-10-03T10:00:00Z", atualizado_em: "" };

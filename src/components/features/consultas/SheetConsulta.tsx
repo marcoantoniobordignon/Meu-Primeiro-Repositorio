@@ -4,136 +4,134 @@ import { useEffect, useState } from "react";
 
 import { Botao } from "@/components/ui/Botao";
 import { CampoTexto } from "@/components/ui/CampoTexto";
+import { Escolha } from "@/components/ui/Escolha";
 import { Sheet } from "@/components/ui/Sheet";
+import { SheetConfirmar } from "@/components/ui/SheetConfirmar";
 import { useToast } from "@/components/ui/Toast";
 import { consultasCopy as copy } from "@/copy/consultas";
 import { track } from "@/lib/analytics";
-import { tiposConsulta } from "@/lib/consultas";
-import { novoId } from "@/lib/dados/colecao";
-import { consultas, type Consulta } from "@/lib/dados/colecoes";
-import { paraISO } from "@/lib/dates";
+import { papeisProfissional, tiposConsulta } from "@/lib/consultas";
+import { cancelarConsulta, excluirConsulta, salvarConsulta } from "@/lib/consultas-acoes";
+import type { Appointment, AppointmentKind, ProviderRole } from "@/lib/dados/colecoes";
+import { useFuso } from "@/lib/hooks/useFuso";
+import { dataNoFuso, horaNoFuso, instanteLocal, type DataISO } from "@dominio/tempo.ts";
 
 interface Props {
   aberto: boolean;
   onFechar: () => void;
-  consulta?: Consulta | null;
+  consulta?: Appointment | null;
+  /** RN-05: aceitar a sugestão de retorno abre o formulário com a data preenchida. */
+  dataSugerida?: DataISO | null;
 }
 
-function partes(iso?: string): { data: string; hora: string } {
-  if (!iso) return { data: "", hora: "" };
-  const d = new Date(iso);
-  return { data: paraISO(d), hora: d.toTimeString().slice(0, 5) };
-}
+const KINDS = Object.keys(tiposConsulta) as AppointmentKind[];
+const PAPEIS = Object.keys(papeisProfissional) as ProviderRole[];
 
-/** Sheet "Nova consulta": data, hora, tipo, profissional, local. */
-export function SheetConsulta({ aberto, onFechar, consulta }: Props) {
+/** Nova consulta ou editar: data e hora, tipo, profissional, papel e local (RN-01). */
+export function SheetConsulta({ aberto, onFechar, consulta, dataSugerida }: Props) {
+  const tz = useFuso();
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
-  const [tipo, setTipo] = useState<Consulta["tipo"]>("pre_natal");
-  const [profissional, setProfissional] = useState("");
+  const [kind, setKind] = useState<AppointmentKind>("prenatal");
+  const [nome, setNome] = useState("");
+  const [papel, setPapel] = useState<ProviderRole | null>(null);
   const [local, setLocal] = useState("");
-  const [notas, setNotas] = useState("");
   const [tocou, setTocou] = useState(false);
+  const [excluindo, setExcluindo] = useState(false);
   const { mostrar } = useToast();
 
   useEffect(() => {
     if (!aberto) return;
-    const p = partes(consulta?.data);
-    setData(p.data);
-    setHora(p.hora || "09:00");
-    setTipo(consulta?.tipo ?? "pre_natal");
-    setProfissional(consulta?.profissional ?? "");
-    setLocal(consulta?.local ?? "");
-    setNotas(consulta?.notas ?? "");
+    const quando = consulta ? new Date(consulta.starts_at) : null;
+    setData(quando ? dataNoFuso(quando, tz) : (dataSugerida ?? ""));
+    setHora(quando ? horaNoFuso(quando, tz) : "09:00");
+    setKind(consulta?.kind ?? "prenatal");
+    setNome(consulta?.provider_name ?? "");
+    setPapel(consulta?.provider_role ?? null);
+    setLocal(consulta?.location ?? "");
     setTocou(false);
-  }, [aberto, consulta]);
+  }, [aberto, consulta, dataSugerida, tz]);
 
   const valido = Boolean(data && hora);
 
   function salvar() {
     setTocou(true);
     if (!valido) return;
-    const [a, m, d] = data.split("-").map(Number);
-    const [h, min] = hora.split(":").map(Number);
-    const quando = new Date(a!, m! - 1, d!, h, min).toISOString();
-    consultas.salvar({
-      id: consulta?.id ?? novoId(),
-      data: quando,
-      tipo,
-      profissional: profissional.trim() || null,
-      local: local.trim() || null,
-      notas: notas.trim() || null,
-      realizada: consulta?.realizada ?? false,
-    });
-    if (!consulta) track("consulta_criada", { tipo });
-    mostrar(copy.salva);
-    onFechar();
-  }
-
-  function apagar() {
-    if (consulta) consultas.apagar(consulta.id);
-    mostrar(copy.apagada);
+    const salva = salvarConsulta(
+      {
+        starts_at: instanteLocal(data, hora, tz).toISOString(),
+        kind,
+        provider_name: nome.trim().slice(0, 80) || null,
+        provider_role: papel,
+        location: local.trim().slice(0, 120) || null,
+      },
+      consulta,
+    );
+    if (!consulta) track("appt_created", { kind, source: dataSugerida ? "suggestion" : "manual" });
+    mostrar(!consulta && salva.status === "done" ? copy.salvaPassada : copy.salva);
     onFechar();
   }
 
   return (
-    <Sheet
-      aberto={aberto}
-      onFechar={onFechar}
-      titulo={consulta ? copy.editar : copy.nova}
-      rodape={
-        <div className="flex flex-col gap-2">
-          <Botao largura="total" tamanho="lg" onClick={salvar} disabled={tocou && !valido}>
-            {copy.salvar}
-          </Botao>
-          {consulta && (
-            <Botao largura="total" variant="fantasma" onClick={apagar}>
-              {copy.apagar}
+    <>
+      <Sheet
+        aberto={aberto}
+        onFechar={onFechar}
+        titulo={consulta ? copy.editar : copy.nova}
+        rodape={
+          <div className="flex flex-col gap-2">
+            <Botao largura="total" tamanho="lg" onClick={salvar}>
+              {copy.salvar}
             </Botao>
-          )}
-        </div>
-      }
-    >
-      <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-[1fr_120px] gap-3">
-          <CampoTexto rotulo={copy.data} type="date" value={data} onChange={(e) => setData(e.target.value)} erro={tocou && !data ? copy.erroData : undefined} />
-          <CampoTexto rotulo={copy.hora} type="time" value={hora} onChange={(e) => setHora(e.target.value)} />
-        </div>
-
-        <div>
-          <span className="tipo-titulo-secao mb-1.5 block text-texto-mudo">{copy.tipo}</span>
-          <div role="radiogroup" aria-label={copy.tipo} className="flex flex-wrap gap-2">
-            {(Object.keys(tiposConsulta) as Consulta["tipo"][]).map((t) => (
-              <button
-                key={t}
-                type="button"
-                role="radio"
-                aria-checked={tipo === t}
-                onClick={() => setTipo(t)}
-                className={`min-h-11 rounded-pilula border px-4 text-[14px] font-medium ${
-                  tipo === t ? "border-acento bg-acento-suave text-texto" : "border-fio bg-superficie text-texto"
-                }`}
-              >
-                {tiposConsulta[t]}
-              </button>
-            ))}
+            {consulta && (
+              <div className="flex gap-2">
+                {consulta.status === "scheduled" && (
+                  <Botao
+                    largura="total"
+                    variant="secundario"
+                    onClick={() => {
+                      cancelarConsulta(consulta);
+                      track("appt_cancelled", {});
+                      mostrar(copy.cancelada);
+                      onFechar();
+                    }}
+                  >
+                    {copy.cancelar}
+                  </Botao>
+                )}
+                <Botao largura="total" variant="fantasma" onClick={() => setExcluindo(true)}>
+                  {copy.excluir}
+                </Botao>
+              </div>
+            )}
           </div>
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-[1fr_120px] gap-3">
+            <CampoTexto rotulo={copy.data} type="date" value={data} onChange={(e) => setData(e.target.value)} erro={tocou && !valido ? copy.erroData : undefined} />
+            <CampoTexto rotulo={copy.hora} type="time" value={hora} onChange={(e) => setHora(e.target.value)} />
+          </div>
+          <Escolha rotulo={copy.tipo} opcoes={KINDS.map((k) => ({ valor: k, rotulo: tiposConsulta[k] }))} valor={kind} onMudar={setKind} />
+          <CampoTexto rotulo={copy.profissional} value={nome} maxLength={80} onChange={(e) => setNome(e.target.value)} autoComplete="off" />
+          <Escolha rotulo={copy.papel} opcoes={PAPEIS.map((p) => ({ valor: p, rotulo: papeisProfissional[p] }))} valor={papel ?? ("" as ProviderRole)} onMudar={(p) => setPapel((atual) => (atual === p ? null : p))} />
+          <CampoTexto rotulo={copy.local} value={local} maxLength={120} onChange={(e) => setLocal(e.target.value)} autoComplete="off" />
         </div>
-
-        <CampoTexto rotulo={copy.profissional} value={profissional} onChange={(e) => setProfissional(e.target.value)} autoComplete="off" />
-        <CampoTexto rotulo={copy.local} value={local} onChange={(e) => setLocal(e.target.value)} autoComplete="off" />
-        {consulta && (
-          <label className="block">
-            <span className="tipo-titulo-secao mb-1.5 block text-texto-mudo">{copy.notas}</span>
-            <textarea
-              value={notas}
-              onChange={(e) => setNotas(e.target.value)}
-              rows={3}
-              className="block w-full resize-none rounded-card border border-fio bg-superficie px-4 py-3 text-[16px] text-texto focus:outline-none focus:ring-2 focus:ring-primaria"
-            />
-          </label>
-        )}
-      </div>
-    </Sheet>
+      </Sheet>
+      <SheetConfirmar
+        aberto={excluindo}
+        titulo={copy.excluir}
+        texto={copy.excluirConfirma}
+        confirmar={copy.excluir}
+        cancelar={copy.voltar}
+        onFechar={() => setExcluindo(false)}
+        onConfirmar={() => {
+          if (!consulta) return;
+          excluirConsulta(consulta);
+          mostrar(copy.excluida);
+          onFechar();
+        }}
+      />
+    </>
   );
 }

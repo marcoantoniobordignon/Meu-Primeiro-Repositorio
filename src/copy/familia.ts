@@ -24,6 +24,14 @@ export const familiaCopy = {
     cuidador: { titulo: "Cuidador(a)", desc: "Registra e vê o bebê; não vê seus sintomas" },
   },
   semPermissao: "Só quem criou a família convida e remove.",
+  permissoes: {
+    titulo: "O que o parceiro vê",
+    agenda: "Agenda de consultas",
+    agendaApoio: "Data, local, profissional e a pauta. Peso e pressão ficam só com você.",
+    fotos: "Fotos da barriga",
+    fotosApoio: "A grade de semanas, só para ver.",
+    salvo: "Pronto ✓",
+  },
 
   convite: {
     titulo: (quem: string, bebe: string) => `${quem} te convidou para acompanhar ${bebe}`,

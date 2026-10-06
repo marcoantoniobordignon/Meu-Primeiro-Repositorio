@@ -15,9 +15,6 @@ export const home = {
     nenhuma: "Nenhuma consulta marcada",
     adicionar: "Adicionar",
     verTodas: "Ver todas",
-    foiBem: "Foi bem?",
-    sim: "Sim",
-    remarcar: "Remarcar",
   },
 
   chutes: {

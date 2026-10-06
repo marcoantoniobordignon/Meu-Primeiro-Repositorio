@@ -23,8 +23,6 @@ export type Eventos = {
   onb_concluido: { segundos: number; telas_puladas: number };
   // spec 05
   home_gestacao_vista: { semana: number; trimestre: number };
-  consulta_criada: { tipo: string };
-  consulta_realizada: Record<string, never>;
   chutes_sessao: { total: number; minutos: number };
   contracoes_sessao: { n: number; alerta_padrao: boolean };
   // spec 06
@@ -68,6 +66,48 @@ export type Eventos = {
   convite_aberto: { valido: boolean };
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
+  // paywall (disparado pelas funcionalidades 02, 05 e 06)
+  paywall_shown: { feature: "medications" | "belly_video" | "diary"; trigger: "active_limit" | "hd_export" | "audio_limit" };
+  // funcionalidade 02 · medicamentos
+  med_added: { schedule_type: string };
+  med_dose_taken: { source: "push" | "app" | "voice" | "backfill"; minutes_late: number };
+  med_dose_skipped: Record<string, never>;
+  med_dose_snoozed: Record<string, never>;
+  med_adherence_viewed: Record<string, never>;
+  med_voice_logged: { matched: boolean };
+  med_list_shared: Record<string, never>;
+  // funcionalidade 03 · exames
+  exam_reminder_opened: { code: string };
+  exam_scheduled: { code: string; days_to_window_end: number | null };
+  exam_marked_done: { with_document: boolean };
+  exam_dismissed: { code: string };
+  exam_restored: Record<string, never>;
+  exam_custom_added: Record<string, never>;
+  exam_extra_added: { code: string };
+  // funcionalidade 04 · consultas
+  appt_created: { kind: string; source: "manual" | "suggestion" };
+  appt_completed: { has_measures: boolean };
+  appt_cancelled: Record<string, never>;
+  appt_question_added: { source: "text" | "voice" | "partner" };
+  appt_question_asked: Record<string, never>;
+  appt_bring_opened: Record<string, never>;
+  appt_share_tapped: Record<string, never>;
+  appt_reminder_opened: Record<string, never>;
+  // funcionalidade 05 · foto da barriga
+  belly_photo_added: { source: "camera" | "gallery"; replaced: boolean; week: number };
+  belly_photo_deleted: Record<string, never>;
+  belly_reminder_opened: Record<string, never>;
+  belly_timelapse_played: { photos: number };
+  belly_video_export_started: { tier: "free" | "premium" };
+  belly_video_exported: { tier: "free" | "premium"; ok: boolean };
+  belly_photo_shared: Record<string, never>;
+  // funcionalidade 06 · diário
+  diary_entry_created: { kind: "free" | "milestone"; milestone_code: string | null; has_audio: boolean; photos: number; source: "text" | "dictation" };
+  diary_milestone_shown: { code: string };
+  diary_milestone_skipped: { code: string };
+  diary_milestone_snoozed: { code: string };
+  diary_entry_shared_partner: Record<string, never>;
+  diary_search_used: Record<string, never>;
 };
 
 type Gtag = (comando: "event", nome: string, params?: Record<string, unknown>) => void;

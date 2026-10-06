@@ -1,14 +1,25 @@
 import type { Colecao, Registro } from "@/lib/dados/colecao";
 import {
+  appointmentMeasures,
+  appointmentQuestions,
+  appointments,
   bebes,
-  consultas,
+  bellyPhotos,
   conteudosLidos,
   contracoes,
+  diaryEntries,
+  diaryMilestoneStates,
+  diaryPhotos,
+  medicalDocuments,
+  medicationDoses,
+  medications,
   posPartoCheckins,
   registrosBebe,
   sessoesChutes,
   sintomas,
+  userExams,
 } from "@/lib/dados/colecoes";
+import { normalizarHora } from "@dominio/tempo.ts";
 import type { NomeTabela } from "@/lib/supabase/types.generated";
 
 /**
@@ -21,13 +32,38 @@ export interface Mapeamento {
   tabela: NomeTabela;
   /** Coluna(s) do ON CONFLICT do upsert. */
   conflito: string;
+  /** Ajuste do que vem do Postgres para o formato local (ex.: `time` volta como "08:00:00"). */
+  doServidor?: (linha: Record<string, unknown>) => Record<string, unknown>;
+}
+
+/** `time` e `time[]` do Postgres voltam com segundos; o app usa "HH:MM". */
+export function normalizarMedicamento(linha: Record<string, unknown>): Record<string, unknown> {
+  const times = Array.isArray(linha.times) ? (linha.times as string[]).map(normalizarHora) : linha.times;
+  const anchor = typeof linha.interval_anchor === "string" ? normalizarHora(linha.interval_anchor) : linha.interval_anchor;
+  return { ...linha, times, interval_anchor: anchor };
+}
+
+/** `numeric` pode voltar como texto conforme o driver; o app usa número. */
+export function normalizarMedidas(linha: Record<string, unknown>): Record<string, unknown> {
+  const num = (v: unknown) => (v === null || v === undefined || v === "" ? null : Number(v));
+  return { ...linha, weight_kg: num(linha.weight_kg), fundal_height_cm: num(linha.fundal_height_cm) };
 }
 
 export const mapeamentos: Mapeamento[] = [
   { colecao: bebes as Colecao<Registro>, tabela: "bebes", conflito: "id" },
   { colecao: registrosBebe as Colecao<Registro>, tabela: "registros", conflito: "id" },
   { colecao: sintomas as Colecao<Registro>, tabela: "sintomas", conflito: "id" },
-  { colecao: consultas as Colecao<Registro>, tabela: "consultas", conflito: "id" },
+  { colecao: appointments as Colecao<Registro>, tabela: "appointments", conflito: "id" },
+  { colecao: appointmentQuestions as Colecao<Registro>, tabela: "appointment_questions", conflito: "id" },
+  { colecao: appointmentMeasures as Colecao<Registro>, tabela: "appointment_measures", conflito: "id", doServidor: normalizarMedidas },
+  { colecao: medications as Colecao<Registro>, tabela: "medications", conflito: "id", doServidor: normalizarMedicamento },
+  { colecao: medicationDoses as Colecao<Registro>, tabela: "medication_doses", conflito: "id" },
+  { colecao: medicalDocuments as Colecao<Registro>, tabela: "medical_documents", conflito: "id" },
+  { colecao: userExams as Colecao<Registro>, tabela: "user_exams", conflito: "id" },
+  { colecao: bellyPhotos as Colecao<Registro>, tabela: "belly_photos", conflito: "id" },
+  { colecao: diaryEntries as Colecao<Registro>, tabela: "diary_entries", conflito: "id" },
+  { colecao: diaryPhotos as Colecao<Registro>, tabela: "diary_photos", conflito: "id" },
+  { colecao: diaryMilestoneStates as Colecao<Registro>, tabela: "diary_milestone_states", conflito: "id" },
   { colecao: sessoesChutes as Colecao<Registro>, tabela: "sessoes_chutes", conflito: "id" },
   { colecao: contracoes as Colecao<Registro>, tabela: "contracoes", conflito: "id" },
   { colecao: posPartoCheckins as Colecao<Registro>, tabela: "pos_parto_checkins", conflito: "id" },

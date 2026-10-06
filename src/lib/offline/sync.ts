@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
 import { conteudosRemotos, membros, type Membro, type Papel } from "@/lib/dados/colecoes";
+import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
+import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
+import { migrarConsultasAntigas } from "@/lib/consultas-acoes";
 import { garantirSessaoAnonima, sessaoAtual, sincronizarSessao } from "@/lib/sessao";
 import { chamarRpc, supabase, supabaseConfigurado, tabela, type Cliente } from "@/lib/supabase/client";
 import type { NomeTabela } from "@/lib/supabase/types.generated";
@@ -85,7 +88,7 @@ export async function puxar(sb: Cliente): Promise<void> {
     const { data, error } = await tabela(sb, m.tabela).select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
     if (error || !data) continue;
     const linhas = data as { id: string; atualizado_em: string }[];
-    m.colecao.mesclar(linhas as never);
+    m.colecao.mesclar((m.doServidor ? linhas.map((l) => m.doServidor!(l)) : linhas) as never);
     const maior = linhas[linhas.length - 1]?.atualizado_em;
     if (maior) ultima[m.tabela] = maior;
   }
@@ -109,7 +112,7 @@ async function puxarConteudos(sb: Cliente, ultima: Record<string, string>): Prom
 async function puxarFamilia(sb: Cliente): Promise<void> {
   const [{ data: fam }, { data: lista }] = await Promise.all([
     chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null }[]>(sb, "minha_familia"),
-    chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string }[]>(sb, "meus_membros"),
+    chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string; permissoes: PermissoesParceiro | null }[]>(sb, "meus_membros"),
   ]);
   const f = fam?.[0];
   if (f) {
@@ -129,6 +132,7 @@ async function puxarFamilia(sb: Cliente): Promise<void> {
       papel: l.papel as Papel,
       convidado_por: l.convidado_por,
       ultimo_acesso_em: l.ultimo_acesso_em,
+      permissoes: l.permissoes ?? {},
       atualizado_em: new Date().toISOString(),
       apagado_em: null,
     };
@@ -153,6 +157,13 @@ async function promoverSessao(): Promise<boolean> {
   return true;
 }
 
+/** Quem precisa reagir ao que chegou do servidor (doses, exames) se registra aqui. */
+const aposSincronizar = new Set<() => void>();
+export function aoSincronizar(cb: () => void): () => void {
+  aposSincronizar.add(cb);
+  return () => aposSincronizar.delete(cb);
+}
+
 export async function sincronizar(): Promise<void> {
   if (rodando || !supabaseConfigurado() || typeof navigator !== "undefined" && !navigator.onLine) return;
   const sb = await supabase();
@@ -164,7 +175,10 @@ export async function sincronizar(): Promise<void> {
     avisar({ remoto: remota });
     if (!remota) return;
     await empurrar(sb);
+    // Arquivos depois das linhas: a policy do Storage exige a linha que referencia o arquivo.
+    await sincronizarArquivos(sb);
     await puxar(sb);
+    aposSincronizar.forEach((cb) => cb());
   } catch {
     /* tenta de novo no próximo ciclo */
   } finally {
@@ -185,6 +199,8 @@ export function enfileirarPerfil(p: Perfil) {
     bebe_ativo_id: p.bebeAtivoId ?? null,
     telefone_equipe: p.telefoneEquipe ?? null,
     onboarding_concluido_em: p.onboardingConcluidoEm,
+    ...(p.tz ? { tz: p.tz } : {}),
+    prefs: p.prefs ?? {},
     ultimo_acesso_em: new Date().toISOString(),
     atualizado_em: new Date().toISOString(),
   });
@@ -194,6 +210,8 @@ export function enfileirarPerfil(p: Perfil) {
 export function iniciarSincronizacao() {
   if (iniciado || typeof window === "undefined") return;
   iniciado = true;
+  // Funcionalidade 04: a antiga `consultas` vira `appointments` antes de qualquer envio.
+  const migracao = migrarConsultasAntigas().catch(() => 0);
   avisar({ online: navigator.onLine, remoto: sessaoAtual()?.remota ?? false });
   void contarPendentes();
   assinarOutbox(() => void contarPendentes());
@@ -220,7 +238,7 @@ export function iniciarSincronizacao() {
     }),
   );
   timer = window.setInterval(() => void sincronizar(), 60_000);
-  void sincronizar();
+  void migracao.then(() => sincronizar());
 }
 
 export function pararSincronizacao() {

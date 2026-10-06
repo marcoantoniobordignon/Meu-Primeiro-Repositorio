@@ -1,4 +1,6 @@
 import type { DataISO } from "@/lib/dates";
+import type { PermissoesParceiro } from "@/lib/familia/regras";
+import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
 
 import { criarColecao, type Registro } from "./colecao";
 
@@ -11,14 +13,150 @@ export interface Sintoma extends Registro {
   origem: "chip" | "sheet" | "onboarding" | "voz";
 }
 
-/** Spec 05 */
-export interface Consulta extends Registro {
-  data: string; // ISO datetime local
-  tipo: "pre_natal" | "ultrassom" | "exame" | "outro";
-  profissional?: string | null;
-  local?: string | null;
-  realizada: boolean;
-  notas?: string | null;
+/**
+ * Specs das funcionalidades 02–06 (specs/funcionalidades): nomes de tabela, coluna e
+ * valor como na spec; as colunas de infraestrutura seguem a régua do projeto
+ * (familia_id no lugar de pregnancy_id, criado_por no lugar de created_by/author_id,
+ * criado_em/atualizado_em/apagado_em no lugar de created_at/updated_at).
+ */
+
+/** Funcionalidade 04 · Cronograma de consultas (substitui a antiga `consultas` da spec 05). */
+export type AppointmentKind = "prenatal" | "ultrasound" | "other";
+export type ProviderRole = "obstetrician" | "midwife" | "nurse" | "nutritionist" | "dentist" | "other";
+export type AppointmentStatus = "scheduled" | "done" | "cancelled";
+
+export interface Appointment extends Registro {
+  starts_at: string;
+  kind: AppointmentKind;
+  provider_name: string | null;
+  provider_role: ProviderRole | null;
+  location: string | null;
+  status: AppointmentStatus;
+  /** RN-07: "Como foi a consulta?" aparece uma única vez; dispensar grava aqui. */
+  followup_dismissed: boolean;
+}
+
+export interface AppointmentQuestion extends Registro {
+  /** null = "para a próxima consulta" (RN-02). */
+  appointment_id: string | null;
+  text: string;
+  was_asked: boolean;
+  answer: string | null;
+  position: number;
+  criado_por?: string;
+}
+
+/**
+ * Medidas e orientações do pós-consulta. `notes_after` mora aqui (e não em
+ * `appointments`) porque esta tabela é só da gestante: o parceiro nunca vê (RN-10).
+ * `id` = `appointment_id`.
+ */
+export interface AppointmentMeasures extends Registro {
+  appointment_id: string;
+  weight_kg: number | null;
+  bp_sys: number | null;
+  bp_dia: number | null;
+  fundal_height_cm: number | null;
+  fetal_heart_rate: number | null;
+  notes_after: string | null;
+}
+
+/** Funcionalidade 02 · Medicamentos */
+export type CorMedicamento = "primaria" | "acento";
+
+export interface Medication extends Registro {
+  name: string;
+  dose: string | null;
+  instructions: string | null;
+  schedule_type: ScheduleType;
+  times: string[] | null;
+  interval_hours: number | null;
+  interval_anchor: string | null;
+  weekdays: number[] | null;
+  starts_on: DataISO;
+  ends_on: DataISO | null;
+  is_active: boolean;
+  /** RN-15: lembrete desligado mantém o registro manual. */
+  reminders_on: boolean;
+  color_key: CorMedicamento;
+}
+
+export interface MedicationDose extends Registro {
+  medication_id: string;
+  scheduled_at: string | null;
+  status: DoseStatus;
+  taken_at: string | null;
+  source: DoseSource | null;
+  /** RN-05 */
+  snooze_count: number;
+  snoozed_until: string | null;
+}
+
+/** Funcionalidade 03 · Exames */
+export type ExamStatus = "to_schedule" | "scheduled" | "done" | "dismissed";
+
+export interface UserExam extends Registro {
+  catalog_code: string | null;
+  custom_name: string | null;
+  status: ExamStatus;
+  window_start_date: DataISO | null;
+  window_end_date: DataISO | null;
+  past_window: boolean;
+  /** RN-09: janela opcional em semanas do exame personalizado (recalcula com a DUM). */
+  window_start_week: number | null;
+  window_end_week: number | null;
+  scheduled_at: string | null;
+  scheduled_all_day: boolean;
+  location: string | null;
+  notes: string | null;
+  done_on: DataISO | null;
+  document_id: string | null;
+}
+
+/** Ponte para a galeria (funcionalidade 01): o resultado anexado a um exame. */
+export interface MedicalDocument extends Registro {
+  kind: string;
+  title: string;
+  storage_path: string;
+  mime: string;
+  taken_on: DataISO;
+}
+
+/** Funcionalidade 05 · Foto da barriga */
+export interface BellyPhoto extends Registro {
+  gest_week: number;
+  taken_on: DataISO;
+  storage_path: string;
+  width: number;
+  height: number;
+  caption: string | null;
+  criado_por?: string;
+}
+
+/** Funcionalidade 06 · Diário */
+export interface DiaryEntry extends Registro {
+  kind: "free" | "milestone";
+  milestone_code: string | null;
+  body: string | null;
+  entry_date: DataISO;
+  audio_path: string | null;
+  audio_seconds: number | null;
+  shared_with_partner: boolean;
+  criado_por?: string;
+}
+
+export interface DiaryPhoto extends Registro {
+  entry_id: string;
+  position: 1 | 2 | 3;
+  storage_path: string;
+}
+
+/** RN-03: "Pular" e "Mais tarde" por autora e marco (id determinístico). */
+export interface DiaryMilestoneState extends Registro {
+  milestone_code: string;
+  skipped_at: string | null;
+  snoozed_until: string | null;
+  criado_por?: string;
 }
 
 export interface SessaoChutes extends Registro {
@@ -98,6 +236,8 @@ export interface Membro extends Registro {
   papel: Papel;
   convidado_por?: string | null;
   ultimo_acesso_em: string;
+  /** Funcionalidades 04/05: o que a gestante liberou para o parceiro. */
+  permissoes?: PermissoesParceiro;
 }
 
 export interface Convite extends Registro {
@@ -116,7 +256,17 @@ export interface VozPendente extends Registro {
 }
 
 export const sintomas = criarColecao<Sintoma>("ninho.sintomas");
-export const consultas = criarColecao<Consulta>("ninho.consultas");
+export const appointments = criarColecao<Appointment>("ninho.appointments");
+export const appointmentQuestions = criarColecao<AppointmentQuestion>("ninho.appointment_questions");
+export const appointmentMeasures = criarColecao<AppointmentMeasures>("ninho.appointment_measures");
+export const medications = criarColecao<Medication>("ninho.medications");
+export const medicationDoses = criarColecao<MedicationDose>("ninho.medication_doses");
+export const userExams = criarColecao<UserExam>("ninho.user_exams");
+export const medicalDocuments = criarColecao<MedicalDocument>("ninho.medical_documents");
+export const bellyPhotos = criarColecao<BellyPhoto>("ninho.belly_photos");
+export const diaryEntries = criarColecao<DiaryEntry>("ninho.diary_entries");
+export const diaryPhotos = criarColecao<DiaryPhoto>("ninho.diary_photos");
+export const diaryMilestoneStates = criarColecao<DiaryMilestoneState>("ninho.diary_milestone_states");
 export const sessoesChutes = criarColecao<SessaoChutes>("ninho.sessoes_chutes");
 export const contracoes = criarColecao<Contracao>("ninho.contracoes");
 export const conteudosLidos = criarColecao<ConteudoLido>("ninho.conteudos_lidos");
@@ -132,7 +282,17 @@ export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>
 
 export const todasColecoes = [
   sintomas,
-  consultas,
+  appointments,
+  appointmentQuestions,
+  appointmentMeasures,
+  medications,
+  medicationDoses,
+  userExams,
+  medicalDocuments,
+  bellyPhotos,
+  diaryEntries,
+  diaryPhotos,
+  diaryMilestoneStates,
   sessoesChutes,
   contracoes,
   conteudosLidos,

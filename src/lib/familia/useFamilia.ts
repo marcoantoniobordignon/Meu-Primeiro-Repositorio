@@ -28,5 +28,5 @@ export function useFamilia() {
     }
   }, [perfil, eu, id]);
 
-  return { membros: lista, meuId: id, papel, permissoes: permissoes(papel) };
+  return { membros: lista, meuId: id, papel, permissoes: permissoes(papel, eu?.permissoes) };
 }

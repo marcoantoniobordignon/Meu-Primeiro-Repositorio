@@ -52,3 +52,11 @@ export async function iniciarCortesiaRemota(nascidoEm: string): Promise<string |
   if (error) return null;
   return data ?? null;
 }
+
+/** Funcionalidades 04/05: a gestante liga e desliga o que o parceiro vê. */
+export async function definirPermissoesRemoto(profileId: string, permissoes: Record<string, boolean>): Promise<void> {
+  const sb = await supabase();
+  if (!sb) return;
+  const { error } = await chamarRpc<null>(sb, "definir_permissoes_parceiro", { p_profile_id: profileId, p_permissoes: permissoes });
+  if (error) throw new Error(error.message);
+}

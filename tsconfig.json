@@ -32,8 +32,12 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@dominio/*": [
+        "./supabase/functions/_shared/dominio/*"
       ]
-    }
+    },
+    "allowImportingTsExtensions": true
   },
   "include": [
     "next-env.d.ts",

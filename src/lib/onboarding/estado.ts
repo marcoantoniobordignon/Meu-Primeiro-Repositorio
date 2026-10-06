@@ -1,4 +1,5 @@
 import type { DataISO } from "@/lib/dates";
+import type { Prefs } from "@dominio/prefs.ts";
 
 /**
  * Estado do onboarding, persistido em localStorage (ONB-04):
@@ -43,6 +44,10 @@ export interface Perfil {
   papel?: "mae" | "parceiro" | "avo" | "cuidador";
   /** Para o botão "ligar para minha equipe" (spec 11). */
   telefoneEquipe?: string;
+  /** `profiles.tz`: fuso IANA do aparelho; lembretes e doses seguem a hora local dele (medicamentos RN-03). */
+  tz?: string;
+  /** `profiles.prefs` (foto da barriga, modo fé, notificações). */
+  prefs?: Prefs;
   onboardingConcluidoEm: string;
 }
 
