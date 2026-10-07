@@ -88,6 +88,14 @@ export type Eventos = {
   letter_unsealed: Record<string, never>;
   letter_share_link_created: Record<string, never>;
   letter_exported: Record<string, never>;
+  // funcionalidade 07 · retrospectiva (nunca o conteúdo dos slides)
+  retro_preview_shown: Record<string, never>;
+  retro_opened: { kind: "preview" | "final" };
+  retro_slide_viewed: { index: number; type: string };
+  retro_slide_hidden: { type: string };
+  retro_exported: { format: "video" | "png"; tier: "free" | "premium" };
+  retro_shared: Record<string, never>;
+  birth_registered: { weeks_at_birth: number; has_weight: boolean };
   // funcionalidade 15 · nomes (nunca o nome em si)
   names_swipe: { vote: "like" | "dislike" };
   names_undo: Record<string, never>;

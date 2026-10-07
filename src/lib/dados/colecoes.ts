@@ -213,6 +213,9 @@ export interface Bebe extends Registro {
   aviso_soneca: boolean;
   /** VIR-06: "não nasceu ainda" só nas primeiras 24 h após registrar. */
   registrado_em: string;
+  /** Funcionalidade 07 RN-10: opcionais. */
+  peso_g?: number | null;
+  comprimento_cm?: number | null;
 }
 
 export type TipoRegistroBebe = "sono" | "mamada" | "fralda" | "banho" | "outro";
@@ -382,6 +385,14 @@ export interface Aviso extends Registro {
   criado_em: string;
 }
 
+/** Funcionalidade 07 · Retrospectiva */
+export interface Retrospectiva extends Registro {
+  kind: "preview" | "final";
+  hidden_slides: string[];
+  chosen_entries: Partial<Record<string, { entrada: string } | { texto: string }>>;
+  last_exported_at: string | null;
+}
+
 /** Spec 08 */
 export interface VozPendente extends Registro {
   transcricao: string;
@@ -433,6 +444,8 @@ export const nomesRemotos = criarColecao<NomeRemoto>("ninho.names_catalog");
 export const nameVotes = criarColecao<NameVote>("ninho.name_votes");
 export const nameMatches = criarColecao<NameMatch>("ninho.name_matches");
 export const cartas = criarColecao<Carta>("ninho.letters");
+/** Funcionalidade 07: só a configuração (ocultos e frases); os slides são montados na hora. */
+export const retrospectivas = criarColecao<Retrospectiva>("ninho.retrospectives");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -471,4 +484,5 @@ export const todasColecoes = [
   rightsFavoritos,
   nameVotes,
   cartas,
+  retrospectivas,
 ];

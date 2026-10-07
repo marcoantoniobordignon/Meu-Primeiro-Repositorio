@@ -42,6 +42,22 @@
   --utero-texto-mudo: #d9b8ab;
   --utero-vidro: rgba(42, 18, 16, 0.55);
 
+  /* Funcionalidade 07: a retrospectiva tem paleta própria, fixa (o vídeo sai igual no claro e no escuro).
+     Papel quente para os slides claros, noite quente para os escuros; coral, teal e ouro só em detalhe. */
+  --retro-papel: #f8f1ea;
+  --retro-papel-fundo: #efe1d5;
+  --retro-tinta: #2b2a28;
+  --retro-tinta-suave: #6b645e;
+  --retro-noite: #1d1315;
+  --retro-noite-fundo: #3b2226;
+  --retro-luz: #fff4ea;
+  --retro-luz-suave: #dcc6b9;
+  --retro-coral: #f0707d;
+  /* Coral para texto pequeno no papel (o coral puro não passa AA no claro). */
+  --retro-coral-tinta: #a8394a;
+  --retro-teal: #31bcd3;
+  --retro-ouro: #f6c27a;
+
   /* Única sombra permitida: o botão "+" flutuante. */
   --sombra-mais: 0 8px 18px rgba(49, 188, 211, 0.4);
 

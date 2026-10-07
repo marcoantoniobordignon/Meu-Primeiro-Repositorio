@@ -1,6 +1,6 @@
 "use client";
 
-import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, Church, ClipboardList, Droplets, FlaskConical, FolderHeart, Heart, Mail, NotebookPen, Pill, Scale, Sparkles, Users } from "lucide-react";
+import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, Church, ClipboardList, Droplets, FlaskConical, FolderHeart, Heart, Mail, NotebookPen, Pill, Scale, Sparkles, Users, BookHeart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -119,6 +119,7 @@ export default function PaginaEu() {
           {gestacao && atalho("/artigos", copy.artigos, BookOpen)}
           {gestacao && (papel === "mae" || papel === "parceiro") && atalho("/nomes", copy.nomes, Baby)}
           {(papel === "mae" || papel === "parceiro") && atalho("/cartas", copy.cartas, Mail)}
+          {papel === "mae" && atalho("/memorias", copy.memorias, BookHeart)}
           {atalho("/direitos", copy.direitos, Scale)}
           {atalho("/faq", copy.faq, Apple)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}

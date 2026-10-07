@@ -21,6 +21,7 @@ export const euCopy = {
   direitos: "Seus direitos",
   nomes: "Nomes do bebê",
   cartas: "Cartas para o bebê",
+  memorias: "Memórias",
   artigos: "Artigos da gravidez",
   planoParto: "Plano de parto, malas e enxoval",
   avisos: "Avisos",

@@ -3,6 +3,12 @@
  * monta os textos; `src/copy/lembretes.ts` re-exporta para o app. Frases curtas, tom "a gente".
  */
 export const textosLembretes = {
+  // Funcionalidade 07: retrospectiva.
+  retro: {
+    previa: "Sua história até aqui",
+    final: "Sua retrospectiva está pronta",
+    corpo: "Fotos, marcos e números da gravidez, em uma história para guardar.",
+  },
   // Funcionalidade 14: cartas (push e e-mails; o título é da própria autora).
   carta: {
     pushTitulo: "Uma carta pode ser aberta hoje",

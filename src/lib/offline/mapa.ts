@@ -13,6 +13,7 @@ import {
   rightsFavoritos,
   nameVotes,
   cartas,
+  retrospectivas,
   appointments,
   bebes,
   bellyPhotos,
@@ -103,6 +104,8 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: nameVotes as Colecao<Registro>, tabela: "name_votes", conflito: "id", soLocal: ["criado_por"] },
   // Funcionalidade 14: a carta sobe por `salvar_carta` e volta por `letters_visible` (o lacre vale no banco).
   { colecao: cartas as Colecao<Registro>, tabela: "letters", conflito: "id", soLocal: ["criado_por"], rpcEscrita: "salvar_carta", leitura: "letters_visible" },
+  // Funcionalidade 07: só a gestante (RLS); família e autor vêm dos triggers.
+  { colecao: retrospectivas as Colecao<Registro>, tabela: "retrospectives", conflito: "id" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

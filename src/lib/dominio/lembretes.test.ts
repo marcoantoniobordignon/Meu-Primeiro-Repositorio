@@ -5,8 +5,8 @@ import { planejar as planejarTudo, selecionarParaEnvio, TOLERANCIA_MS, type Esta
 import type { DoseBase } from "@dominio/medicamentos.ts";
 import { dumDaDpp, horaNoFuso, dataNoFuso, instanteLocal, MS_HORA, MS_MIN, somarDiasISO } from "@dominio/tempo.ts";
 
-// A virada de trimestre (funcionalidade 11) tem os testes dela em trimestre.test.ts; aqui, as outras categorias.
-const planejar = (e: EstadoParaLembretes) => planejarTudo(e).filter((l) => l.categoria !== "trimester");
+// A virada de trimestre (11) e a retrospectiva (07) têm os testes delas (trimestre.test.ts, retrospectiva.test.ts).
+const planejar = (e: EstadoParaLembretes) => planejarTudo(e).filter((l) => l.categoria !== "trimester" && l.categoria !== "retro");
 
 const SP = "America/Sao_Paulo";
 const DPP = "2027-03-08";

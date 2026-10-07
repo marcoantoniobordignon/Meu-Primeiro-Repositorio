@@ -17,6 +17,7 @@ import { CardsAtivos } from "@/components/features/home/CardsAtivos";
 import { CardsDoTrimestre } from "@/components/features/home/CardsDoTrimestre";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
+import { CardRetrospectiva } from "@/components/features/retrospectiva/CardRetrospectiva";
 import { HomeParceiro } from "@/components/features/parceiro/HomeParceiro";
 import { CardQualMaternidade } from "@/components/features/plano/CardQualMaternidade";
 import { SheetChutes } from "@/components/features/registrar/SheetChutes";
@@ -136,6 +137,8 @@ export default function PaginaHoje() {
       ) : modo === "bebe" && ativo ? (
         <>
           <AnelPrimeiroAno bebe={ativo} />
+          {/* Funcionalidade 07: "Sua retrospectiva está pronta" no primeiro mês. */}
+          <CardRetrospectiva modo="bebe" nascidoEm={ativo.nascido_em} />
           <CardSoneca bebe={ativo} />
           <TilesBebe bebeId={ativo.id} onAbrir={(tipo) => setSheetBebe({ tipo })} />
           <Link href="/registrar" className="tipo-meta flex items-center gap-2 rounded-pilula bg-superficie px-4 py-2.5 [[data-tema=escuro]_&]:border [[data-tema=escuro]_&]:border-fio">
@@ -155,6 +158,8 @@ export default function PaginaHoje() {
             </div>
           )}
           <CardsAtivos onAbrirChutes={() => setSheet("chutes")} onAbrirContracoes={() => setSheet("contracoes")} />
+          {/* Funcionalidade 07 RN-01: "Sua história até aqui" a partir de 36s0d. */}
+          <CardRetrospectiva modo="gestacao" />
           {papel === "mae" && <CardQualMaternidade semana={g?.semana ?? null} />}
           {/* Funcionalidade 11 RN-02: anel e até 6 cards na ordem do trimestre (consulta, exames, plano...). */}
           {g && <CardsDoTrimestre perfil={perfil} g={g} />}

@@ -10,6 +10,7 @@ import { lembretesDeEventos, type EventoCalendario } from "./calendario.ts";
 import { lembretesDoPlano, type ItemLista, type PlanoParto } from "./plano-parto.ts";
 import { lembretesDeVirada } from "./trimestre.ts";
 import { lembreteDoBatismo, oracaoNaVirada } from "./fe.ts";
+import { lembretesDaRetrospectiva } from "./retrospectiva.ts";
 import { pautaDaConsulta, proximaConsulta, type ConsultaBase, type PerguntaBase } from "./consultas.ts";
 import { lembretesDaSemana } from "./barriga.ts";
 import { CATALOGO_MARCOS, DIAS_PUSH_DESCOBERTA, estadoDoMarco, marcoVisivel, perguntaDoMarco, type SituacaoMarco } from "./diario.ts";
@@ -19,7 +20,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "trimester" | "faith";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "trimester" | "faith" | "retro";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {
@@ -215,6 +216,8 @@ export function planejar(e: EstadoParaLembretes): Lembrete[] {
     ...lembretesDeVirada({ dpp: e.dpp, tz: e.tz, criadaEm: e.criadaEm }),
     // Funcionalidade 17 RN-07: batismo aos 14 dias do nascimento (só com o modo fé).
     ...lembreteDoBatismo({ nascidoEm: e.nascidoEm, tz: e.tz, modoFe: prefs.faith_mode }),
+    // Funcionalidade 07 RN-09: a retrospectiva pronta (prévia na semana 38; final no dia seguinte ao nascimento).
+    ...lembretesDaRetrospectiva({ dpp: e.dpp, nascidoEm: e.nascidoEm ?? null, tz: e.tz, criadaEm: e.criadaEm, titulos: t.retro }),
   ];
   // Funcionalidade 17 RN-08: a oração da semana embutida na virada, só se ela ligou em Ajustes.
   return oracaoNaVirada(lista, { dpp: e.dpp, agora: e.agora, tz: e.tz, modoFe: prefs.faith_mode, oracaoNoPush: prefs.faith_weekly_push });
