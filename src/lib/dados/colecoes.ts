@@ -142,6 +142,8 @@ export interface DiaryEntry extends Registro {
   audio_path: string | null;
   audio_seconds: number | null;
   shared_with_partner: boolean;
+  /** Permite ao banco checar "texto, áudio ou foto" (RN-01) sem depender da ordem de envio. */
+  photo_count: number;
   criado_por?: string;
 }
 

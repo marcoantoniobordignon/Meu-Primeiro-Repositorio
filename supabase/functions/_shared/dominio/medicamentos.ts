@@ -209,3 +209,32 @@ export function horariosDeLembrete(d: DoseBase): { tipo: "principal" | "reforco"
     { tipo: "reforco", em: new Date(t0 + REFORCO_APOS_MS) },
   ];
 }
+
+export interface Manutencao {
+  arquivar: string[];
+  criar: DoseBase[];
+  apagar: string[];
+  semRegistro: string[];
+}
+
+/**
+ * Job diário do modelo de dados (o servidor roda a cada execução; é idempotente):
+ * arquiva o que passou do fim, materializa os próximos 7 dias e marca "missed".
+ * O app faz o mesmo no aparelho; os ids determinísticos impedem duplicar.
+ */
+export function manutencaoDasDoses(meds: MedicamentoAgenda[], doses: DoseBase[], agora: Date, tz: string): Manutencao {
+  const arquivar: string[] = [];
+  const criar: DoseBase[] = [];
+  const apagar: string[] = [];
+  for (const m of meds) {
+    const atual = deveArquivar(m, agora, tz) ? (arquivar.push(m.id), { ...m, is_active: false }) : m;
+    const r = reconciliarDoses(atual, doses, agora, tz, (b) => b);
+    criar.push(...r.criar);
+    apagar.push(...r.apagar);
+  }
+  const apagadas = new Set(apagar);
+  const semRegistro = dosesSemRegistro(doses, agora)
+    .filter((d) => !apagadas.has(d.id))
+    .map((d) => d.id);
+  return { arquivar, criar, apagar, semRegistro };
+}

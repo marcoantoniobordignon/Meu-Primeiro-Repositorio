@@ -6,7 +6,12 @@ import { useEffect } from "react";
 import { FaixaRede } from "@/components/ui/FaixaRede";
 import { TabBar } from "@/components/ui/TabBar";
 import { track } from "@/lib/analytics";
-import { fusoDoAparelho, useManutencaoDoses } from "@/lib/medicamentos/acoes";
+import { useManutencaoExames } from "@/lib/exames/acoes";
+import { useContextoExames } from "@/lib/exames/useExames";
+import { meuId } from "@/lib/familia/useFamilia";
+import { useLembretesNoAparelho } from "@/lib/lembretes/local";
+import { garantirInscricao } from "@/lib/lembretes/push";
+import { fusoDe, fusoDoAparelho, useManutencaoDoses } from "@/lib/medicamentos/acoes";
 import { estaInstalado, estaOnline } from "@/lib/plataforma";
 import { atualizarPerfil, usePerfil } from "@/lib/perfil";
 
@@ -30,7 +35,15 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (perfil && tz !== fusoDoAparelho()) atualizarPerfil({ tz: fusoDoAparelho() });
   }, [perfil, tz]);
-  useManutencaoDoses(tz, Boolean(perfil) && (perfil?.papel ?? "mae") === "mae");
+  const gestante = Boolean(perfil) && (perfil?.papel ?? "mae") === "mae";
+  useManutencaoDoses(tz, gestante);
+  // Exames RN-01/02: a lista nasce com a gestação e acompanha a DUM.
+  const ctxExames = useContextoExames();
+  useManutencaoExames(gestante ? ctxExames : null);
+  useLembretesNoAparelho(gestante ? perfil : null, meuId(), fusoDe(tz));
+  useEffect(() => {
+    if (gestante) void garantirInscricao();
+  }, [gestante]);
 
   if (!perfil) return <div className="min-h-dvh bg-fundo" aria-busy="true" />;
 

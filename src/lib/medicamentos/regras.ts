@@ -230,11 +230,11 @@ export function casarMedicamento(dito: string, meds: Medication[]): Medication[]
   return lista.filter((x) => palavras(x.n).some((w) => qs.some((p) => p === w || w.startsWith(p) || p.startsWith(w)))).map((x) => x.m);
 }
 
-/** Dose pendente do medicamento mais próxima de agora (para a confirmação por voz). */
-export function dosePendenteMaisProxima(doses: MedicationDose[], medicationId: string, agora: Date): MedicationDose | undefined {
+/** Dose pendente do medicamento mais próxima de agora, a até 12 h (para a confirmação por voz). */
+export function dosePendenteMaisProxima(doses: MedicationDose[], medicationId: string, agora: Date, janelaH = 12): MedicationDose | undefined {
   const t = agora.getTime();
   return dosesVivas(doses)
-    .filter((d) => d.medication_id === medicationId && d.status === "pending" && d.scheduled_at)
+    .filter((d) => d.medication_id === medicationId && d.status === "pending" && d.scheduled_at && Math.abs(new Date(d.scheduled_at).getTime() - t) <= janelaH * 3_600_000)
     .sort((a, b) => Math.abs(new Date(a.scheduled_at!).getTime() - t) - Math.abs(new Date(b.scheduled_at!).getTime() - t))[0];
 }
 

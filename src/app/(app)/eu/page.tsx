@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Bookmark, CalendarDays, ChevronRight, NotebookPen, Users } from "lucide-react";
+import { Baby, Bookmark, CalendarDays, Camera, ChevronRight, FlaskConical, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,15 +8,19 @@ import { useState } from "react";
 import { Botao } from "@/components/ui/Botao";
 import { CampoTexto } from "@/components/ui/CampoTexto";
 import { Card } from "@/components/ui/Card";
+import { Interruptor } from "@/components/ui/Interruptor";
 import { useTema, type Tema } from "@/components/ui/ProvedorTema";
 import { Sheet } from "@/components/ui/Sheet";
+import { AtivarAvisos } from "@/components/features/lembretes/AtivarAvisos";
 import { euCopy as copy } from "@/copy/eu";
 import { onboarding as onbCopy } from "@/copy/onboarding";
 import { track } from "@/lib/analytics";
 import { todasColecoes } from "@/lib/dados/colecoes";
 import { ehISOValida } from "@/lib/dates";
 import { limparEstado } from "@/lib/onboarding/estado";
+import { useFamilia } from "@/lib/familia/useFamilia";
 import { atualizarPerfil, limparPerfil, usePerfil } from "@/lib/perfil";
+import { prefsCompletas, type Prefs } from "@dominio/prefs.ts";
 
 export default function PaginaEu() {
   const perfil = usePerfil();
@@ -24,7 +28,11 @@ export default function PaginaEu() {
   const router = useRouter();
   const [confirmando, setConfirmando] = useState(false);
   const [palavra, setPalavra] = useState("");
+  const { permissoes } = useFamilia();
   if (!perfil) return null;
+  const prefs = prefsCompletas(perfil.prefs);
+  const mudarPref = (mudanca: Prefs) => atualizarPerfil({ prefs: { ...perfil.prefs, ...mudanca } });
+  const gestacao = perfil.modo === "gestacao";
 
   function mudarTema(t: Tema) {
     definirTema(t);
@@ -91,11 +99,35 @@ export default function PaginaEu() {
         <div className="-mx-4 divide-y divide-fio">
           {perfil.modo === "bebe" && atalho("/eu/bebe", copy.bebe, Baby)}
           {atalho("/eu/familia", copy.familia, Users)}
-          {atalho("/eu/consultas", copy.consultas, CalendarDays)}
+          {permissoes.verAgenda && atalho("/consultas", copy.consultas, CalendarDays)}
+          {permissoes.verMedicamentos && atalho("/medicamentos", copy.medicamentos, Pill)}
+          {gestacao && permissoes.verExames && atalho("/exames", copy.exames, FlaskConical)}
+          {gestacao && permissoes.verFotosBarriga && atalho("/barriga", copy.barriga, Camera)}
+          {gestacao && permissoes.verDiario && atalho("/diario", copy.diarioGravidez, Sparkles)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
           {atalho("/eu/guardados", copy.guardados, Bookmark)}
         </div>
       </Card>
+
+      <section>
+        <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.notificacoes}</h2>
+        <Card compacto>
+          <div className="flex flex-col divide-y divide-fio">
+            <AtivarAvisos />
+            <Interruptor rotulo={copy.discreto} apoio={copy.discretoApoio} ligado={prefs.notifications_discreet} onMudar={(v) => mudarPref({ notifications_discreet: v })} />
+            <Interruptor rotulo={copy.suspensas} apoio={copy.suspensasApoio} ligado={prefs.notifications_suspended} onMudar={(v) => mudarPref({ notifications_suspended: v })} />
+          </div>
+        </Card>
+      </section>
+
+      {gestacao && permissoes.verDiario && (
+        <section>
+          <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.preferencias}</h2>
+          <Card compacto>
+            <Interruptor rotulo={copy.modoFe} apoio={copy.modoFeApoio} ligado={prefs.faith_mode} onMudar={(v) => mudarPref({ faith_mode: v })} />
+          </Card>
+        </section>
+      )}
 
       <section>
         <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.conta}</h2>

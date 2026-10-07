@@ -49,3 +49,10 @@ verify_jwt = true
 
 [functions.enviar-push]
 verify_jwt = true
+
+# Lembretes (funcionalidades 02–06): o job usa LEMBRETES_SEGREDO; a ação do push usa o token assinado.
+[functions.enviar-lembretes]
+verify_jwt = false
+
+[functions.acao-lembrete]
+verify_jwt = false

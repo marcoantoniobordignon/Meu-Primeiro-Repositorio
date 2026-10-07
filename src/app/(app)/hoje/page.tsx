@@ -13,6 +13,7 @@ import { CardHero3D } from "@/components/features/bebe3d/CardHero3D";
 import { StoriesDoDia } from "@/components/features/conteudo/StoriesDoDia";
 import { AnelSemana } from "@/components/features/home/AnelSemana";
 import { CardConsulta } from "@/components/features/home/CardConsulta";
+import { CardExameOntem } from "@/components/features/exames/CardExameOntem";
 import { CardsAtivos } from "@/components/features/home/CardsAtivos";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
@@ -151,6 +152,8 @@ export default function PaginaHoje() {
           )}
 
           <StoriesDoDia semana={g?.semana} />
+          {/* Exames RN-11: marcado com a data de ontem sem ação. */}
+          {permissoes.verExames && <CardExameOntem />}
           <CardConsulta />
 
           <SheetSintomas aberto={sheet === "sintomas"} onFechar={() => setSheet(null)} onEspecial={abrirEspecial} />

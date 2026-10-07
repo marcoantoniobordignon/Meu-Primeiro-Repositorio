@@ -1,6 +1,7 @@
 "use client";
 
 import { novoId } from "@/lib/dados/colecao";
+import { meuId } from "@/lib/familia/useFamilia";
 import {
   appointmentMeasures,
   appointmentQuestions,
@@ -29,9 +30,10 @@ export function salvarConsulta(dados: DadosConsulta, existente?: Appointment | n
 }
 
 /** RN-02/08/10: pergunta solta por padrão ("para a próxima consulta"). */
-export function adicionarPergunta(texto: string, appointmentId: string | null = null): AppointmentQuestion {
+export function adicionarPergunta(texto: string, appointmentId: string | null = null, autor: string = meuId()): AppointmentQuestion {
   return appointmentQuestions.salvar({
     id: novoId(),
+    criado_por: autor,
     appointment_id: appointmentId,
     text: texto.trim().slice(0, 280),
     was_asked: false,

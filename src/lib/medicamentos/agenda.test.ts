@@ -231,3 +231,21 @@ describe("MED RN-11 · fim do tratamento", () => {
     expect(deveArquivar({ ...m, is_active: false }, new Date("2030-01-01T00:00:00Z"), SP)).toBe(false);
   });
 });
+
+describe("MED · job do servidor (manutenção)", () => {
+  it("arquiva, materializa, apaga pendentes fora da agenda e marca 'missed', sem repetir", async () => {
+    const { manutencaoDasDoses } = await import("@dominio/medicamentos.ts");
+    const agora = new Date("2026-10-06T12:00:00.000Z");
+    const ativo = med({ id: "a", atualizado_em: agora.toISOString() });
+    const acabou = med({ id: "b", ends_on: "2026-10-05", atualizado_em: "2026-10-01T00:00:00.000Z" });
+    const velha: DoseBase = { id: "v", medication_id: "a", scheduled_at: "2026-10-06T08:00:00.000Z", status: "pending" };
+    const futuraDoB: DoseBase = { id: "fb", medication_id: "b", scheduled_at: "2026-10-07T11:00:00.000Z", status: "pending" };
+    const r = manutencaoDasDoses([ativo, acabou], [velha, futuraDoB], agora, SP);
+    expect(r.arquivar).toEqual(["b"]);
+    expect(r.apagar).toEqual(["fb"]);
+    expect(r.semRegistro).toEqual(["v"]);
+    expect(r.criar.every((d) => d.medication_id === "a")).toBe(true);
+    const de_novo = manutencaoDasDoses([ativo, { ...acabou, is_active: false }], [{ ...velha, status: "missed" }, ...r.criar], agora, SP);
+    expect(de_novo).toEqual({ arquivar: [], criar: [], apagar: [], semRegistro: [] });
+  });
+});

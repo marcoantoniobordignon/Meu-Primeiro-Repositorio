@@ -1,7 +1,7 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 import { resumoDoExame } from "@/components/features/exames/LinhaExame";
 import { SheetConcluirExame } from "@/components/features/exames/SheetConcluirExame";
@@ -15,11 +15,27 @@ import { track } from "@/lib/analytics";
 import { useUrlArquivo } from "@/lib/arquivos/arquivos";
 import { useColecao } from "@/lib/dados/colecao";
 import { medicalDocuments, userExams } from "@/lib/dados/colecoes";
-import { apagarPersonalizado, dispensarExame, restaurarExame } from "@/lib/exames/acoes";
+import { apagarPersonalizado, desmarcarExame, dispensarExame, restaurarExame } from "@/lib/exames/acoes";
+import { useAberturaPorLembrete } from "@/lib/lembretes/abertura";
 import { secaoDoExame } from "@/lib/exames/regras";
 import { useFuso } from "@/lib/hooks/useFuso";
 import { exameDoCatalogo, nomeDoExame } from "@dominio/exames.ts";
 import { dataNoFuso } from "@dominio/tempo.ts";
+
+/** RN-04: os botões "Já fiz" e "Remarquei" do lembrete do dia seguinte chegam pela URL. */
+function AcaoDoLembrete({ onJaFiz, onRemarquei }: { onJaFiz: () => void; onRemarquei: () => void }) {
+  const params = useSearchParams();
+  const router = useRouter();
+  const acao = params.get("acao");
+  useAberturaPorLembrete();
+  useEffect(() => {
+    if (!acao) return;
+    if (acao === "ja_fiz") onJaFiz();
+    if (acao === "remarquei") onRemarquei();
+    router.replace(window.location.pathname);
+  }, [acao, onJaFiz, onRemarquei, router]);
+  return null;
+}
 
 /** Detalhe: nome simples, para que serve, janela, estado e ações (RN-06/08/10). */
 export default function PaginaExame() {
@@ -41,6 +57,16 @@ export default function PaginaExame() {
 
   return (
     <div>
+      <Suspense>
+        <AcaoDoLembrete
+          onJaFiz={() => e.status === "scheduled" && setConcluindo(true)}
+          onRemarquei={() => {
+            if (e.status !== "scheduled") return;
+            desmarcarExame(e);
+            setMarcando(true);
+          }}
+        />
+      </Suspense>
       <Cabecalho titulo={nomeDoExame(e)} voltarPara="/exames" />
       <div className="flex flex-col gap-4 px-5 pt-1">
         {cat && (

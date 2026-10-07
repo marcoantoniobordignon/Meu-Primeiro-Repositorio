@@ -220,6 +220,8 @@ describe("MED RN-12 · por voz", () => {
     ];
     expect(dosePendenteMaisProxima(l, "ferro", agora)?.scheduled_at).toBe("2026-10-06T11:00:00.000Z");
     expect(dosePendenteMaisProxima(l, "nada", agora)).toBeUndefined();
+    // Longe demais (mais de 12 h): vira uma tomada sem horário, não a dose de amanhã.
+    expect(dosePendenteMaisProxima([dose("2026-10-07T11:00:00.000Z", "pending", { medication_id: "ferro" })], "ferro", agora)).toBeUndefined();
   });
 });
 
