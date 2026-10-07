@@ -75,12 +75,15 @@ export function estadoDoMarco(m: Marco, semanaAtual: number, s: SituacaoMarco, a
 }
 
 /**
- * RN-03: cards abertos, na ordem do catálogo, no máximo 3 (volta depois de meses:
- * os antigos ainda abertos aparecem, sem enxurrada). `faith_only` só com o modo fé.
+ * RN-03: cards abertos, no máximo 3 (volta depois de meses: os antigos ainda abertos
+ * aparecem, sem enxurrada). "Card do próximo marco no topo": "Quando descobri" primeiro,
+ * depois a janela aberta mais recentemente (na semana 17, "Primeiro chute" aparece mesmo
+ * com marcos antigos em aberto). `faith_only` só com o modo fé.
  */
 export function cardsDeMarco(semanaAtual: number, modoFe: boolean, situacao: (code: string) => SituacaoMarco, agora: Date, max = MAX_CARDS): Marco[] {
+  const inicio = (m: Marco) => m.window_start_week ?? Number.POSITIVE_INFINITY;
   return CATALOGO_MARCOS.filter((m) => marcoVisivel(m, modoFe) && estadoDoMarco(m, semanaAtual, situacao(m.code), agora) === "aberto")
-    .sort((a, b) => a.position - b.position)
+    .sort((a, b) => inicio(b) - inicio(a) || a.position - b.position)
     .slice(0, max);
 }
 

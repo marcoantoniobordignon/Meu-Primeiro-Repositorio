@@ -84,7 +84,7 @@ export default function PaginaBarriga() {
       <Suspense>
         <Abertura />
       </Suspense>
-      <input ref={galeria} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-label={copy.galeria} onChange={(e) => void aoEscolherDaGaleria(e.target.files?.[0])} />
+      <input ref={galeria} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-hidden="true" aria-label={copy.galeria} onChange={(e) => void aoEscolherDaGaleria(e.target.files?.[0])} />
 
       <div className="flex flex-col gap-5 px-5 pt-1">
         {semanaAtual === null ? (

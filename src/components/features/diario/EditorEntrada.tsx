@@ -204,7 +204,7 @@ export function EditorEntrada({ marco, existente, fotosExistentes }: Props) {
 
       <section aria-label={copy.fotosRotulo}>
         <h2 className="tipo-titulo-secao mb-1.5 text-texto-mudo">{copy.fotosRotulo}</h2>
-        <input ref={entradaFoto} type="file" accept="image/*" multiple className="sr-only" tabIndex={-1} aria-label={copy.adicionarFoto} onChange={(e) => void adicionarFotos(e.target.files)} />
+        <input ref={entradaFoto} type="file" accept="image/*" multiple className="sr-only" tabIndex={-1} aria-hidden="true" aria-label={copy.adicionarFoto} onChange={(e) => void adicionarFotos(e.target.files)} />
         <div className="grid grid-cols-3 gap-2">
           {fotos.map((f, i) => (
             <div key={f.tipo === "existente" ? f.foto.id : f.id} className="relative aspect-square overflow-hidden rounded-[12px] bg-fio">

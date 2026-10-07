@@ -107,8 +107,8 @@ export function CameraBarriga({ semana, fantasma, opacidade, grade, onOpacidade,
 
   const entradas = (
     <>
-      <input ref={entradaCamera} type="file" accept="image/*" capture="environment" className="sr-only" tabIndex={-1} aria-label={copy.usarCameraDoCelular} onChange={(e) => void doArquivo(e.target.files?.[0], "camera")} />
-      <input ref={entradaGaleria} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-label={copy.escolherDaGaleria} onChange={(e) => void doArquivo(e.target.files?.[0], "gallery")} />
+      <input ref={entradaCamera} type="file" accept="image/*" capture="environment" className="sr-only" tabIndex={-1} aria-hidden="true" aria-label={copy.usarCameraDoCelular} onChange={(e) => void doArquivo(e.target.files?.[0], "camera")} />
+      <input ref={entradaGaleria} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-hidden="true" aria-label={copy.escolherDaGaleria} onChange={(e) => void doArquivo(e.target.files?.[0], "gallery")} />
     </>
   );
 

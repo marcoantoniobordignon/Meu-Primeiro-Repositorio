@@ -59,7 +59,7 @@ export function SheetConcluirExame({ exame, tz, semData = false, onFechar }: Pro
   return (
     <Sheet aberto={Boolean(exame)} onFechar={onFechar} titulo={copy.anexarPergunta}>
       <p className="tipo-corpo text-texto-mudo">{copy.anexarApoio}</p>
-      <input ref={entrada} type="file" accept={ACEITA_DOCUMENTO} className="sr-only" aria-label={copy.anexar} tabIndex={-1} onChange={(e) => void aoEscolher(e.target.files?.[0])} />
+      <input ref={entrada} type="file" accept={ACEITA_DOCUMENTO} className="sr-only" aria-hidden="true" aria-label={copy.anexar} tabIndex={-1} onChange={(e) => void aoEscolher(e.target.files?.[0])} />
       <div className="mt-5 flex flex-col gap-2">
         <Botao largura="total" tamanho="lg" carregando={anexando} icone={<FileUp size={18} aria-hidden />} onClick={() => entrada.current?.click()}>
           {anexando ? copy.anexando : copy.anexar}

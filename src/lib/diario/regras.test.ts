@@ -68,12 +68,14 @@ describe("DIA RN-03 · cards de marco", () => {
     expect(estadoDoMarco(kick, 17, adiado, new Date(agora.getTime() + 2000))).toBe("aberto");
   });
 
-  it("no máximo 3 cards de cada vez, na ordem do catálogo (volta depois de meses)", () => {
-    const cards = cardsDeMarco(18, false, () => nada, agora);
-    // Semana 18: ultrassom e coração (6–12) já passaram das 4 semanas de tolerância.
-    expect(cards.map((m) => m.code)).toEqual(["discovery", "told_partner", "belly_shows"]);
-    const respondidos = new Set(["discovery", "told_partner", "belly_shows"]);
-    expect(cardsDeMarco(18, false, (c) => ({ respondido: respondidos.has(c) }), agora).map((m) => m.code)).toEqual(["sex_known", "first_kick", "name_chosen"]);
+  it("no máximo 3 cards; 'Quando descobri' primeiro, depois a janela aberta mais recente", () => {
+    expect(cardsDeMarco(18, false, () => nada, agora).map((m) => m.code)).toEqual(["discovery", "first_kick", "name_chosen"]);
+    // Semana 17 com a descoberta respondida: "Primeiro chute" no topo (critério de aceite).
+    const respondida = (c: string) => ({ respondido: c === "discovery" });
+    expect(cardsDeMarco(17, false, respondida, agora).map((m) => m.code)).toEqual(["first_kick", "name_chosen", "sex_known"]);
+    // Respondidos os novos, os antigos ainda abertos aparecem (volta depois de meses).
+    const novos = new Set(["discovery", "first_kick", "name_chosen", "sex_known"]);
+    expect(cardsDeMarco(17, false, (c) => ({ respondido: novos.has(c) }), agora).map((m) => m.code)).toEqual(["belly_shows", "told_partner"]);
   });
 
   it("modo fé: 'Primeira oração' aparece e a pergunta de fé substitui", () => {

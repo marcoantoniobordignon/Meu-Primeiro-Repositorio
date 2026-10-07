@@ -23,6 +23,8 @@ pnpm supabase:functions        # serve as Edge Functions; a de voz precisa de AN
 
 Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interpretar-registro` e `supabase secrets set ANTHROPIC_API_KEY=...`. Deploy do app na Vercel com as duas variáveis públicas.
 
+Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`.
+
 ## Deploy na Vercel
 
 O projeto é importado do GitHub com o preset Next.js; nada precisa ser configurado. Cada push na `main` gera um deploy de produção; cada PR gera um preview. Sem variáveis de ambiente o app sobe em modo 100 % local. Para ligar o Supabase, adicione `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` em *Settings → Environment Variables* e faça um redeploy.
@@ -34,8 +36,8 @@ pnpm lint
 pnpm typecheck
 pnpm test          # unitários (Vitest); compila o banco de conteúdo antes
 pnpm build         # gera também o service worker (public/sw.js)
-pnpm e2e           # Playwright, 3 fluxos críticos do app + 2 do painel, contra o build
-pnpm supabase:test # pgTAP: RLS entre famílias e privacidade da mãe (precisa do Supabase local)
+pnpm e2e           # Playwright: fluxos críticos do app, do painel e das funcionalidades 02–06, contra o build
+pnpm supabase:test # pgTAP: RLS entre famílias, privacidade da mãe e as regras das funcionalidades 02–06 (precisa do Supabase local)
 pnpm supabase:types # regenera src/lib/supabase/types.generated.ts (precisa do Supabase local)
 ```
 
@@ -76,6 +78,17 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 
 `tests/voz/frases.json` é o corpus do parser local (frase → registros esperados). Rode `pnpm vitest run src/lib/voz` depois de mexer no parser. O mesmo corpus serve para comparar modelos na Edge Function.
 
+## Funcionalidades 02–06 (`specs/funcionalidades/`)
+
+Medicamentos (`/medicamentos`), exames (`/exames`), consultas (`/consultas`), foto da barriga (`/barriga`) e diário (`/diario`), com atalhos em Eu.
+
+- **Nomes**: tabelas, colunas e valores como nas specs; as colunas de infraestrutura seguem a régua do projeto (`familia_id`, `criado_por`, `atualizado_em`, `apagado_em`). Os desvios do modelo estão no topo de `supabase/migrations/0003_funcionalidades.sql`.
+- **Regra única para app e servidor**: `supabase/functions/_shared/dominio/` (fuso, ids determinísticos, doses, exames, consultas, barriga, diário, lembretes) é TypeScript puro, importado no app como `@dominio/*` e nas Edge Functions por caminho relativo. Os testes ficam em `src/lib/dominio` e nas pastas de cada funcionalidade.
+- **Doses e exames gerados nos dois lados**: o app e o job `enviar-lembretes` materializam as doses com o mesmo id determinístico, então nunca duplicam; o mesmo vale para os exames padrão, o marco do diário (um por autora) e a foto da semana.
+- **Lembretes**: derivados do estado atual + `reminders_sent` (nada de fila de agendamento). Mudar a DUM, concluir, dispensar ou cancelar ajusta sozinho; voltar depois de dias não dispara atrasados (tolerância de 30 min); limite de 2 por dia e silêncio das 22h às 7h, exceto medicamento (RN-13). Sem Supabase, o app mostra os avisos enquanto está aberto.
+- **Arquivos**: fotos (JPEG ≤ 1600 px, sem EXIF), áudios e anexos ficam no IndexedDB e sobem para o bucket privado `ninho-privado` depois da linha que os referencia; a policy do Storage segue a RLS da linha.
+- **Parceiro**: a gestante liga "Agenda" (padrão ligado) e "Fotos da barriga" (padrão desligado) em Eu → Família. Medicamentos, medidas e orientações nunca aparecem para ele.
+
 ## Estado
 
 | Spec | Status |
@@ -93,6 +106,11 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 | 11 Virada do parto | **pronta** |
 | 12 Cuidadores | pronta com RPCs; sem servidor, o convite vale só no mesmo aparelho. Falta o QR |
 | Painel de admin | **pronto**: métricas agregadas, usuárias, conteúdo (lista, por dia, editor), voz e sistema; demonstração sem Supabase |
+| F02 Medicamentos | **pronta**; push precisa das chaves VAPID e do Cron |
+| F03 Exames | pronta; o "aparece no calendário" depende da spec 08 das funcionalidades (os dados já estão marcados) e o anexo usa uma `medical_documents` mínima até a galeria (spec 01) |
+| F04 Consultas | **pronta**; a antiga `consultas` virou `appointments` (migração no banco e no aparelho) |
+| F05 Foto da barriga | **pronta**; o lembrete ainda não vai embutido no `week_turn` (spec 13) |
+| F06 Diário | **pronta**; a retrospectiva (spec 07) e o parceiro completo (spec 12) usam estes dados quando chegarem |
 | Bebê 3D | fatia vertical: semana 20 com luz, pele com SSS, animação procedural, pós-processamento e níveis de qualidade; placeholder gerado por código. Faltam as outras semanas, a vista Barriga, o ultrassom 4D e o modelo licenciado |
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).
