@@ -1,5 +1,6 @@
 import type { DataISO } from "@/lib/dates";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
+import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
 
 import { criarColecao, type Registro } from "./colecao";
@@ -113,13 +114,29 @@ export interface UserExam extends Registro {
   document_id: string | null;
 }
 
-/** Ponte para a galeria (funcionalidade 01): o resultado anexado a um exame. */
+/** Funcionalidade 01 · Galeria de exames e ultrassons. A semana vem de `exam_date` (nunca gravada). */
 export interface MedicalDocument extends Registro {
-  kind: string;
-  title: string;
+  kind: TipoDocumento;
+  title: string | null;
+  exam_date: DataISO;
+  notes: string | null;
+  is_favorite: boolean;
+  shared_with_partner: boolean;
+  /** RN-04 / spec 03: o exame agendado de que este é o resultado. */
+  scheduled_exam_id: string | null;
+  ai_status: "none" | "pending" | "done" | "failed";
+  ai_summary: ResumoLaudo | null;
+  criado_por?: string;
+}
+
+export interface DocumentPage extends Registro {
+  document_id: string;
+  position: number;
   storage_path: string;
   mime: string;
-  taken_on: DataISO;
+  bytes: number;
+  width: number | null;
+  height: number | null;
 }
 
 /** Funcionalidade 05 · Foto da barriga */
@@ -265,6 +282,7 @@ export const medications = criarColecao<Medication>("ninho.medications");
 export const medicationDoses = criarColecao<MedicationDose>("ninho.medication_doses");
 export const userExams = criarColecao<UserExam>("ninho.user_exams");
 export const medicalDocuments = criarColecao<MedicalDocument>("ninho.medical_documents");
+export const documentPages = criarColecao<DocumentPage>("ninho.document_pages");
 export const bellyPhotos = criarColecao<BellyPhoto>("ninho.belly_photos");
 export const diaryEntries = criarColecao<DiaryEntry>("ninho.diary_entries");
 export const diaryPhotos = criarColecao<DiaryPhoto>("ninho.diary_photos");
@@ -291,6 +309,7 @@ export const todasColecoes = [
   medicationDoses,
   userExams,
   medicalDocuments,
+  documentPages,
   bellyPhotos,
   diaryEntries,
   diaryPhotos,

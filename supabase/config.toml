@@ -56,3 +56,7 @@ verify_jwt = false
 
 [functions.acao-lembrete]
 verify_jwt = false
+
+# Galeria (funcionalidade 01): leitura de laudo por IA, só com a sessão da gestante.
+[functions.ler-laudo]
+verify_jwt = true

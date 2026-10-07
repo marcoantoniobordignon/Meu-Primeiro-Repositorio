@@ -23,15 +23,15 @@ describe("types.generated.ts ↔ migration", () => {
     expect(tabelasTs).toEqual(tabelasSql);
   });
 
-  it("toda coluna das tabelas da 0003 está nos tipos", () => {
-    const m3 = readFileSync(path.join(pasta, "0003_funcionalidades.sql"), "utf8");
+  it("toda coluna das tabelas da 0003 e 0004 está nos tipos", () => {
+    const m3 = ["0003_funcionalidades.sql", "0004_galeria.sql"].map((f) => readFileSync(path.join(pasta, f), "utf8")).join("\n");
     const blocoTs = (t: string) => {
       const i = tipos.indexOf(`      ${t}: Tabela<`);
       const fim = tipos.indexOf(">;\n", i);
       return tipos.slice(i, fim);
     };
     const tabelas = [...m3.matchAll(/create table public\.(\w+) \(([\s\S]*?)\n\);/g)];
-    expect(tabelas.length).toBe(15);
+    expect(tabelas.length).toBe(17);
     for (const [, tabela, corpo] of tabelas) {
       const colunas = corpo!
         .split("\n")

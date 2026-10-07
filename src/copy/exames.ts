@@ -51,12 +51,10 @@ export const examesCopy = {
   // Concluir
   sheetConcluir: "Exame feito",
   anexarPergunta: "Anexar resultado agora?",
-  anexarApoio: "Foto ou PDF. Fica guardado aqui, junto do exame.",
+  anexarApoio: "Foto ou PDF. Fica guardado na galeria, junto do exame.",
   anexar: "Anexar resultado",
   soMarcar: "Só marcar como feito",
-  anexando: "Guardando…",
   concluido: "Exame feito ✓",
-  anexoErro: "Não deu para guardar esse arquivo. Tenta outra foto ou PDF?",
   resultado: "Resultado",
   verResultado: "Ver resultado",
   // Card e lembrete

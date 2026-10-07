@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Bookmark, CalendarDays, Camera, ChevronRight, FlaskConical, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
+import { Baby, Bookmark, CalendarDays, Camera, ChevronRight, FlaskConical, FolderHeart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/Card";
 import { Interruptor } from "@/components/ui/Interruptor";
 import { useTema, type Tema } from "@/components/ui/ProvedorTema";
 import { Sheet } from "@/components/ui/Sheet";
+import { PermissaoIa } from "@/components/features/galeria/PermissaoIa";
 import { AtivarAvisos } from "@/components/features/lembretes/AtivarAvisos";
 import { euCopy as copy } from "@/copy/eu";
 import { onboarding as onbCopy } from "@/copy/onboarding";
@@ -28,7 +29,7 @@ export default function PaginaEu() {
   const router = useRouter();
   const [confirmando, setConfirmando] = useState(false);
   const [palavra, setPalavra] = useState("");
-  const { permissoes } = useFamilia();
+  const { permissoes, papel } = useFamilia();
   if (!perfil) return null;
   const prefs = prefsCompletas(perfil.prefs);
   const mudarPref = (mudanca: Prefs) => atualizarPerfil({ prefs: { ...perfil.prefs, ...mudanca } });
@@ -102,6 +103,7 @@ export default function PaginaEu() {
           {permissoes.verAgenda && atalho("/consultas", copy.consultas, CalendarDays)}
           {permissoes.verMedicamentos && atalho("/medicamentos", copy.medicamentos, Pill)}
           {gestacao && permissoes.verExames && atalho("/exames", copy.exames, FlaskConical)}
+          {gestacao && permissoes.verExames && atalho("/galeria", copy.galeria, FolderHeart)}
           {gestacao && permissoes.verFotosBarriga && atalho("/barriga", copy.barriga, Camera)}
           {gestacao && permissoes.verDiario && atalho("/diario", copy.diarioGravidez, Sparkles)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
@@ -128,6 +130,8 @@ export default function PaginaEu() {
           </Card>
         </section>
       )}
+
+      {papel === "mae" && <PermissaoIa perfil={perfil} />}
 
       <section>
         <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.conta}</h2>

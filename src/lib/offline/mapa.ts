@@ -10,6 +10,7 @@ import {
   diaryEntries,
   diaryMilestoneStates,
   diaryPhotos,
+  documentPages,
   medicalDocuments,
   medicationDoses,
   medications,
@@ -58,7 +59,9 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: appointmentMeasures as Colecao<Registro>, tabela: "appointment_measures", conflito: "id", doServidor: normalizarMedidas },
   { colecao: medications as Colecao<Registro>, tabela: "medications", conflito: "id", doServidor: normalizarMedicamento },
   { colecao: medicationDoses as Colecao<Registro>, tabela: "medication_doses", conflito: "id" },
+  // Documento antes do exame (user_exams.document_id) e antes das páginas (FKs).
   { colecao: medicalDocuments as Colecao<Registro>, tabela: "medical_documents", conflito: "id" },
+  { colecao: documentPages as Colecao<Registro>, tabela: "document_pages", conflito: "id" },
   { colecao: userExams as Colecao<Registro>, tabela: "user_exams", conflito: "id" },
   { colecao: bellyPhotos as Colecao<Registro>, tabela: "belly_photos", conflito: "id" },
   { colecao: diaryEntries as Colecao<Registro>, tabela: "diary_entries", conflito: "id" },

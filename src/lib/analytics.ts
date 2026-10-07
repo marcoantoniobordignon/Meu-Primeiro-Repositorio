@@ -67,7 +67,17 @@ export type Eventos = {
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
-  paywall_shown: { feature: "medications" | "belly_video" | "diary"; trigger: "active_limit" | "hd_export" | "audio_limit" };
+  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" };
+  // funcionalidade 01 · galeria de exames e ultrassons
+  exam_doc_add_started: Record<string, never>;
+  exam_doc_added: { kind: string; pages: number; source: "camera" | "gallery" | "pdf" | "mixed" };
+  exam_doc_viewed: { kind: string };
+  exam_doc_ai_consent_given: Record<string, never>;
+  exam_doc_ai_read_requested: Record<string, never>;
+  exam_doc_ai_read_done: { ok: boolean };
+  exam_doc_exported: { docs: number; pages: number };
+  exam_doc_deleted: Record<string, never>;
+  exam_doc_linked_to_exam: Record<string, never>;
   // funcionalidade 02 · medicamentos
   med_added: { schedule_type: string };
   med_dose_taken: { source: "push" | "app" | "voice" | "backfill"; minutes_late: number };

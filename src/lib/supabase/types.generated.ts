@@ -37,6 +37,7 @@ export interface Database {
         ultimo_acesso_em: string | null;
         tz: string;
         prefs: Json;
+        consents: Json;
         criado_em: string;
         atualizado_em: string;
       }>;
@@ -111,7 +112,6 @@ export interface Database {
       >;
       medication_doses: Tabela<Base & { medication_id: string; scheduled_at: string | null; status: "pending" | "taken" | "skipped" | "missed"; taken_at: string | null; source: "push" | "app" | "voice" | "backfill" | null; snooze_count: number; snoozed_until: string | null }>;
       exam_catalog: Tabela<{ code: string; name: string; short_desc: string; window_start_day: number; window_end_day: number; trimester: number; doc_kind: string; is_default_on: boolean }>;
-      medical_documents: Tabela<Base & { kind: string; title: string; storage_path: string; mime: string; taken_on: string }>;
       user_exams: Tabela<
         Base & {
           catalog_code: string | null;
@@ -136,6 +136,22 @@ export interface Database {
       diary_photos: Tabela<Base & { entry_id: string; position: number; storage_path: string }>;
       diary_milestone_states: Tabela<Base & { milestone_code: string; skipped_at: string | null; snoozed_until: string | null }>;
       push_subscriptions: Tabela<{ endpoint: string; profile_id: string; p256dh: string; auth: string; criado_em: string; atualizado_em: string }>;
+      // 0004_galeria.sql
+      medical_documents: Tabela<
+        Base & {
+          kind: "us_obstetric" | "us_nuchal" | "us_morpho" | "us_other" | "blood" | "urine" | "glucose" | "serology" | "culture_gbs" | "other";
+          title: string | null;
+          exam_date: string;
+          notes: string | null;
+          is_favorite: boolean;
+          shared_with_partner: boolean;
+          scheduled_exam_id: string | null;
+          ai_status: "none" | "pending" | "done" | "failed";
+          ai_summary: Json | null;
+        }
+      >;
+      document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
+      ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
       reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
     };
     Views: {

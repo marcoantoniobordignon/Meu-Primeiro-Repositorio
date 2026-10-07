@@ -23,7 +23,9 @@ pnpm supabase:functions        # serve as Edge Functions; a de voz precisa de AN
 
 Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interpretar-registro` e `supabase secrets set ANTHROPIC_API_KEY=...`. Deploy do app na Vercel com as duas variáveis públicas.
 
-Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`.
+Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. O mesmo job faz a faxina da galeria (arquivos de documentos excluídos e PDFs exportados com mais de 24 h).
+
+Galeria de exames (funcionalidade 01): `supabase functions deploy ler-laudo`. Usa o mesmo `ANTHROPIC_API_KEY`; o modelo da leitura é `claude-opus-5-5` por padrão e muda com `supabase secrets set MODELO_LAUDO=...` (decisão em aberto na spec). A função pede fallback automático do lado do servidor: se o modelo principal recusar, a API refaz no modelo recomendado.
 
 ## Deploy na Vercel
 
@@ -36,8 +38,8 @@ pnpm lint
 pnpm typecheck
 pnpm test          # unitários (Vitest); compila o banco de conteúdo antes
 pnpm build         # gera também o service worker (public/sw.js)
-pnpm e2e           # Playwright: fluxos críticos do app, do painel e das funcionalidades 02–06, contra o build
-pnpm supabase:test # pgTAP: RLS entre famílias, privacidade da mãe e as regras das funcionalidades 02–06 (precisa do Supabase local)
+pnpm e2e           # Playwright: fluxos críticos do app, do painel e das funcionalidades 01–06, contra o build
+pnpm supabase:test # pgTAP: RLS entre famílias, privacidade da mãe e as regras das funcionalidades 01–06 (precisa do Supabase local)
 pnpm supabase:types # regenera src/lib/supabase/types.generated.ts (precisa do Supabase local)
 ```
 
@@ -78,15 +80,16 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 
 `tests/voz/frases.json` é o corpus do parser local (frase → registros esperados). Rode `pnpm vitest run src/lib/voz` depois de mexer no parser. O mesmo corpus serve para comparar modelos na Edge Function.
 
-## Funcionalidades 02–06 (`specs/funcionalidades/`)
+## Funcionalidades 01–06 (`specs/funcionalidades/`)
 
-Medicamentos (`/medicamentos`), exames (`/exames`), consultas (`/consultas`), foto da barriga (`/barriga`) e diário (`/diario`), com atalhos em Eu.
+Galeria de exames e ultrassons (`/galeria`), medicamentos (`/medicamentos`), exames (`/exames`), consultas (`/consultas`), foto da barriga (`/barriga`) e diário (`/diario`), com atalhos em Eu.
 
 - **Nomes**: tabelas, colunas e valores como nas specs; as colunas de infraestrutura seguem a régua do projeto (`familia_id`, `criado_por`, `atualizado_em`, `apagado_em`). Os desvios do modelo estão no topo de `supabase/migrations/0003_funcionalidades.sql`.
 - **Regra única para app e servidor**: `supabase/functions/_shared/dominio/` (fuso, ids determinísticos, doses, exames, consultas, barriga, diário, lembretes) é TypeScript puro, importado no app como `@dominio/*` e nas Edge Functions por caminho relativo. Os testes ficam em `src/lib/dominio` e nas pastas de cada funcionalidade.
 - **Doses e exames gerados nos dois lados**: o app e o job `enviar-lembretes` materializam as doses com o mesmo id determinístico, então nunca duplicam; o mesmo vale para os exames padrão, o marco do diário (um por autora) e a foto da semana.
 - **Lembretes**: derivados do estado atual + `reminders_sent` (nada de fila de agendamento). Mudar a DUM, concluir, dispensar ou cancelar ajusta sozinho; voltar depois de dias não dispara atrasados (tolerância de 30 min); limite de 2 por dia e silêncio das 22h às 7h, exceto medicamento (RN-13). Sem Supabase, o app mostra os avisos enquanto está aberto.
 - **Arquivos**: fotos (JPEG ≤ 1600 px, sem EXIF), áudios e anexos ficam no IndexedDB e sobem para o bucket privado `ninho-privado` depois da linha que os referencia; a policy do Storage segue a RLS da linha.
+- **Galeria**: fotos e PDFs viram páginas JPEG (≤ 2000 px, sem EXIF; PDF renderizado no aparelho com pdf.js) para folhear, dar zoom, ler por IA e exportar do mesmo jeito. A leitura do laudo roda só na Edge Function `ler-laudo` (consentimento, plano e cota de 20/mês conferidos no servidor; a IA só transcreve e o resultado é validado antes de gravar). O PDF exportado é montado no aparelho e sobe para `exportacoes/{uid}/` com link de 24 h. Desvios do modelo no topo de `0004_galeria.sql`.
 - **Parceiro**: a gestante liga "Agenda" (padrão ligado) e "Fotos da barriga" (padrão desligado) em Eu → Família. Medicamentos, medidas e orientações nunca aparecem para ele.
 
 ## Estado

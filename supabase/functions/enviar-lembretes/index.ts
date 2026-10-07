@@ -3,6 +3,7 @@
 // Para cada gestante: mantém as doses (job diário do modelo, idempotente), planeja os lembretes
 // a partir do estado atual e manda por Web Push só o que venceu agora (`selecionarParaEnvio`),
 // registrando em `reminders_sent`. Toda a regra mora em ../_shared/dominio (testada no Vitest).
+// Também faz a faxina da galeria: arquivos de documentos excluídos e PDFs exportados vencidos.
 //
 // Segredos: LEMBRETES_SEGREDO, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:...).
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -32,7 +33,26 @@ Deno.serve(async (req) => {
   if (!SEGREDO || req.headers.get("Authorization") !== `Bearer ${SEGREDO}`) return json({ erro: "não autorizado" }, 401);
   const sb = createClient(URL_SB, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
   const agora = new Date();
-  const resumo = { familias: 0, enviados: 0, doses: 0, erros: 0 };
+  const resumo = { familias: 0, enviados: 0, doses: 0, erros: 0, arquivosRemovidos: 0 };
+
+  // Galeria (funcionalidade 01): RN-03, excluído some do Storage em até 24 h; RN-09, o PDF exportado vale 24 h.
+  try {
+    const [excluidos, vencidas] = await Promise.all([sb.rpc("limpar_documentos_excluidos"), sb.rpc("exportacoes_vencidas")]);
+    const paginas = (excluidos.data ?? []).map((l: { caminho: string }) => l.caminho);
+    const pdfs = (vencidas.data ?? []).map((l: { caminho: string }) => l.caminho);
+    for (const [lista, ehPagina] of [[paginas, true], [pdfs, false]] as const) {
+      for (let i = 0; i < lista.length; i += 100) {
+        const lote = lista.slice(i, i + 100);
+        const { error: e } = await sb.storage.from("ninho-privado").remove(lote);
+        if (e) continue;
+        // Só depois do Storage confirmar: a linha da página sai e o arquivo não fica órfão.
+        if (ehPagina) await sb.from("document_pages").delete().in("storage_path", lote);
+        resumo.arquivosRemovidos += lote.length;
+      }
+    }
+  } catch (e) {
+    console.error("faxina da galeria", e instanceof Error ? e.message : e);
+  }
 
   const { data: gestantes, error } = await sb
     .from("membros_familia")

@@ -15,6 +15,7 @@ export const euCopy = {
   diarioGravidez: "Diário da gravidez",
   medicamentos: "Medicamentos",
   exames: "Exames",
+  galeria: "Exames e ultrassons guardados",
   barriga: "Foto da barriga",
   preferencias: "Preferências",
   modoFe: "Modo fé",

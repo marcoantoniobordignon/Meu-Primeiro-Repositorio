@@ -51,7 +51,7 @@ export interface FotoProcessada {
   altura: number;
 }
 
-type Fonte = ImageBitmap | HTMLImageElement | HTMLVideoElement | HTMLCanvasElement;
+export type Fonte = ImageBitmap | HTMLImageElement | HTMLVideoElement | HTMLCanvasElement;
 
 function tamanhoDaFonte(f: Fonte): { largura: number; altura: number } {
   if (typeof HTMLVideoElement !== "undefined" && f instanceof HTMLVideoElement) return { largura: f.videoWidth, altura: f.videoHeight };
@@ -60,10 +60,10 @@ function tamanhoDaFonte(f: Fonte): { largura: number; altura: number } {
 }
 
 /** Desenha a fonte (recortada, se pedido) num canvas no tamanho alvo e exporta JPEG sem metadados. */
-export async function exportarJpeg(fonte: Fonte, opcoes: { proporcao?: number; espelhar?: boolean } = {}): Promise<FotoProcessada> {
+export async function exportarJpeg(fonte: Fonte, opcoes: { proporcao?: number; espelhar?: boolean; ladoMax?: number } = {}): Promise<FotoProcessada> {
   const { largura, altura } = tamanhoDaFonte(fonte);
   const r = opcoes.proporcao ? recorteCentral(largura, altura, opcoes.proporcao) : { x: 0, y: 0, largura, altura };
-  const alvo = dimensoesAlvo(r.largura, r.altura);
+  const alvo = dimensoesAlvo(r.largura, r.altura, opcoes.ladoMax);
   const canvas = document.createElement("canvas");
   canvas.width = alvo.largura;
   canvas.height = alvo.altura;
@@ -101,7 +101,7 @@ export async function abrirImagem(arquivo: Blob): Promise<Fonte> {
 }
 
 /** Foto da galeria ou do `<input capture>`: orientada, reduzida, JPEG, sem EXIF. */
-export async function processarFoto(arquivo: Blob, opcoes: { proporcao?: number } = {}): Promise<FotoProcessada> {
+export async function processarFoto(arquivo: Blob, opcoes: { proporcao?: number; ladoMax?: number } = {}): Promise<FotoProcessada> {
   const fonte = await abrirImagem(arquivo);
   return exportarJpeg(fonte, opcoes);
 }

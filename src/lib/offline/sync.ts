@@ -201,6 +201,7 @@ export function enfileirarPerfil(p: Perfil) {
     onboarding_concluido_em: p.onboardingConcluidoEm,
     ...(p.tz ? { tz: p.tz } : {}),
     prefs: p.prefs ?? {},
+    consents: p.consents ?? {},
     ultimo_acesso_em: new Date().toISOString(),
     atualizado_em: new Date().toISOString(),
   });

@@ -48,6 +48,8 @@ export interface Perfil {
   tz?: string;
   /** `profiles.prefs` (foto da barriga, modo fé, notificações). */
   prefs?: Prefs;
+  /** `profiles.consents` (galeria RN-05: leitura de laudo por IA). */
+  consents?: { ai_document_reading?: { given_at: string } | null };
   onboardingConcluidoEm: string;
 }
 

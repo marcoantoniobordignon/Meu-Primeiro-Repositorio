@@ -12,7 +12,7 @@
 --   * `user_exams.window_start_week/window_end_week` (janela opcional do exame personalizado, RN-09);
 --   * `diary_entries.photo_count` deixa o banco checar "texto, áudio ou foto" (RN-01) sem depender da ordem de envio;
 --   * `diary_milestone_states` guarda "Pular" e "Mais tarde" (RN-03) por autora e marco;
---   * `medical_documents` mínima: a ponte para a galeria (spec 01 das funcionalidades), que a amplia.
+--   * `user_exams.document_id` ganha a FK para `medical_documents` na 0004 (galeria, spec 01).
 -- A antiga `consultas` (spec 05) vira `appointments` aqui; o app faz a mesma conversão no aparelho.
 
 -- ---------------------------------------------------------------------------
@@ -205,21 +205,6 @@ insert into public.exam_catalog (code, name, short_desc, window_start_day, windo
   ('us_growth', 'Ultrassom de crescimento', 'Confere o tamanho, o peso estimado e o líquido ao redor do bebê.', 224, 258, 3, 'imaging', false),
   ('ctg', 'Cardiotocografia', 'Registra os batimentos do bebê e as contrações por uns 20 a 40 minutos.', 252, 286, 3, 'other', false);
 
--- Ponte para a galeria (spec 01 das funcionalidades): o resultado anexado ao exame.
-create table public.medical_documents (
-  id uuid primary key,
-  familia_id uuid references public.familias (id) on delete cascade,
-  kind text not null,
-  title text not null check (char_length(title) <= 120),
-  storage_path text not null unique,
-  mime text not null,
-  taken_on date not null default current_date,
-  criado_por uuid references public.profiles (id) on delete set null,
-  criado_em timestamptz not null default now(),
-  atualizado_em timestamptz not null default now(),
-  apagado_em timestamptz
-);
-
 create table public.user_exams (
   id uuid primary key,
   familia_id uuid references public.familias (id) on delete cascade,
@@ -236,7 +221,7 @@ create table public.user_exams (
   location text check (char_length(location) <= 80),
   notes text check (char_length(notes) <= 300),
   done_on date,
-  document_id uuid references public.medical_documents (id) on delete set null,
+  document_id uuid, -- FK na 0004_galeria.sql
   criado_por uuid references public.profiles (id) on delete set null,
   criado_em timestamptz not null default now(),
   atualizado_em timestamptz not null default now(),
@@ -387,7 +372,7 @@ create index reminders_sent_recentes on public.reminders_sent (familia_id, envia
 do $$
 declare t text;
 begin
-  foreach t in array array['appointments', 'appointment_questions', 'appointment_measures', 'medications', 'medication_doses', 'medical_documents', 'user_exams', 'belly_photos', 'diary_entries', 'diary_photos', 'diary_milestone_states']
+  foreach t in array array['appointments', 'appointment_questions', 'appointment_measures', 'medications', 'medication_doses', 'user_exams', 'belly_photos', 'diary_entries', 'diary_photos', 'diary_milestone_states']
   loop
     execute format('create trigger %I_familia before insert on public.%I for each row execute function public.preencher_familia()', t, t);
     execute format('create trigger %I_autor before insert on public.%I for each row execute function public.preencher_autor()', t, t);
@@ -405,7 +390,6 @@ alter table public.appointment_measures enable row level security;
 alter table public.medications enable row level security;
 alter table public.medication_doses enable row level security;
 alter table public.exam_catalog enable row level security;
-alter table public.medical_documents enable row level security;
 alter table public.user_exams enable row level security;
 alter table public.belly_photos enable row level security;
 alter table public.milestone_catalog enable row level security;
@@ -437,9 +421,6 @@ create policy "doses: só a gestante" on public.medication_doses for all using (
 create policy "exames: leem" on public.user_exams for select using (public.eh_membro(familia_id) and public.ve_dados_da_mae());
 create policy "exames: inserem" on public.user_exams for insert with check (familia_id is null or (public.eh_membro(familia_id) and public.ve_dados_da_mae()));
 create policy "exames: editam" on public.user_exams for update using (public.eh_membro(familia_id) and public.ve_dados_da_mae());
-create policy "documentos: leem" on public.medical_documents for select using (public.eh_membro(familia_id) and public.ve_dados_da_mae());
-create policy "documentos: inserem" on public.medical_documents for insert with check (familia_id is null or (public.eh_membro(familia_id) and public.ve_dados_da_mae()));
-create policy "documentos: editam" on public.medical_documents for update using (public.eh_membro(familia_id) and public.ve_dados_da_mae());
 
 -- Spec 05 RN-11: parceiro vê a grade só com `belly_photos`; só a gestante tira fotos.
 create policy "barriga: leem" on public.belly_photos for select using (public.tem_permissao(familia_id, 'belly_photos'));
@@ -469,7 +450,7 @@ create policy "push: a própria inscrição" on public.push_subscriptions for al
 grant execute on function public.definir_permissoes_parceiro(uuid, jsonb), public.meus_membros() to authenticated;
 
 -- ---------------------------------------------------------------------------
--- Storage privado: fotos, áudios e documentos (nenhum arquivo sai do Supabase do projeto)
+-- Storage privado: fotos e áudios (as páginas da galeria entram na 0004) (nenhum arquivo sai do Supabase do projeto)
 -- ---------------------------------------------------------------------------
 insert into storage.buckets (id, name, public) values ('ninho-privado', 'ninho-privado', false) on conflict (id) do nothing;
 
@@ -479,7 +460,6 @@ returns boolean language sql stable set search_path = public as $$
   select exists (select 1 from public.belly_photos where storage_path = nome)
       or exists (select 1 from public.diary_photos where storage_path = nome)
       or exists (select 1 from public.diary_entries where audio_path = nome)
-      or exists (select 1 from public.medical_documents where storage_path = nome)
 $$;
 
 -- Sobe o arquivo quem é autor da linha (a linha sincroniza antes; o app respeita essa ordem).
@@ -488,7 +468,6 @@ returns boolean language sql stable set search_path = public as $$
   select exists (select 1 from public.belly_photos where storage_path = nome and criado_por = auth.uid())
       or exists (select 1 from public.diary_photos f join public.diary_entries e on e.id = f.entry_id where f.storage_path = nome and e.criado_por = auth.uid())
       or exists (select 1 from public.diary_entries where audio_path = nome and criado_por = auth.uid())
-      or exists (select 1 from public.medical_documents where storage_path = nome and criado_por = auth.uid())
 $$;
 
 create policy "ninho-privado: ler" on storage.objects for select to authenticated using (bucket_id = 'ninho-privado' and public.arquivo_visivel(name));

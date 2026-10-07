@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -12,7 +13,6 @@ import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
 import { examesCopy as copy } from "@/copy/exames";
 import { track } from "@/lib/analytics";
-import { useUrlArquivo } from "@/lib/arquivos/arquivos";
 import { useColecao } from "@/lib/dados/colecao";
 import { medicalDocuments, userExams } from "@/lib/dados/colecoes";
 import { apagarPersonalizado, desmarcarExame, dispensarExame, restaurarExame } from "@/lib/exames/acoes";
@@ -49,7 +49,6 @@ export default function PaginaExame() {
   const [concluindo, setConcluindo] = useState(false);
   const e = exames.find((x) => x.id === id);
   const doc = e?.document_id ? docs.find((d) => d.id === e.document_id) : undefined;
-  const { url } = useUrlArquivo(doc?.storage_path);
 
   if (!e) return <Cabecalho titulo={copy.titulo} voltarPara="/exames" />;
   const cat = exameDoCatalogo(e.catalog_code);
@@ -81,10 +80,10 @@ export default function PaginaExame() {
             {copy.estados[e.status]} · {resumoDoExame(e, tz)}
           </p>
           {e.notes && <p className="tipo-meta mt-1">{e.notes}</p>}
-          {doc && url && (
-            <a href={url} target="_blank" rel="noreferrer" className="mt-2 inline-flex min-h-11 items-center text-[14px] font-medium text-primaria-texto">
+          {doc && !doc.apagado_em && (
+            <Link href={`/galeria/${doc.id}`} className="mt-2 inline-flex min-h-11 items-center text-[14px] font-medium text-primaria-texto">
               {copy.verResultado}
-            </a>
+            </Link>
           )}
         </Card>
         <p className="tipo-meta">{copy.referencia}</p>

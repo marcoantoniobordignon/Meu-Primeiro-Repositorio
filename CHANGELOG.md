@@ -2,11 +2,20 @@
 
 ## Não lançado
 
+### Funcionalidade 01 · Galeria de exames e ultrassons (specs/funcionalidades/01-galeria-exames.md)
+- Migration `0004_galeria.sql`: `medical_documents` completa (substitui a ponte mínima da 0003), `document_pages`, `profiles.consents`, cota `ai_document_reads` (só service role), FK `user_exams.document_id`, RLS (parceiro só vê o compartilhado, RN-10; cuidadora nada), Storage das páginas e da pasta `exportacoes/{uid}/`, funções de faxina `limpar_documentos_excluidos` (RN-03) e `exportacoes_vencidas` (RN-09). pgTAP: `supabase/tests/galeria.test.sql`, 43 testes.
+- Telas: Galeria (chips de tipo, linha do tempo/grade, semana calculada da data, volta na rolagem), Adicionar/editar (câmera, galeria, PDF com várias páginas, reordenar e remover páginas, tipo, data, título, observação), Documento (zoom, folhear lembrando a página, favoritar só ultrassom, compartilhar só com parceiro na família, editar, excluir com confirmação), Exportar (premium, até 50 páginas, capa com nome/DPP/semana, uma seção por documento, link de 24 h ou download direto sem servidor) e consentimento da IA na primeira leitura. Atalho e retirada da permissão em Eu.
+- RN-01 data obrigatória, não futura, confirmação antes de DUM − 90 dias; RN-02 limite free de 20 páginas com paywall (editar sem página nova nunca é barrado); RN-04 pergunta "Este é o resultado de…?" e conclui o exame; RN-11 offline com selo "Aguardando envio".
+- Leitura por IA (premium): Edge Function `ler-laudo` confere sessão, papel, plano, consentimento (RN-05) e cota (RN-08), manda as páginas ao modelo com saída estruturada e fallback do lado do servidor, valida o JSON (RN-07: falha vira `failed` sem gastar cota) e só transcreve (RN-06: destaque apenas quando o laudo marca; aviso fixo sob o resumo).
+- Exames (spec 03): "Anexar resultado" abre o Adicionar da galeria já vinculado; "Ver resultado" abre o documento.
+- PDF com o build `legacy` do pdf.js (o build padrão quebra em navegadores sem `Map.getOrInsertComputed`).
+- Testes: Vitest +57 (domínio, regras, ações, exportação, consentimento); Playwright: 13 fluxos com os critérios de aceite.
+
 ### Funcionalidades 02–06 (specs/funcionalidades)
 
 #### Base comum
 - `supabase/functions/_shared/dominio/`: regras puras usadas pelo app (`@dominio/*`) e pelas Edge Functions: tempo com fuso explícito (`profiles.tz`), UUID determinístico, doses, exames, consultas, barriga, diário, lembretes, preferências e token assinado.
-- Migration `0003_funcionalidades.sql`: 15 tabelas com RLS, catálogos semeados (13 exames, 12 marcos), bucket privado `ninho-privado` com policy que segue a RLS da linha, `push_subscriptions`, `reminders_sent`, `profiles.tz/prefs`, `membros_familia.permissoes` + RPC `definir_permissoes_parceiro`. Validada em Postgres 16 com pgTAP (`supabase/tests/funcionalidades.test.sql`, 50 testes: RLS por papel, faixas, unicidades, imutabilidade, Storage) e com dados reais da antiga `consultas`.
+- Migration `0003_funcionalidades.sql`: 14 tabelas com RLS, catálogos semeados (13 exames, 12 marcos), bucket privado `ninho-privado` com policy que segue a RLS da linha, `push_subscriptions`, `reminders_sent`, `profiles.tz/prefs`, `membros_familia.permissoes` + RPC `definir_permissoes_parceiro`. Validada em Postgres 16 com pgTAP (`supabase/tests/funcionalidades.test.sql`, 50 testes: RLS por papel, faixas, unicidades, imutabilidade, Storage) e com dados reais da antiga `consultas`.
 - Fila de arquivos offline (IndexedDB → Storage, depois da linha); processamento de foto no aparelho (≤ 1600 px, JPEG 0,85, orientação aplicada, EXIF removido).
 - Paywall das funcionalidades (`SheetPaywall`, `paywall_shown`) sempre com saída que não perde nada; a assinatura é a spec 14.
 - Permissões do parceiro em Eu → Família (agenda ligada, fotos da barriga desligadas por padrão).
@@ -20,7 +29,7 @@
 - Hoje com "Tomei", sheet com horário real/Pular/Adiar (2×), retroativo de 7 dias, "Sem registro" após 2 h; adesão 7/30 dias e sequência; limite free de 3 ativos; compartilhar a lista; "tomei o ferro" por voz com "Desfazer" por 5 s.
 
 #### 03 · Exames
-- Lista gerada na gestação (nunca vazia), seções Agora/Próximos/Marcados/Feitos/Anteriores/Dispensados ("Agora" inclui janela abrindo em até 14 dias, para o critério da semana 9), janelas recalculadas com a DUM, marcar com aviso fora da janela, concluir anexando resultado (ponte `medical_documents`) ou só marcar, dispensar/restaurar, outros exames e "Criar o meu", card "Seu exame foi ontem?" na Hoje, lembretes de janela e de agendamento.
+- Lista gerada na gestação (nunca vazia), seções Agora/Próximos/Marcados/Feitos/Anteriores/Dispensados ("Agora" inclui janela abrindo em até 14 dias, para o critério da semana 9), janelas recalculadas com a DUM, marcar com aviso fora da janela, concluir anexando resultado (na galeria, funcionalidade 01) ou só marcar, dispensar/restaurar, outros exames e "Criar o meu", card "Seu exame foi ontem?" na Hoje, lembretes de janela e de agendamento.
 
 #### 04 · Cronograma de consultas
 - `appointments` substitui a `consultas` da spec 05 (migração no banco e no aparelho, inclusive itens parados na outbox). Pauta com perguntas soltas indo para a próxima, ditado, parceiro anotando; concluir em 3 passos opcionais (medidas com faixas e "Confira o valor", perguntas feitas, orientações), sugestão de retorno 28/14/7 dias, "Como foi a consulta?" uma vez cada, "Levar para a consulta" com compartilhar, "pergunta para o médico" por voz, lembretes de véspera (com a contagem da pauta) e 2 h antes.

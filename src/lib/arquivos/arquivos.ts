@@ -128,3 +128,27 @@ export function useUrlArquivo(caminho: string | null | undefined): { url: string
   }, [caminho]);
   return estado;
 }
+
+/**
+ * Galeria RN-11: quais destes caminhos ainda não subiram ("Aguardando envio"). Sem servidor
+ * configurado nada sobe, então nada fica "aguardando".
+ */
+export function useAguardandoEnvio(caminhos: string[]): Set<string> {
+  const chave = caminhos.join("|");
+  const [pendentes, setPendentes] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    if (!supabaseConfigurado() || !chave) {
+      setPendentes(new Set());
+      return;
+    }
+    const lista = chave.split("|");
+    const ler = () =>
+      void idbTodos<ArquivoLocal>(STORE_ARQUIVOS).then((todos) => {
+        const naoEnviados = new Set(todos.filter((a) => !a.enviado).map((a) => a.id));
+        setPendentes(new Set(lista.filter((c) => naoEnviados.has(c))));
+      });
+    ler();
+    return assinarArquivos(ler);
+  }, [chave]);
+  return pendentes;
+}
