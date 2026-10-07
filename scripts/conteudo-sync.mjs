@@ -98,3 +98,14 @@ const { error: e8 } = await sb.from("help_channels").upsert(
 );
 if (e8) throw e8;
 console.log(`rights_cards: ${direitos.cards.length} rascunhos; help_channels: ${direitos.channels.length} inativos`);
+
+// Funcionalidade 15: catálogo de nomes com `reviewed = false` (significado e origem aparecem depois da revisão).
+// Id pelo nome normalizado (o mesmo do app). Nunca sobrescreve um nome já revisado.
+const { normalizar } = await import("../supabase/functions/_shared/dominio/faq.ts");
+const nomes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "nomes.json"), "utf8"));
+const { error: e9 } = await sb.from("names_catalog").upsert(
+  nomes.map((n) => ({ ...n, id: idDeterministico(`nome:${normalizar(n.name)}`), reviewed: false })),
+  { onConflict: "name", ignoreDuplicates: true },
+);
+if (e9) throw e9;
+console.log(`names_catalog: ${nomes.length} nomes (os que já existiam ficaram como estavam)`);

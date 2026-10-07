@@ -19,6 +19,7 @@ export const euCopy = {
   calendario: "Calendário",
   faq: "Posso comer?",
   direitos: "Seus direitos",
+  nomes: "Nomes do bebê",
   artigos: "Artigos da gravidez",
   planoParto: "Plano de parto, malas e enxoval",
   avisos: "Avisos",

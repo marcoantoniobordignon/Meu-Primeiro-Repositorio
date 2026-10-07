@@ -5,6 +5,7 @@ import type { Verbete } from "@dominio/faq.ts";
 import type { Artigo } from "@dominio/trimestre.ts";
 import type { Oracao } from "@dominio/fe.ts";
 import type { CanalDeAjuda, CartaoDireito } from "@dominio/direitos.ts";
+import type { NomeCatalogo, VotoNome } from "@dominio/nomes.ts";
 import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
@@ -338,6 +339,26 @@ export interface RightsFavorito extends Registro {
   criado_em?: string;
 }
 
+/** Funcionalidade 15 · catálogo de nomes (global), votos (de cada pessoa) e matches (o casal vê). */
+export interface NomeRemoto extends Registro, NomeCatalogo {
+  id: string;
+}
+export interface NameVote extends Registro {
+  name_id: string | null;
+  custom_name: string | null;
+  vote: VotoNome;
+  rank: number | null;
+}
+export interface NameMatch extends Registro {
+  /** `${familia_id}:${chave}` (a tabela não tem id). */
+  chave: string;
+  name_id: string | null;
+  custom_name: string | null;
+  primeiro: string | null;
+  segundo: string | null;
+  criado_em: string;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -395,6 +416,10 @@ export const faithFavoritos = criarColecao<FaithFavorito>("ninho.faith_favorites
 export const cartoesRemotos = criarColecao<CartaoRemoto>("ninho.rights_cards");
 export const canaisRemotos = criarColecao<CanalRemoto>("ninho.help_channels");
 export const rightsFavoritos = criarColecao<RightsFavorito>("ninho.rights_favorites");
+/** Funcionalidade 15: catálogo e matches só leitura (do servidor); votos vão pela fila. */
+export const nomesRemotos = criarColecao<NomeRemoto>("ninho.names_catalog");
+export const nameVotes = criarColecao<NameVote>("ninho.name_votes");
+export const nameMatches = criarColecao<NameMatch>("ninho.name_matches");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -431,4 +456,5 @@ export const todasColecoes = [
   articleReads,
   faithFavoritos,
   rightsFavoritos,
+  nameVotes,
 ];

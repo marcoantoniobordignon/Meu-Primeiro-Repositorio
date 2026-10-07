@@ -11,6 +11,7 @@ import {
   articleReads,
   faithFavoritos,
   rightsFavoritos,
+  nameVotes,
   appointments,
   bebes,
   bellyPhotos,
@@ -93,6 +94,8 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: articleReads as Colecao<Registro>, tabela: "article_reads", conflito: "id", soLocal: ["criado_por"] },
   { colecao: faithFavoritos as Colecao<Registro>, tabela: "faith_favorites", conflito: "id", soLocal: ["criado_por"] },
   { colecao: rightsFavoritos as Colecao<Registro>, tabela: "rights_favorites", conflito: "id", soLocal: ["criado_por"] },
+  // Funcionalidade 15: o voto é da pessoa (user_id); a família vem do trigger.
+  { colecao: nameVotes as Colecao<Registro>, tabela: "name_votes", conflito: "id", soLocal: ["criado_por"] },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

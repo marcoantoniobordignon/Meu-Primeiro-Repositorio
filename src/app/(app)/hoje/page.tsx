@@ -27,6 +27,7 @@ import { Botao } from "@/components/ui/Botao";
 import { bebeCopy } from "@/copy/bebe";
 import { home as copy } from "@/copy/home";
 import { nascimentoCopy } from "@/copy/nascimento";
+import { nomesCopy } from "@/copy/nomes";
 import { track } from "@/lib/analytics";
 import { sonoEmAndamento } from "@/lib/bebe/registros";
 import { useBebes } from "@/lib/bebe/useBebes";
@@ -101,6 +102,8 @@ export default function PaginaHoje() {
             </>
           )}
         </p>
+        {/* Funcionalidade 15 RN-07: o nome escolhido aparece no app. */}
+        {modo === "gestacao" && perfil.nomeDoBebe && <p className="tipo-corpo -mt-2 text-texto-mudo">{nomesCopy.esperando(perfil.nomeDoBebe)}</p>}
         <SeletorBebe />
       </header>
 

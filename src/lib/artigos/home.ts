@@ -22,6 +22,8 @@ export interface DadosDaHome {
    * semana 28 a tabela da spec 11 deixaria o card fora dos 6, e a spec 16 pede que a home sugira o acompanhante.
    */
   direitoNovo?: boolean;
+  /** Funcionalidade 15: votos meus, matches do casal e se o nome já foi escolhido. */
+  nomes?: { votos: number; matches: number; escolhido: boolean };
   /** Cards de features que este papel não vê (avó e cuidador não veem medicamentos, exames, plano...). */
   semPermissao?: CardDaTabela[];
 }
@@ -40,8 +42,8 @@ export function estadosDosCards(d: DadosDaHome): Record<CardDaTabela, EstadoCard
     artigo: !d.artigo.existe ? "oculto" : d.artigo.naoLidos > 0 ? "pendente" : "feito",
     faq: "normal",
     direitos: !d.direitos ? "oculto" : d.direitoNovo ? "pendente" : "normal",
-    // A funcionalidade de nomes ainda não existe: o card fica de fora até ela ter spec.
-    nomes: "oculto",
+    // Funcionalidade 15: escolhido = feito; sem voto = estado vazio; match esperando decisão = pendente.
+    nomes: !d.nomes ? "oculto" : d.nomes.escolhido ? "feito" : d.nomes.votos === 0 ? "vazio" : d.nomes.matches > 0 ? "pendente" : "normal",
   };
   for (const c of d.semPermissao ?? []) estados[c] = "oculto";
   return estados;

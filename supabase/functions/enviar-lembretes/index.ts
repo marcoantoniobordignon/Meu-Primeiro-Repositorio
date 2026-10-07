@@ -55,12 +55,15 @@ Deno.serve(async (req) => {
     console.error("faxina da galeria", e instanceof Error ? e.message : e);
   }
 
-  // Funcionalidade 09 RN-07: "Sua pergunta foi respondida" (o aviso já está na central; aqui sai o push, uma vez).
+  // Avisos da central com push (uma vez): "Sua pergunta foi respondida" (funcionalidade 09 RN-07) e "Deu match!"
+  // (funcionalidade 15 RN-05, para quem curtiu primeiro). O texto vem do próprio aviso.
   try {
-    const { data: pendentes } = await sb.from("avisos").select("id, para, titulo, url, tipo").eq("push_pendente", true).order("criado_em").limit(200);
+    const { data: pendentes } = await sb.from("avisos").select("id, para, titulo, corpo, url, tipo").eq("push_pendente", true).order("criado_em").limit(200);
     for (const a of pendentes ?? []) {
       const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", a.para);
-      const carga = JSON.stringify({ titulo: a.titulo, corpo: "Toque para ver a resposta.", url: a.url, tag: `faq:${a.id}`, acoes: [], ref: a.id, categoria: "faq" });
+      const categoria = a.tipo === "name_match" ? "name_match" : "faq";
+      const corpo = (a.corpo as string | null) ?? (categoria === "faq" ? "Toque para ver a resposta." : "Toque para ver.");
+      const carga = JSON.stringify({ titulo: a.titulo, corpo, url: a.url, tag: `${categoria}:${a.id}`, acoes: [], ref: a.id, categoria });
       for (const sub of subs ?? []) {
         try {
           await webpush.sendNotification({ endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } }, carga, { TTL: 60 * 60 * 24, urgency: "normal" });
@@ -73,7 +76,7 @@ Deno.serve(async (req) => {
       await sb.from("avisos").update({ push_pendente: false }).eq("id", a.id);
     }
   } catch (e) {
-    console.error("faq_answer", e instanceof Error ? e.message : e);
+    console.error("avisos com push", e instanceof Error ? e.message : e);
   }
 
   const { data: gestantes, error } = await sb

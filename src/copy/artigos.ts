@@ -46,6 +46,13 @@ export const artigosCopy = {
     mala: { titulo: "Mala e enxoval", progresso: (f: number, t: number) => `${f} de ${t} itens prontos`, feito: "Tudo pronto", comecar: "Monte a mala com a lista pronta" },
     artigo: { titulo: "Artigo da semana", feito: "Você leu os artigos desta semana" },
     oracao: { titulo: "Oração da semana" },
+    nomes: {
+      titulo: "Nomes",
+      vazio: "Comece a descobrir nomes",
+      curtidos: (n: number) => (n === 1 ? "1 nome curtido" : `${n} nomes curtidos`),
+      matches: (n: number) => (n === 1 ? "1 match esperando vocês" : `${n} matches esperando vocês`),
+      feito: (nome: string) => `${nome} ✓`,
+    },
     faq: { titulo: "Posso comer?", texto: "Busque um alimento e veja se pode na gravidez" },
   },
 

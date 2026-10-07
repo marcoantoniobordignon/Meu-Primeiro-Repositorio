@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import { CelebracaoMatch } from "@/components/features/nomes/CelebracaoMatch";
 import { FaixaRede } from "@/components/ui/FaixaRede";
 import { TabBar } from "@/components/ui/TabBar";
 import { track } from "@/lib/analytics";
@@ -54,6 +55,8 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
     <div className="mx-auto min-h-dvh w-full max-w-md bg-fundo pb-[calc(env(safe-area-inset-bottom,0px)+88px)]">
       <FaixaRede />
       {children}
+      {/* Funcionalidade 15 RN-05: "Deu match!" para quem curtiu por último, onde estiver. */}
+      {(perfil.papel ?? "mae") !== "avo" && (perfil.papel ?? "mae") !== "cuidador" && <CelebracaoMatch />}
       <TabBar />
     </div>
   );

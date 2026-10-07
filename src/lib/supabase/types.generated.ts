@@ -51,6 +51,8 @@ export interface Database {
         trial_fim: string | null;
         cortesia_fim: string | null;
         stripe_customer_id: string | null;
+        baby_name: string | null;
+        baby_name_chosen_at: string | null;
         criado_em: string;
         atualizado_em: string;
       }>;
@@ -291,6 +293,10 @@ export interface Database {
       }>;
       rights_favorites: Tabela<{ id: string; user_id: string; card_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
       help_channels: Tabela<{ id: string; slug: string; name: string; phone: string | null; url: string | null; description: string; position: number; active: boolean; atualizado_em: string }>;
+      // Funcionalidade 15 (0012_nomes.sql)
+      names_catalog: Tabela<{ id: string; name: string; sex_hint: "f" | "m" | "u"; origin: string | null; meaning: string | null; ibge_rank_f: number | null; ibge_rank_m: number | null; syllables: number; saint_name: string | null; saint_day: string | null; reviewed: boolean; atualizado_em: string }>;
+      name_votes: Tabela<{ id: string; familia_id: string; user_id: string; name_id: string | null; custom_name: string | null; vote: "like" | "dislike"; rank: number | null; chave: string; created_at: string; updated_at: string; atualizado_em: string; apagado_em: string | null }>;
+      name_matches: Tabela<{ familia_id: string; chave: string; name_id: string | null; custom_name: string | null; primeiro: string | null; segundo: string | null; criado_em: string; desfeito_em: string | null; atualizado_em: string }>;
       article_reads: Tabela<{ id: string; user_id: string; article_id: string; first_opened_at: string; read_at: string | null; is_favorite: boolean; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
     };
     Views: {
@@ -308,7 +314,7 @@ export interface Database {
       iniciar_cortesia: { Args: { p_nascido_em: string }; Returns: string | null };
       meus_membros: { Args: Record<string, never>; Returns: { profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string; permissoes: Json; removido_em: string | null }[] };
       definir_permissoes_parceiro: { Args: { p_profile_id: string; p_permissoes: Json }; Returns: undefined };
-      minha_familia: { Args: Record<string, never>; Returns: { familia_id: string; papel: string; plano: string; trial_fim: string | null; cortesia_fim: string | null; modo: string; dpp: string | null }[] };
+      minha_familia: { Args: Record<string, never>; Returns: { familia_id: string; papel: string; plano: string; trial_fim: string | null; cortesia_fim: string | null; modo: string; dpp: string | null; baby_name: string | null }[] };
       // Funcionalidade 12
       criar_convite_parceiro: { Args: Record<string, never>; Returns: Json };
       revogar_convite_parceiro: { Args: Record<string, never>; Returns: undefined };
@@ -325,6 +331,9 @@ export interface Database {
       faq_perguntas_abertas: { Args: Record<string, never>; Returns: { id: string; text: string; votes_count: number; created_at: string }[] };
       faq_publicar: { Args: { p_food: string; p_perguntas?: string[]; p_revisor?: string | null; p_revisado_em?: string | null }; Returns: number };
       faq_rejeitar: { Args: { p_pergunta: string; p_motivo: string }; Returns: undefined };
+      // Funcionalidade 15
+      escolher_nome: { Args: { p_chave: string }; Returns: string };
+      desfazer_nome: { Args: Record<string, never>; Returns: undefined };
       // Funcionalidade 16
       sou_parceiro: { Args: Record<string, never>; Returns: boolean };
       buscar_direitos: { Args: { p_q: string; p_topic?: string | null }; Returns: Tabelas["rights_cards"]["Row"][] };

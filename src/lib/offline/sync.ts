@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { artigosRemotos, canaisRemotos, cartoesRemotos, oracoesRemotas, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type CanalRemoto, type CartaoRemoto, type OracaoRemota, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { artigosRemotos, nameMatches, nomesRemotos, canaisRemotos, cartoesRemotos, oracoesRemotas, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type NameMatch, type NomeRemoto, type CanalRemoto, type CartaoRemoto, type OracaoRemota, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, perfilAtual, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
@@ -98,6 +98,7 @@ export async function puxar(sb: Cliente): Promise<void> {
   await puxarArtigos(sb, ultima);
   await puxarOracoes(sb, ultima);
   await puxarDireitos(sb, ultima);
+  await puxarNomes(sb, ultima);
   guardarUltima(ultima);
   await puxarViradas(sb);
   await puxarFamilia(sb);
@@ -171,6 +172,27 @@ async function puxarDireitos(sb: Cliente, ultima: Record<string, string>): Promi
   }
 }
 
+/**
+ * Funcionalidade 15 RN-11: o catálogo vem uma vez (em páginas) e fica no aparelho; depois, só o que mudou.
+ * Os matches do casal chegam pela RLS (nunca os votos do outro); o desfeito sai da lista.
+ */
+async function puxarNomes(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  for (let pagina = 0; pagina < 10; pagina++) {
+    const { data, error } = await tabela(sb, "names_catalog").select("*").gt("atualizado_em", ultima.names_catalog ?? "1970-01-01T00:00:00Z").order("atualizado_em", { ascending: true }).limit(1000);
+    if (error || !data?.length) break;
+    const linhas = data as unknown as NomeRemoto[];
+    nomesRemotos.mesclar(linhas);
+    ultima.names_catalog = linhas[linhas.length - 1]!.atualizado_em;
+    if (linhas.length < 1000) break;
+  }
+  const { data, error } = await tabela(sb, "name_matches").select("*").gt("atualizado_em", ultima.name_matches ?? "1970-01-01T00:00:00Z").order("atualizado_em", { ascending: true }).limit(1000);
+  if (error || !data) return;
+  const linhas = data as unknown as (Omit<NameMatch, "id" | "apagado_em"> & { familia_id: string; desfeito_em: string | null })[];
+  nameMatches.mesclar(linhas.map((m) => ({ ...m, id: `${m.familia_id}:${m.chave}`, apagado_em: m.desfeito_em })));
+  const maior = linhas[linhas.length - 1]?.atualizado_em;
+  if (maior) ultima.name_matches = maior;
+}
+
 /** Funcionalidade 11 RN-06: a virada vista em outro aparelho não aparece de novo neste. */
 async function puxarViradas(sb: Cliente): Promise<void> {
   const s = sessaoAtual();
@@ -188,7 +210,7 @@ async function puxarViradas(sb: Cliente): Promise<void> {
 /** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */
 async function puxarFamilia(sb: Cliente): Promise<void> {
   const [{ data: fam }, { data: lista }] = await Promise.all([
-    chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null; dpp: string | null }[]>(sb, "minha_familia"),
+    chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null; dpp: string | null; baby_name: string | null }[]>(sb, "minha_familia"),
     chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string; permissoes: PermissoesParceiro | null; removido_em: string | null }[]>(sb, "meus_membros"),
   ]);
   const f = fam?.[0];
@@ -199,6 +221,8 @@ async function puxarFamilia(sb: Cliente): Promise<void> {
       cortesiaFim: f.cortesia_fim,
       // Funcionalidade 12: quem acompanha vê a semana dela (a DPP é da gestante).
       ...(f.papel !== "mae" && f.dpp ? { dpp: f.dpp } : {}),
+      // Funcionalidade 15 RN-07: o nome escolhido vale para os dois.
+      nomeDoBebe: f.baby_name ?? null,
     });
   }
   const atuais = membros.listarTodos();

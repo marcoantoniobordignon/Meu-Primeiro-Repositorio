@@ -37,7 +37,8 @@ export function SheetNascimento({ aberto, onFechar }: Props) {
 
   useEffect(() => {
     if (!aberto) return;
-    setNomes([""]);
+    // Funcionalidade 15 RN-07: o nome escolhido já vem preenchido.
+    setNomes([perfil?.nomeDoBebe ?? ""]);
     setData(paraISO(new Date()));
     setHora(new Date().toTimeString().slice(0, 5));
     setPrematuro(false);

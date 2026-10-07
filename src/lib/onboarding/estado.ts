@@ -57,6 +57,8 @@ export interface Perfil {
   onboardingConcluidoEm: string;
   /** Funcionalidade 11 RN-06: `profiles.t2_seen_at`/`t3_seen_at` (a tela de virada aparece uma vez). */
   t2VistoEm?: string | null;
+  /** Funcionalidade 15 RN-07: o nome escolhido ("Este é o nome!"), da família (`familias.baby_name`). */
+  nomeDoBebe?: string | null;
   t3VistoEm?: string | null;
 }
 

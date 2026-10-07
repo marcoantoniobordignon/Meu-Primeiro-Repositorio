@@ -21,13 +21,14 @@ import { useDireitos } from "@/lib/direitos/useDireitos";
 import { paraEstaFase } from "@dominio/direitos.ts";
 import { useArtigos } from "./useArtigos";
 import { useFe } from "@/lib/fe/useFe";
+import { useNomes } from "@/lib/nomes/useNomes";
 
 /** RN-02: junta o que cada feature tem e devolve os cards da home em ordem, com o que cada um mostra. */
-export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameters<typeof prefsCompletas>[0]) {
+export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameters<typeof prefsCompletas>[0], nomeDoBebe?: string | null) {
   const tz = useFuso();
   const agora = useAgora(60_000);
   const hoje = dataNoFuso(agora, tz);
-  const { permissoes, meuId } = useFamilia();
+  const { permissoes, meuId, papel } = useFamilia();
   const exames = useColecao(userExams);
   const meds = useColecao(medications);
   const doses = useColecao(medicationDoses);
@@ -39,6 +40,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
   const itens = useColecao(birthChecklistItems);
   const { artigos, lidos } = useArtigos();
   const fe = useFe();
+  const nomes = useNomes();
   // Funcionalidade 17 RN-02/03: com o modo ligado, a oração da semana (min(semana, 40)) na posição 3.
   const oracao = fe.ligado ? (oracaoDaSemana(fe.oracoes, semana) ?? null) : null;
 
@@ -57,6 +59,8 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
     ...(!permissoes.verDiario ? (["marco"] as const) : []),
     ...(!permissoes.tirarFotosBarriga ? (["foto"] as const) : []),
     ...(!permissoes.verPlanoParto ? (["plano_parto", "mala"] as const) : []),
+    // Funcionalidade 15: a votação de nomes é do casal.
+    ...(papel !== "mae" && papel !== "parceiro" ? (["nomes"] as const) : []),
   ];
 
   const estados = estadosDosCards({
@@ -70,6 +74,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
     artigo: { existe: temArtigoParaASemana(artigos, semana), naoLidos: semana3.length },
     direitos: direitos.length > 0,
     direitoNovo: direitos.some((c) => c.week_from === semana),
+    nomes: { votos: nomes.votos.length, matches: nomes.matches.length, escolhido: Boolean(nomeDoBebe) },
     semPermissao,
   });
 
@@ -86,6 +91,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
       artigo: semana3[0] ?? null,
       direitos,
       oracao,
+      nomes: { curtidos: nomes.curtidos.length, matches: nomes.matches.length, escolhido: nomeDoBebe ?? null },
     },
   };
 }

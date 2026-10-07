@@ -1,6 +1,6 @@
 "use client";
 
-import { Apple, BookOpen, Church, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill } from "lucide-react";
+import { Apple, Baby, BookOpen, Church, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -46,7 +46,7 @@ function CardAtalho({ a, feito, onToque }: { a: Atalho; feito: boolean; onToque:
 
 /** Funcionalidade 11 · Tela 1: anel da semana e até 6 cards na ordem do trimestre (RN-02). */
 export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGestacional }) {
-  const { cards, detalhes, tri } = useHomeDoTrimestre(perfil.dpp!, g.semana, perfil.prefs);
+  const { cards, detalhes, tri } = useHomeDoTrimestre(perfil.dpp!, g.semana, perfil.prefs, perfil.nomeDoBebe);
 
   const atalho = (c: CardDaHome): Atalho | null => {
     const e = c.estado;
@@ -76,6 +76,13 @@ export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGesta
         return detalhes.artigo
           ? { href: `/artigos/ler?slug=${detalhes.artigo.slug}&de=home`, icone: <BookOpen size={18} />, titulo: detalhes.artigo.title, texto: `${copy.artigo.titulo} · ${artigosCopy.minutos(detalhes.artigo.reading_minutes)}` }
           : { href: "/artigos", icone: <BookOpen size={18} />, titulo: copy.artigo.titulo, texto: copy.artigo.feito };
+      case "nomes":
+        return {
+          href: e === "pendente" ? "/nomes/meus?aba=match" : "/nomes",
+          icone: <Baby size={18} />,
+          titulo: copy.nomes.titulo,
+          texto: e === "feito" ? copy.nomes.feito(detalhes.nomes.escolhido ?? "") : e === "vazio" ? copy.nomes.vazio : e === "pendente" ? copy.nomes.matches(detalhes.nomes.matches) : copy.nomes.curtidos(detalhes.nomes.curtidos),
+        };
       case "faq":
         return { href: "/faq", icone: <Apple size={18} />, titulo: copy.faq.titulo, texto: copy.faq.texto };
       case "oracao":

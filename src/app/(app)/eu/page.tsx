@@ -14,6 +14,7 @@ import { Sheet } from "@/components/ui/Sheet";
 import { PermissaoIa } from "@/components/features/galeria/PermissaoIa";
 import { AjustesParceiro } from "@/components/features/parceiro/AjustesParceiro";
 import { AtivarAvisos } from "@/components/features/lembretes/AtivarAvisos";
+import { NomeEscolhido } from "@/components/features/nomes/NomeEscolhido";
 import { euCopy as copy } from "@/copy/eu";
 import { feCopy } from "@/copy/fe";
 import { onboarding as onbCopy } from "@/copy/onboarding";
@@ -116,6 +117,7 @@ export default function PaginaEu() {
           {gestacao && permissoes.verFotosBarriga && atalho("/barriga", copy.barriga, Camera)}
           {gestacao && permissoes.verDiario && atalho("/diario", copy.diarioGravidez, Sparkles)}
           {gestacao && atalho("/artigos", copy.artigos, BookOpen)}
+          {gestacao && (papel === "mae" || papel === "parceiro") && atalho("/nomes", copy.nomes, Baby)}
           {atalho("/direitos", copy.direitos, Scale)}
           {atalho("/faq", copy.faq, Apple)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
@@ -133,6 +135,8 @@ export default function PaginaEu() {
           </div>
         </Card>
       </section>
+
+      {perfil.nomeDoBebe && (papel === "mae" || papel === "parceiro") && <NomeEscolhido nome={perfil.nomeDoBebe} />}
 
       {/* Funcionalidade 17 · Tela 5: a chave do modo fé e a seção "Fé" (RN-02: desligar oculta e não apaga nada). */}
       <section>

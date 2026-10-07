@@ -82,6 +82,14 @@ export type Eventos = {
   faq_question_submitted: Record<string, never>;
   faq_question_voted: Record<string, never>;
   faq_answer_push_opened: Record<string, never>;
+  // funcionalidade 15 · nomes (nunca o nome em si)
+  names_swipe: { vote: "like" | "dislike" };
+  names_undo: Record<string, never>;
+  names_ranked: Record<string, never>;
+  names_match_created: Record<string, never>;
+  names_chosen: Record<string, never>;
+  names_listen_tapped: Record<string, never>;
+  names_custom_added: Record<string, never>;
   // funcionalidade 16 · direitos da gestante (nunca o texto da busca)
   rights_card_opened: { slug: string; source: "search" | "home" | "link" };
   rights_search: { query_len: number; results: number };
