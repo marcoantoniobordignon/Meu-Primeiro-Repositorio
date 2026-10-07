@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 11 · Adaptação por trimestre, no build sem servidor (a semente de
  * artigos aparece como rascunho). Publicação e privacidade das leituras estão no pgTAP (supabase/tests/trimestre.test.sql).
@@ -162,13 +164,13 @@ test("sem internet, leio artigos já abertos e os favoritos", async ({ page, con
   await page.getByRole("button", { name: "Favoritar" }).click();
   await expect(page.getByText("Nos seus favoritos ✓")).toBeVisible();
   await page.goto("/artigos");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   const favs = page.locator("section", { has: page.getByRole("heading", { name: "Meus favoritos" }) });
   await favs.getByRole("link", { name: /Enjoo no primeiro trimestre/ }).click();
   await expect(page.getByRole("heading", { name: /Enjoo no primeiro trimestre/, level: 2 })).toBeVisible();
   await expect(page.getByRole("heading", { name: "O que costuma ajudar", level: 3 })).toBeVisible();
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 for (const [semana, tri] of [[10, "1"], [20, "2"], [30, "3"]] as const) {

@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /** Critérios de aceite da funcionalidade 08 · Calendário, no build de produção sem servidor. */
 test.use({ timezoneId: "America/Sao_Paulo" });
 
@@ -166,7 +168,7 @@ test("sem internet, vejo o que já carreguei e crio um evento", async ({ page, c
   await page.goto("/calendario/evento");
   await page.goto("/calendario/dia?d=" + hojeISO());
   await page.goto("/calendario");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await expect(page.getByRole("gridcell", { name: /Dra. Ana/ })).toBeVisible();
   await page.getByRole("button", { name: "Novo evento" }).click();
@@ -176,5 +178,5 @@ test("sem internet, vejo o que já carreguei e crio um evento", async ({ page, c
   await expect(page.getByText("Evento salvo ✓")).toBeVisible();
   const salvos = await page.evaluate(() => JSON.parse(localStorage.getItem("ninho.calendar_events") ?? "[]").map((e: { title: string }) => e.title));
   expect(salvos).toContain("Fisioterapia");
-  await context.setOffline(false);
+  await voltarARede(context);
 });

@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 17 · Modo fé, no build sem servidor (a semente de orações aparece
  * como rascunho). Publicação, favoritos por pessoa e contadores anônimos estão no pgTAP (supabase/tests/fe.test.sql).
@@ -149,13 +151,13 @@ test("sem internet, leio as orações", async ({ page, context }) => {
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => undefined));
   await page.goto("/fe/oracao?slug=ave-maria");
   await page.goto("/fe");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await page.getByRole("tab", { name: "Intercessores" }).click();
   await page.getByRole("link", { name: /Nossa Senhora do Bom Parto/ }).click();
   await expect(page.getByRole("heading", { name: /Nossa Senhora do Bom Parto/, level: 2 })).toBeVisible();
   await expect(page.locator("[data-texto-oracao] p").first()).not.toBeEmpty();
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("nenhum evento de analytics carrega dado do modo fé", async ({ page }) => {

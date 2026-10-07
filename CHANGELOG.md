@@ -2,6 +2,11 @@
 
 ## Não lançado
 
+### Offline (correção encontrada pelo CI)
+- O CI (Chromium mais novo, em que `setOffline` também corta a rede do service worker) mostrou que, sem rede, telas com query (`/cartas/escrever?id=`, `/direitos/cartao?slug=`, `/fe/oracao?id=`, `/artigos/artigo?slug=`) caíam em "Sem conexão" e que navegar dentro do app recarregava a página (perdendo o aviso "Evento salvo ✓"). O service worker agora guarda as páginas pelo caminho, sem a query (todas são estáticas), e o RSC de cada tela aberta, para a navegação do app funcionar offline sem recarregar.
+- Voltar a rede não recarrega mais a tela (`reloadOnOnline: false`): o recarregamento apagava o que estava sendo escrito; a fila já sincroniza sozinha.
+- Os testes "sem internet" usam `e2e/rede.ts`, que corta também a rede do service worker em qualquer Chromium (antes, localmente, o SW ainda buscava no servidor e escondia essas falhas).
+
 ### Funcionalidade 07 · Retrospectiva da gravidez (specs/funcionalidades/07-retrospectiva.md)
 - Migration `0014_retrospectiva.sql`: `retrospectives` (só a configuração: `hidden_slides` e `chosen_entries` `{slide: {"entrada": id} | {"texto": "..."}}`, `last_exported_at`; uma por família e tipo; os obrigatórios não podem ser ocultados, RN-05 no banco; RLS só da gestante, para o parceiro não ver) e `bebes.peso_g` (500–7000) e `bebes.comprimento_cm` (20–65), opcionais (RN-10). Categoria `retro` nos envios. pgTAP: `supabase/tests/retrospectiva.test.sql`, 11 testes.
 - Decisão em aberto da spec: o registro do nascimento reutiliza o "Nasceu!" que já existia, agora com peso e comprimento opcionais (por bebê, nos gêmeos) e a data mínima DUM + 140 dias (RN-02); evento `birth_registered`. Os campos do nascimento ficam em `bebes` (a "gestação" da spec é a família).

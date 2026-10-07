@@ -1,6 +1,6 @@
 import { defaultCache } from "@serwist/next/worker";
-import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import type { PrecacheEntry, SerwistGlobalConfig, SerwistPlugin } from "serwist";
+import { NetworkFirst, Serwist } from "serwist";
 
 import { idbSalvar, STORE_ACOES_PUSH } from "@/lib/offline/idb";
 
@@ -17,12 +17,53 @@ declare const self: ServiceWorkerGlobalScope;
  * e fallback de navegação para /~offline. Os dados vivem no localStorage/IndexedDB,
  * então toda tela já aberta renderiza sem rede (ARQ-04).
  */
+/**
+ * Todas as telas são estáticas: a query (`?id=`, `?slug=`, `?kind=`) só é lida no aparelho. Guardar a página pelo
+ * caminho, sem a query, faz `/cartas/escrever?id=…` abrir sem rede depois de `/cartas/escrever` ter sido aberta
+ * (e o Next cai numa navegação de documento quando o RSC falha offline).
+ */
+const semQuery: SerwistPlugin = {
+  cacheKeyWillBeUsed: async ({ request }) => {
+    const url = new URL(request.url);
+    url.search = "";
+    return url.href;
+  },
+  // Abriu a tela com rede: guarda também o RSC dela, para a navegação do app (sem recarregar) funcionar offline.
+  // (cacheDidUpdate também vale para a resposta do navigation preload, que não passa pelo fetchDidSucceed.)
+  cacheDidUpdate: async ({ request, event }) => {
+    event.waitUntil(aquecerRsc(request.url).catch(() => undefined));
+  },
+};
+
+/** O RSC de uma tela estática é o mesmo para qualquer origem e query: uma chave por caminho. */
+const CACHE_RSC = "paginas-rsc";
+const chaveRsc = (url: string) => {
+  const u = new URL(url);
+  return `${u.origin}${u.pathname}?__rsc`;
+};
+const rscPeloCaminho: SerwistPlugin = { cacheKeyWillBeUsed: async ({ request }) => chaveRsc(request.url) };
+
+async function aquecerRsc(url: string): Promise<void> {
+  const resposta = await fetch(new URL(url).pathname, { headers: { RSC: "1" } });
+  if (resposta.ok) await (await caches.open(CACHE_RSC)).put(chaveRsc(url), resposta);
+}
+
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  runtimeCaching: defaultCache,
+  runtimeCaching: [
+    {
+      matcher: ({ request, sameOrigin }) => sameOrigin && request.mode === "navigate",
+      handler: new NetworkFirst({ cacheName: "paginas", networkTimeoutSeconds: 5, plugins: [semQuery] }),
+    },
+    {
+      matcher: ({ request, sameOrigin }) => sameOrigin && request.headers.get("RSC") === "1" && !request.headers.has("Next-Router-Segment-Prefetch"),
+      handler: new NetworkFirst({ cacheName: CACHE_RSC, networkTimeoutSeconds: 5, plugins: [rscPeloCaminho], matchOptions: { ignoreVary: true } }),
+    },
+    ...defaultCache,
+  ],
   fallbacks: {
     entries: [
       {

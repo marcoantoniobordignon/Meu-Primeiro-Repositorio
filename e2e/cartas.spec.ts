@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 14 · Cartas, no build sem servidor. O lacre de verdade (conteúdo fora da API),
  * a abertura na data, o link de leitura e o recálculo no nascimento estão no pgTAP (supabase/tests/cartas.test.sql);
@@ -62,7 +64,7 @@ test("sem internet escrevo um rascunho; lacrar exige conexão (e conta com servi
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => undefined));
   await page.goto("/cartas/escrever");
   await page.goto("/cartas");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await page.getByRole("button", { name: "Escrever carta" }).click();
   await escrever(page, "Escrita no avião", "Sem internet também.");
@@ -71,7 +73,7 @@ test("sem internet escrevo um rascunho; lacrar exige conexão (e conta com servi
   await expect(sheet.getByText(/Esta carta só poderá ser lida em/)).toBeVisible();
   await sheet.getByRole("button", { name: "Lacrar" }).click();
   await expect(sheet.getByRole("alert")).toContainText("precisa de conta com internet");
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("no free, ao criar a 3ª carta vejo o paywall; áudio e foto também são do Completo", async ({ page }) => {

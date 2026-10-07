@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 15 · Lista de nomes, no build sem servidor. Match entre os dois, privacidade
  * dos votos e o push `name_match` dependem do banco: pgTAP (supabase/tests/nomes.test.sql).
@@ -190,12 +192,12 @@ test("sem internet, deslizo nomes e os votos ficam guardados", async ({ page, co
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => undefined));
   await page.goto("/nomes/meus");
   await page.goto("/nomes");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   const nome = await nomeDaCarta(page);
   await page.getByRole("button", { name: "Curtir", exact: true }).click();
   await page.reload();
   await page.getByRole("link", { name: "Meus nomes" }).click();
   await expect(page.getByRole("tabpanel").getByRole("link", { name: nome, exact: true })).toBeVisible();
-  await context.setOffline(false);
+  await voltarARede(context);
 });

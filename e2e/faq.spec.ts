@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 09 · FAQ de comidas, no build sem servidor: aparece a semente
  * em rascunho (com o selo); publicar, perguntar e votar com servidor estão no pgTAP (supabase/tests/faq.test.sql).
@@ -77,13 +79,13 @@ test("favorito um verbete e o encontro sem internet; a busca também funciona of
   await page.getByRole("button", { name: "Favoritar" }).click();
   await expect(page.getByText("Nos seus favoritos ✓")).toBeVisible();
   await page.goto("/faq");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   const favs = page.locator("section", { has: page.getByRole("heading", { name: "Meus favoritos" }) });
   await expect(favs.getByRole("link", { name: /^Café/ })).toBeVisible();
   await page.getByRole("searchbox").fill("kombuxa");
   await expect(page.getByRole("link", { name: /^Kombucha/ })).toBeVisible();
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("navego por categoria", async ({ page }) => {

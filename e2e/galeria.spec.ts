@@ -1,6 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 01 · Galeria de exames e ultrassons (specs/funcionalidades/01),
  * no build de produção, sem servidor (app 100 % local).
@@ -360,7 +362,7 @@ test("sem internet, abro a galeria, vejo o que já carreguei e adiciono um docum
   await page.goto("/galeria");
   await expect(page.getByRole("link", { name: /Já guardado/ })).toBeVisible();
 
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await expect(page.getByRole("link", { name: /Já guardado/ })).toBeVisible();
   await page.getByRole("button", { name: "+ Adicionar" }).click();
@@ -370,5 +372,5 @@ test("sem internet, abro a galeria, vejo o que já carreguei e adiciono um docum
   await expect(page).toHaveURL(/\/galeria$/);
   await expect(page.getByText("Guardado na galeria ✓")).toBeVisible();
   await expect(page.getByRole("link", { name: /Glicemia/ })).toBeVisible();
-  await context.setOffline(false);
+  await voltarARede(context);
 });

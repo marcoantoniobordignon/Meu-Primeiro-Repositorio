@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 16 · Direitos da gestante, no build sem servidor (a semente aparece como
  * rascunho). Selos de revisão e de atualização dependem de cartões publicados: Vitest (direitos.test.ts) e pgTAP.
@@ -98,12 +100,12 @@ test("sem internet, leio todos os cartões e os canais", async ({ page, context 
   await page.goto("/direitos/cartao?slug=testes-do-bebe");
   await page.goto("/direitos/ajuda");
   await page.goto("/direitos");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await expect(page.getByRole("list", { name: "Seus direitos" }).getByRole("link")).toHaveCount(17);
   await page.getByRole("link", { name: /O registro de nascimento é gratuito\?/ }).click();
   await expect(page.getByRole("heading", { name: "O registro de nascimento é gratuito?" })).toBeVisible();
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("o parceiro vê o cartão da licença-paternidade, mas não os cartões só da gestante", async ({ page }) => {

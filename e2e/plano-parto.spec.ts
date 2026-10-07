@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { expect, test, type Page } from "@playwright/test";
 import { PDFDocument } from "pdf-lib";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /** Critérios de aceite da funcionalidade 10 · Plano de parto, malas e enxoval (build de produção, sem servidor). */
 test.use({ timezoneId: "America/Sao_Paulo" });
 
@@ -103,11 +105,11 @@ test("gero o PDF com maternidade, equipe e preferências marcadas, em uma págin
 
   // Modo avião numa tela já aberta: o PDF é montado no aparelho.
   await page.goto("/plano-parto/pdf");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   const offline = await pdfBaixado(page, () => page.getByRole("button", { name: /PDF/ }).click());
   expect(offline.pdf.getPageCount()).toBe(1);
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("marco itens da mala (também sem internet) e o progresso sobe; adiciono 'Almofada de amamentação' e fica salvo", async ({ page, context }) => {
@@ -115,7 +117,7 @@ test("marco itens da mala (também sem internet) e o progresso sobe; adiciono 'A
   await page.goto("/plano-parto/listas");
   await expect(page.getByLabel("Mala da mãe: 0 de 12")).toBeVisible();
   await page.evaluate(() => navigator.serviceWorker.ready.then(() => undefined));
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.getByRole("checkbox", { name: "Marcar Chinelo" }).click();
   await page.getByRole("checkbox", { name: "Marcar Meias" }).first().click();
   await expect(page.getByLabel("Mala da mãe: 2 de 12")).toBeVisible();
@@ -123,7 +125,7 @@ test("marco itens da mala (também sem internet) e o progresso sobe; adiciono 'A
   await page.getByRole("button", { name: "Adicionar item" }).first().click();
   await expect(page.getByLabel("Mala da mãe: 2 de 13")).toBeVisible();
   await page.getByRole("button", { name: "Uma a mais de Almofada de amamentação" }).click();
-  await context.setOffline(false);
+  await voltarARede(context);
   await page.goto("/plano-parto");
   await page.goto("/plano-parto/listas");
   await expect(page.getByRole("checkbox", { name: "Marcar Almofada de amamentação" })).toBeVisible();

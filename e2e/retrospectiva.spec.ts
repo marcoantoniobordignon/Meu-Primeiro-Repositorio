@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 
 import { expect, test, type Page } from "@playwright/test";
 
+import { ficarSemRede, voltarARede } from "./rede";
+
 /**
  * Critérios de aceite da funcionalidade 07 · Retrospectiva, no build sem servidor. As regras do domínio (slides,
  * frases, ocultos, push) estão no Vitest (src/lib/dominio/retrospectiva.test.ts); a RLS (só a gestante), no pgTAP.
@@ -144,13 +146,13 @@ test("sem internet, assisto à retrospectiva; exportar pede conexão", async ({ 
   await page.evaluate(() => navigator.serviceWorker?.ready.then(() => undefined));
   await page.goto("/memorias/retrospectiva/exportar?kind=preview");
   await page.goto("/memorias/retrospectiva?kind=preview");
-  await context.setOffline(true);
+  await ficarSemRede(context);
   await page.reload();
   await expect(player(page).locator("[aria-live]")).toContainText("Slide 1 de 5");
   await page.goto("/memorias/retrospectiva/exportar?kind=preview");
   await page.getByRole("button", { name: "Exportar" }).nth(1).click();
   await expect(page.getByRole("alert").filter({ hasText: "Conecte-se" })).toHaveText("Conecte-se para baixar as fotos.");
-  await context.setOffline(false);
+  await voltarARede(context);
 });
 
 test("o parceiro não vê a retrospectiva", async ({ page }) => {
