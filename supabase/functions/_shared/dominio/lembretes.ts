@@ -9,6 +9,7 @@
 import { lembretesDeEventos, type EventoCalendario } from "./calendario.ts";
 import { lembretesDoPlano, type ItemLista, type PlanoParto } from "./plano-parto.ts";
 import { lembretesDeVirada } from "./trimestre.ts";
+import { lembreteDoBatismo, oracaoNaVirada } from "./fe.ts";
 import { pautaDaConsulta, proximaConsulta, type ConsultaBase, type PerguntaBase } from "./consultas.ts";
 import { lembretesDaSemana } from "./barriga.ts";
 import { CATALOGO_MARCOS, DIAS_PUSH_DESCOBERTA, estadoDoMarco, marcoVisivel, perguntaDoMarco, type SituacaoMarco } from "./diario.ts";
@@ -18,7 +19,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "trimester";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "trimester" | "faith";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {
@@ -68,6 +69,8 @@ export interface EstadoParaLembretes {
   eventos?: EventoCalendario[];
   /** Funcionalidade 10 RN-07: plano e listas (sem eles, só o lembrete da semana 28). */
   plano?: { plano: PlanoParto | null; itens: ItemLista[] };
+  /** Funcionalidade 17 RN-07: data do nascimento (no modo bebê), para o lembrete do batismo. */
+  nascidoEm?: DataISO | null;
 }
 
 const url = (caminho: string, categoria: Categoria, extra: Record<string, string> = {}) => {
@@ -200,7 +203,7 @@ function lembretesDoDiario(e: EstadoParaLembretes, prefs: Required<Prefs>): Lemb
 /** Todos os lembretes que o estado atual pede (o filtro do "agora" é do `selecionarParaEnvio`). */
 export function planejar(e: EstadoParaLembretes): Lembrete[] {
   const prefs = prefsCompletas(e.prefs);
-  return [
+  const lista = [
     ...lembretesDeMedicamentos(e, prefs.notifications_discreet),
     ...lembretesDeExames(e),
     ...lembretesDeConsultas(e),
@@ -210,7 +213,11 @@ export function planejar(e: EstadoParaLembretes): Lembrete[] {
     ...(e.plano ? lembretesDoPlano({ dpp: e.dpp, tz: e.tz, plano: e.plano.plano, itens: e.plano.itens }) : []),
     // Funcionalidade 11 RN-06: a virada de trimestre, no dia, às 09:00.
     ...lembretesDeVirada({ dpp: e.dpp, tz: e.tz, criadaEm: e.criadaEm }),
+    // Funcionalidade 17 RN-07: batismo aos 14 dias do nascimento (só com o modo fé).
+    ...lembreteDoBatismo({ nascidoEm: e.nascidoEm, tz: e.tz, modoFe: prefs.faith_mode }),
   ];
+  // Funcionalidade 17 RN-08: a oração da semana embutida na virada, só se ela ligou em Ajustes.
+  return oracaoNaVirada(lista, { dpp: e.dpp, agora: e.agora, tz: e.tz, modoFe: prefs.faith_mode, oracaoNoPush: prefs.faith_weekly_push });
 }
 
 /** Só sai o que venceu há no máximo 30 min: voltar depois de dias não dispara o atrasado. */

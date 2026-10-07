@@ -156,7 +156,7 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq" | "trimester"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq" | "trimester" | "faith"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
       avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null; push_pendente: boolean }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
@@ -247,6 +247,26 @@ export interface Database {
         criado_em: string;
         atualizado_em: string;
       }>;
+      // Funcionalidade 17 (0010_fe.sql)
+      faith_prayers: Tabela<{
+        id: string;
+        slug: string;
+        kind: "weekly" | "fixed" | "intercessor" | "blessing";
+        title: string;
+        body: string;
+        week: number | null;
+        saint_name: string | null;
+        saint_day: string | null;
+        source_label: string;
+        reviewed_by: string | null;
+        reviewed_on: string | null;
+        position: number;
+        status: "draft" | "published" | "archived";
+        criado_em: string;
+        atualizado_em: string;
+      }>;
+      faith_favorites: Tabela<{ id: string; user_id: string; prayer_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
+      anon_counters: Tabela<{ dia: string; chave: "faith_on" | "faith_off" | "prayer_viewed" | "library_opened" | "verbum_link_tapped"; contagem: number }>;
       article_reads: Tabela<{ id: string; user_id: string; article_id: string; first_opened_at: string; read_at: string | null; is_favorite: boolean; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
     };
     Views: {
@@ -281,6 +301,8 @@ export interface Database {
       faq_perguntas_abertas: { Args: Record<string, never>; Returns: { id: string; text: string; votes_count: number; created_at: string }[] };
       faq_publicar: { Args: { p_food: string; p_perguntas?: string[]; p_revisor?: string | null; p_revisado_em?: string | null }; Returns: number };
       faq_rejeitar: { Args: { p_pergunta: string; p_motivo: string }; Returns: undefined };
+      // Funcionalidade 17 RN-10: contadores anônimos (o app chama sem sessão).
+      somar_contadores_anonimos: { Args: { p_itens: Json }; Returns: undefined };
       // Funcionalidade 08
       feed_calendario: { Args: { p_novo?: boolean }; Returns: string };
       revogar_feed_calendario: { Args: Record<string, never>; Returns: undefined };

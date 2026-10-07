@@ -31,10 +31,12 @@ export function semanasDoTrimestre(tri: Trimestre): [number, number] {
 // Home (RN-02)
 // ---------------------------------------------------------------------------
 export const CARDS_HOME = ["resumo", "exames", "medicamentos", "marco", "foto", "consulta", "plano_parto", "mala", "artigo", "faq", "direitos", "nomes"] as const;
-export type CardHome = (typeof CARDS_HOME)[number];
+/** "oracao" (funcionalidade 17) não está na tabela de prioridade: tem posição fixa. */
+export type CardDaTabela = (typeof CARDS_HOME)[number];
+export type CardHome = CardDaTabela | "oracao";
 
 /** A tabela da spec: prioridade por trimestre; 0 = não aparece naquele trimestre. */
-export const PRIORIDADE: Record<CardHome, readonly [number, number, number]> = {
+export const PRIORIDADE: Record<CardDaTabela, readonly [number, number, number]> = {
   resumo: [100, 100, 100],
   exames: [90, 80, 60],
   medicamentos: [85, 50, 50],
@@ -65,12 +67,15 @@ export interface CardDaHome {
   prioridade: number;
 }
 
+/** Funcionalidade 17 RN-02: com o modo fé, a oração da semana ocupa a posição 3 em todos os trimestres. */
+export const POSICAO_ORACAO = 3;
+
 /**
  * RN-02: escolhe os 6 de maior prioridade efetiva (base do trimestre, +10 se pendente) e mostra os feitos
  * no fim, com check. O resumo (anel) abre a home sempre: é a "cara" da semana, mesmo que um card
  * pendente passe dos 100.
  */
-export function cardsDaHome(tri: Trimestre, estados: Partial<Record<CardHome, EstadoCard>>, max = MAX_CARDS_HOME): CardDaHome[] {
+export function cardsDaHome(tri: Trimestre, estados: Partial<Record<CardHome, EstadoCard>>, max = MAX_CARDS_HOME, opcoes: { oracao?: boolean } = {}): CardDaHome[] {
   const candidatos = CARDS_HOME.map((card, ordem) => {
     const estado = estados[card] ?? "normal";
     const base = PRIORIDADE[card][tri - 1] ?? 0;
@@ -81,9 +86,11 @@ export function cardsDaHome(tri: Trimestre, estados: Partial<Record<CardHome, Es
   const escolhidos = candidatos
     .filter((c) => c.card !== "resumo")
     .sort(porPrioridade)
-    .slice(0, Math.max(0, max - resumo.length));
-  const ordem = [...resumo, ...escolhidos.filter((c) => c.estado !== "feito"), ...escolhidos.filter((c) => c.estado === "feito")];
-  return ordem.map(({ card, estado, prioridade }) => ({ card, estado, prioridade }));
+    .slice(0, Math.max(0, max - resumo.length - (opcoes.oracao ? 1 : 0)));
+  const ordem: CardDaHome[] = [...resumo, ...escolhidos.filter((c) => c.estado !== "feito"), ...escolhidos.filter((c) => c.estado === "feito")].map(({ card, estado, prioridade }) => ({ card, estado, prioridade }));
+  // A oração conta no limite de 6 e entra fixa na posição 3 (ou no fim, se houver menos cards).
+  if (opcoes.oracao) ordem.splice(Math.min(POSICAO_ORACAO - 1, ordem.length), 0, { card: "oracao", estado: "normal", prioridade: 0 });
+  return ordem;
 }
 
 // ---------------------------------------------------------------------------

@@ -14,7 +14,7 @@ import { supabase } from "@/lib/supabase/client";
 import type { PropsTela } from "./FluxoOnboarding";
 import { Pergunta } from "./Pergunta";
 
-/** Tela 7: guardar a linha do tempo. Pular mantém a sessão anônima (ONB-06). */
+/** Tela 8: guardar a linha do tempo. Pular mantém a sessão anônima (ONB-06). */
 export function TelaGuardar({ estado, avancar }: PropsTela) {
   const hoje = paraISO(new Date());
   const primeiraLinha =

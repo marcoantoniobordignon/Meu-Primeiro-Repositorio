@@ -167,10 +167,27 @@ declare global {
   }
 }
 
+/**
+ * Funcionalidade 17 RN-10: religião é dado sensível. Nada que denuncie o modo fé vai ao GA4: nenhum evento
+ * sai de uma tela de fé (o gtag anexa a URL a todo evento) e valores de fé (marco "Primeira oração", lista
+ * do batismo, card da oração) viram "oculto". As métricas do modo fé ficam só nos contadores anônimos.
+ */
+export const ROTAS_DE_FE = /^\/fe(\/|$)/;
+export const VALORES_DE_FE = new Set(["first_prayer", "baptism", "oracao"]);
+
+export function paraOGa(rota: string, params: Record<string, unknown>): Record<string, unknown> | null {
+  if (ROTAS_DE_FE.test(rota)) return null;
+  const saida: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(params)) saida[k] = typeof v === "string" && VALORES_DE_FE.has(v) ? "oculto" : v;
+  return saida;
+}
+
 export function track<N extends keyof Eventos>(nome: N, params: Eventos[N]): void {
   if (typeof window === "undefined") return;
+  const limpo = paraOGa(window.location.pathname, params as Record<string, unknown>);
+  if (!limpo) return;
   if (window.gtag) {
-    window.gtag("event", nome, params);
+    window.gtag("event", nome, limpo);
     return;
   }
   if (process.env.NODE_ENV === "development") {

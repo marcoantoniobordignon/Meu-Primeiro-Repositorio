@@ -45,6 +45,7 @@ export const artigosCopy = {
     plano: { titulo: "Plano de parto", progresso: (f: number) => `${f} de 5 etapas`, feito: "Plano de parto pronto", comecar: "Maternidade, acompanhante e o que você deseja" },
     mala: { titulo: "Mala e enxoval", progresso: (f: number, t: number) => `${f} de ${t} itens prontos`, feito: "Tudo pronto", comecar: "Monte a mala com a lista pronta" },
     artigo: { titulo: "Artigo da semana", feito: "Você leu os artigos desta semana" },
+    oracao: { titulo: "Oração da semana" },
     faq: { titulo: "Posso comer?", texto: "Busque um alimento e veja se pode na gravidez" },
     direitos: {
       titulo: "Seus direitos nesta fase",

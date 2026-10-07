@@ -3,6 +3,13 @@
  * monta os textos; `src/copy/lembretes.ts` re-exporta para o app. Frases curtas, tom "a gente".
  */
 export const textosLembretes = {
+  // Funcionalidade 17: modo fé.
+  fe: {
+    batismo: "Quando pensar no batismo?",
+    batismoCorpo: "A lista de preparação está pronta no app, no seu tempo.",
+    viradaTitulo: (s: number) => `Começou a semana ${s}`,
+    oracaoNaVirada: "A oração da semana já está no app.",
+  },
   // Funcionalidade 11 RN-06: virada de trimestre (uma vez, às 09:00 do dia).
   trimestre: {
     titulo: (t: 2 | 3) => (t === 2 ? "Bem-vinda ao 2º trimestre" : "Bem-vinda ao 3º trimestre"),

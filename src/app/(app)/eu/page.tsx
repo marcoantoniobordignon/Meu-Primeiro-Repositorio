@@ -1,6 +1,6 @@
 "use client";
 
-import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, ClipboardList, FlaskConical, FolderHeart, Heart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
+import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, Church, ClipboardList, Droplets, FlaskConical, FolderHeart, Heart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,6 +15,7 @@ import { PermissaoIa } from "@/components/features/galeria/PermissaoIa";
 import { AjustesParceiro } from "@/components/features/parceiro/AjustesParceiro";
 import { AtivarAvisos } from "@/components/features/lembretes/AtivarAvisos";
 import { euCopy as copy } from "@/copy/eu";
+import { feCopy } from "@/copy/fe";
 import { onboarding as onbCopy } from "@/copy/onboarding";
 import { track } from "@/lib/analytics";
 import { useColecao } from "@/lib/dados/colecao";
@@ -22,6 +23,7 @@ import { avisos, todasColecoes } from "@/lib/dados/colecoes";
 import { ehISOValida } from "@/lib/dates";
 import { limparEstado } from "@/lib/onboarding/estado";
 import { useFamilia } from "@/lib/familia/useFamilia";
+import { definirModoFe, definirOracaoNoPush } from "@/lib/fe/acoes";
 import { atualizarPerfil, limparPerfil, usePerfil } from "@/lib/perfil";
 import { prefsCompletas, type Prefs } from "@dominio/prefs.ts";
 
@@ -131,14 +133,24 @@ export default function PaginaEu() {
         </Card>
       </section>
 
-      {gestacao && permissoes.verDiario && (
-        <section>
-          <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.preferencias}</h2>
-          <Card compacto>
-            <Interruptor rotulo={copy.modoFe} apoio={copy.modoFeApoio} ligado={prefs.faith_mode} onMudar={(v) => mudarPref({ faith_mode: v })} />
-          </Card>
-        </section>
-      )}
+      {/* Funcionalidade 17 · Tela 5: a chave do modo fé e a seção "Fé" (RN-02: desligar oculta e não apaga nada). */}
+      <section>
+        <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{feCopy.ajustes.secao}</h2>
+        <Card compacto>
+          <div className="flex flex-col divide-y divide-fio">
+            <Interruptor rotulo={feCopy.ajustes.modo} apoio={feCopy.ajustes.modoApoio} ligado={prefs.faith_mode} onMudar={definirModoFe} />
+            {prefs.faith_mode && gestacao && (
+              <Interruptor rotulo={feCopy.ajustes.push} apoio={feCopy.ajustes.pushApoio} ligado={prefs.faith_weekly_push} onMudar={definirOracaoNoPush} />
+            )}
+          </div>
+          {prefs.faith_mode && (
+            <div className="-mx-4 mt-1 divide-y divide-fio border-t border-fio">
+              {atalho("/fe", feCopy.ajustes.biblioteca, Church)}
+              {!gestacao && papel === "mae" && atalho("/fe/batismo", feCopy.ajustes.batismo, Droplets)}
+            </div>
+          )}
+        </Card>
+      </section>
 
       {papel === "mae" && <PermissaoIa perfil={perfil} />}
       {papel === "parceiro" && <AjustesParceiro perfil={perfil} eu={meuId} />}

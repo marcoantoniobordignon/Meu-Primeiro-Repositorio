@@ -9,6 +9,7 @@ import {
   calendarEvents,
   faqFavoritos,
   articleReads,
+  faithFavoritos,
   appointments,
   bebes,
   bellyPhotos,
@@ -89,6 +90,7 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: birthItemAttachments as Colecao<Registro>, tabela: "birth_item_attachments", conflito: "id" },
   { colecao: faqFavoritos as Colecao<Registro>, tabela: "faq_favorites", conflito: "id", soLocal: ["criado_por"] },
   { colecao: articleReads as Colecao<Registro>, tabela: "article_reads", conflito: "id", soLocal: ["criado_por"] },
+  { colecao: faithFavoritos as Colecao<Registro>, tabela: "faith_favorites", conflito: "id", soLocal: ["criado_por"] },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

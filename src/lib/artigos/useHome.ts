@@ -13,10 +13,12 @@ import { semanaDaFoto } from "@dominio/barriga.ts";
 import { LISTAS_MALAS, progressoDaLista, progressoDoPlano } from "@dominio/plano-parto.ts";
 import { prefsCompletas } from "@dominio/prefs.ts";
 import { dataNoFuso } from "@dominio/tempo.ts";
-import { cardsDaHome, paraEstaSemana, temArtigoParaASemana, trimestreDaSemana, type CardHome } from "@dominio/trimestre.ts";
+import { cardsDaHome, paraEstaSemana, temArtigoParaASemana, trimestreDaSemana, type CardDaTabela } from "@dominio/trimestre.ts";
+import { oracaoDaSemana } from "@dominio/fe.ts";
 
 import { ARTIGO_DE_DIREITOS, estadosDosCards } from "./home";
 import { useArtigos } from "./useArtigos";
+import { useFe } from "@/lib/fe/useFe";
 
 /** RN-02: junta o que cada feature tem e devolve os cards da home em ordem, com o que cada um mostra. */
 export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameters<typeof prefsCompletas>[0]) {
@@ -34,6 +36,9 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
   const planos = useColecao(birthPlans);
   const itens = useColecao(birthChecklistItems);
   const { artigos, lidos } = useArtigos();
+  const fe = useFe();
+  // Funcionalidade 17 RN-02/03: com o modo ligado, a oração da semana (min(semana, 40)) na posição 3.
+  const oracao = fe.ligado ? (oracaoDaSemana(fe.oracoes, semana) ?? null) : null;
 
   const tri = trimestreDaSemana(semana);
   const semanaFoto = semanaDaFoto(dpp, hoje);
@@ -43,7 +48,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
   const semana3 = paraEstaSemana(artigos, lidos, semana);
   const marcos = cardsDoDiario(semana, prefsCompletas(prefs).faith_mode, situacoes(entradas, estadosMarcos, meuId), agora);
   const direitos = artigos.find((a) => a.slug === ARTIGO_DE_DIREITOS[tri]) ?? null;
-  const semPermissao: CardHome[] = [
+  const semPermissao: CardDaTabela[] = [
     ...(!permissoes.verMedicamentos ? (["medicamentos"] as const) : []),
     ...(!permissoes.verDiario ? (["marco"] as const) : []),
     ...(!permissoes.tirarFotosBarriga ? (["foto"] as const) : []),
@@ -65,7 +70,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
 
   return {
     tri,
-    cards: cardsDaHome(tri, estados),
+    cards: cardsDaHome(tri, estados, undefined, { oracao: Boolean(oracao) }),
     detalhes: {
       exames: agruparPorSecao(exames, hoje).agora.length,
       doses: { total: dosesHoje.length, tomadas: dosesHoje.filter((d) => d.status === "taken").length },
@@ -75,6 +80,7 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
       mala,
       artigo: semana3[0] ?? null,
       direitos,
+      oracao,
     },
   };
 }

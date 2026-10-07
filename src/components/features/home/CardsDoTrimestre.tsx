@@ -1,6 +1,6 @@
 "use client";
 
-import { Apple, BookOpen, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill, Scale } from "lucide-react";
+import { Apple, BookOpen, Church, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill, Scale } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -77,6 +77,8 @@ export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGesta
           : { href: "/artigos", icone: <BookOpen size={18} />, titulo: copy.artigo.titulo, texto: copy.artigo.feito };
       case "faq":
         return { href: "/faq", icone: <Apple size={18} />, titulo: copy.faq.titulo, texto: copy.faq.texto };
+      case "oracao":
+        return detalhes.oracao ? { href: `/fe/oracao?semana=${detalhes.oracao.week}`, icone: <Church size={18} />, titulo: copy.oracao.titulo, texto: detalhes.oracao.title } : null;
       case "direitos":
         return detalhes.direitos ? { href: `/artigos/ler?slug=${detalhes.direitos.slug}&de=home`, icone: <Scale size={18} />, titulo: copy.direitos.titulo, texto: copy.direitos.texto[tri] } : null;
       default:
@@ -84,7 +86,10 @@ export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGesta
     }
   };
 
-  const tocar = (card: CardHome, posicao: number) => track("home_card_tapped", { card, position: posicao });
+  // Funcionalidade 17 RN-10: o toque no card da oração não vai ao analytics (nem como "oculto").
+  const tocar = (card: CardHome, posicao: number) => {
+    if (card !== "oracao") track("home_card_tapped", { card, position: posicao });
+  };
 
   return (
     <div className="flex flex-col gap-3" data-trimestre-home={tri}>

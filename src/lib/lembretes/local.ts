@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import {
+  bebes,
   appointmentQuestions,
   appointments,
   bellyPhotos,
@@ -21,6 +22,7 @@ import type { Perfil } from "@/lib/perfil";
 import { supabaseConfigurado } from "@/lib/supabase/client";
 import { planejar, selecionarParaEnvio, type Enviado, type EstadoParaLembretes } from "@dominio/lembretes.ts";
 import { podeAdiar } from "@dominio/medicamentos.ts";
+import { dataNoFuso } from "@dominio/tempo.ts";
 
 /** O estado que o planejador de lembretes precisa, montado das coleções do aparelho. */
 export function estadoDoAparelho(perfil: Perfil, autor: string, tz: string, agora = new Date()): EstadoParaLembretes {
@@ -43,6 +45,8 @@ export function estadoDoAparelho(perfil: Perfil, autor: string, tz: string, agor
     },
     eventos: calendarEvents.listar(),
     plano: { plano: birthPlans.listar()[0] ?? null, itens: birthChecklistItems.listar() },
+    // Funcionalidade 17 RN-07: o primeiro nascimento, para o lembrete do batismo.
+    nascidoEm: perfil.modo === "bebe" ? (perfil.nascidoEm ?? bebes.listar().map((b) => dataNoFuso(new Date(b.nascido_em), tz)).sort()[0] ?? null) : null,
   };
 }
 

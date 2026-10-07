@@ -2,6 +2,17 @@
 
 ## Não lançado
 
+### Funcionalidade 17 · Modo fé (católico) (specs/funcionalidades/17-modo-fe.md)
+- Migration `0010_fe.sql`: `faith_prayers` (semanal com semana 1–40, uma publicada por semana; texto até 1200; publicar exige fonte, revisor e data, RN-05 no banco), `faith_favorites` (de cada pessoa), `anon_counters` + RPC `somar_contadores_anonimos` (RN-10: só dia, chave e contagem; o app chama sem a sessão) e a categoria `faith` nos envios. pgTAP: `supabase/tests/fe.test.sql`, 19 testes.
+- A chave continua em `profiles.prefs.faith_mode` (onde o diário já lia), padrão desligado; a oração no push é `prefs.faith_weekly_push`, também desligada.
+- Onboarding: nova tela 6 "Quer incluir conteúdo de fé católica?" com Sim, Não e Decidir depois, nenhuma marcada (RN-01); o onboarding passa a 8 telas.
+- Home: card "Oração da semana" fixo na posição 3 em todos os trimestres, dentro do limite de 6 (oração = `min(semana, 40)`). Em Eu, a seção "Fé" com a chave, "Receber a oração da semana no push", a biblioteca e o batismo; desligar oculta tudo na hora e não apaga favoritos, entradas nem a lista do batismo (RN-02).
+- Biblioteca de fé (`/fe`): oração da semana, favoritas, abas Orações/Intercessores/Bênção, busca, leitura com fonte de 16 a 28 px, favoritar, compartilhar, dia do santo, fonte e revisão no rodapé, aviso fixo da bênção; card do Verbum com UTM (endereço em `NEXT_PUBLIC_VERBUM_URL`; sem ele, o card não aparece). Orações ficam no aparelho mesmo com o modo desligado (RN-11).
+- Batismo (RN-07): ao registrar o nascimento com o modo ligado, os 6 itens na lista `baptism` do plano de parto (ids determinísticos); `/fe/batismo` mostra a lista; push único `faith_baptism_nudge` aos 14 dias, 10:00. RN-08: com a chave ligada, a oração vai embutida no aviso da virada da semana (ou num aviso próprio às 10:00 se o da barriga não sair).
+- RN-10: `track()` não manda nada de telas `/fe` e troca valores de fé (marco "Primeira oração", lista do batismo, card da oração) por "oculto"; o toque no card da oração nem é registrado. Métricas do modo só nos contadores anônimos.
+- Conteúdo: `supabase/seed/oracoes.json` com 51 textos (40 semanais, 6 fixos, 4 intercessores, 1 bênção) em **rascunho escrito com IA, aguardando revisão por pessoa de formação católica** (Magnificat com tradução a confirmar).
+- Testes: Vitest +21; Playwright: 7 fluxos (e a pergunta de fé no fluxo do onboarding).
+
 ### Funcionalidade 11 · Adaptação por trimestre (specs/funcionalidades/11-adaptacao-trimestre.md)
 - Migration `0009_trimestre.sql`: `articles` (trimestre derivado de `week_from`; publicar exige revisor e data, RN-09 no banco; `is_premium` existe), `article_reads` (leitura e favorito de cada pessoa; "lido" não volta atrás), `profiles.t2_seen_at`/`t3_seen_at` e a categoria `trimester` nos envios. pgTAP: `supabase/tests/trimestre.test.sql`, 20 testes.
 - RN-01: o trimestre vira em 14s0d e 28s0d em todo o app (antes o anel e a home usavam 13 e 27), muda à meia-noite local; o anel marca as viradas nesses pontos.

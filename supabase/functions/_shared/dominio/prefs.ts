@@ -9,6 +9,8 @@ export interface Prefs {
   /** RN-05: semana em que ela tocou "Retomar as fotos?" (a pausa recomeça a contar dali). */
   belly_resumed_week?: number | null;
   faith_mode?: boolean;
+  /** Funcionalidade 17 RN-08: a oração da semana no aviso da virada (padrão desligado). */
+  faith_weekly_push?: boolean;
   notifications_suspended?: boolean;
   notifications_discreet?: boolean;
   /** Horário silencioso da fundação, "HH:MM". */
@@ -26,6 +28,7 @@ export const PREFS_PADRAO: Required<Prefs> = {
   belly_reminders: true,
   belly_resumed_week: null,
   faith_mode: false,
+  faith_weekly_push: false,
   notifications_suspended: false,
   // Decisão em aberto (spec 02): discreto por padrão? Por enquanto, não.
   notifications_discreet: false,

@@ -19,10 +19,17 @@ test("onboarding: DUM → valor em 4 toques, sem conta, e chega na Hoje", async 
   await page.getByLabel("Seu nome").fill("Helena");
   await page.getByRole("button", { name: "Continuar" }).click();
   await page.getByRole("button", { name: "Pular" }).click(); // sintomas
+  // Funcionalidade 17 RN-01: a pergunta de fé chega sem nenhuma resposta marcada.
+  await expect(page.getByRole("heading", { name: "Quer incluir conteúdo de fé católica?" })).toBeVisible();
+  const fe = page.getByRole("radiogroup", { name: "Quer incluir conteúdo de fé católica?" });
+  await expect(fe.getByRole("radio")).toHaveCount(3);
+  for (const r of await fe.getByRole("radio").all()) await expect(r).toHaveAttribute("aria-checked", "false");
+  await fe.getByRole("radio", { name: "Decidir depois" }).click();
   await page.getByRole("button", { name: "Pular" }).click(); // instalar
   await page.getByRole("button", { name: "Agora não" }).click(); // guardar
 
   await expect(page).toHaveURL(/\/hoje$/);
   await expect(page.getByText(/Helena/)).toBeVisible();
   await expect(page.getByText("Guardar minha linha do tempo")).toBeVisible();
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem("ninho.perfil")!).prefs.faith_mode)).toBe(false);
 });

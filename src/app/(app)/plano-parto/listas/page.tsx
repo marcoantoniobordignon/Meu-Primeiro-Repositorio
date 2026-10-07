@@ -10,7 +10,8 @@ import { LISTAS_MALAS } from "@dominio/plano-parto.ts";
 /** Tela 6 "Malas e enxoval": as listas com progresso, adicionar item e quantidade (RN-06). */
 export default function PaginaListas() {
   const { perfil, itens, anexos, meuId, papel } = usePlano();
-  const temBatismo = itens.some((i) => i.list === "baptism");
+  // Funcionalidade 17 RN-02: a lista do batismo só aparece com o modo fé ligado (desligado, fica guardada).
+  const temBatismo = Boolean(perfil?.prefs?.faith_mode) && itens.some((i) => i.list === "baptism" && !i.apagado_em);
   return (
     <Etapa numero={5} titulo={copy.etapas.malas.titulo}>
       <AberturaPorLembrete />

@@ -1,4 +1,4 @@
-import type { CardHome, EstadoCard } from "@dominio/trimestre.ts";
+import type { CardDaTabela, EstadoCard } from "@dominio/trimestre.ts";
 
 /**
  * Funcionalidade 11 RN-02: o que cada feature conta para a home (só números e flags), e o estado de
@@ -18,11 +18,11 @@ export interface DadosDaHome {
   artigo: { existe: boolean; naoLidos: number };
   direitos: boolean;
   /** Cards de features que este papel não vê (avó e cuidador não veem medicamentos, exames, plano...). */
-  semPermissao?: CardHome[];
+  semPermissao?: CardDaTabela[];
 }
 
-export function estadosDosCards(d: DadosDaHome): Record<CardHome, EstadoCard> {
-  const estados: Record<CardHome, EstadoCard> = {
+export function estadosDosCards(d: DadosDaHome): Record<CardDaTabela, EstadoCard> {
+  const estados: Record<CardDaTabela, EstadoCard> = {
     resumo: "normal",
     exames: !d.exames.pode ? "oculto" : d.exames.total === 0 ? "vazio" : d.exames.agora > 0 ? "pendente" : "normal",
     medicamentos: d.medicamentos.ativos === 0 ? "vazio" : d.medicamentos.dosesHoje === 0 ? "normal" : d.medicamentos.tomadasHoje >= d.medicamentos.dosesHoje ? "feito" : "pendente",

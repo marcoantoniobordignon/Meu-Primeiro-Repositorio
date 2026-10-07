@@ -3,6 +3,7 @@ import type { PermissoesParceiro } from "@/lib/familia/regras";
 import type { EventoCalendario } from "@dominio/calendario.ts";
 import type { Verbete } from "@dominio/faq.ts";
 import type { Artigo } from "@dominio/trimestre.ts";
+import type { Oracao } from "@dominio/fe.ts";
 import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
@@ -314,6 +315,15 @@ export interface ArticleRead extends Registro {
   is_favorite: boolean;
 }
 
+/** Funcionalidade 17 · oração publicada (cópia para ler sem rede) e favorito (de cada pessoa). */
+export interface OracaoRemota extends Registro, Oracao {
+  id: string;
+}
+export interface FaithFavorito extends Registro {
+  /** Id determinístico pelo slug (`idDaOracao`): o mesmo no bundle e no banco. */
+  prayer_id: string;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -364,6 +374,9 @@ export const faqFavoritos = criarColecao<FaqFavorito>("ninho.faq_favorites");
 /** Só leitura, mesclada do servidor (funcionalidade 11: o publicado fica no aparelho para ler offline). */
 export const artigosRemotos = criarColecao<ArtigoRemoto>("ninho.articles");
 export const articleReads = criarColecao<ArticleRead>("ninho.article_reads");
+/** Funcionalidade 17: orações (só leitura, do servidor) e favoritos de fé. */
+export const oracoesRemotas = criarColecao<OracaoRemota>("ninho.faith_prayers");
+export const faithFavoritos = criarColecao<FaithFavorito>("ninho.faith_favorites");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -398,4 +411,5 @@ export const todasColecoes = [
   birthItemAttachments,
   faqFavoritos,
   articleReads,
+  faithFavoritos,
 ];

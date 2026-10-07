@@ -64,6 +64,15 @@ export const onboarding = {
     nada: "Nenhum desses hoje",
   },
 
+  // Funcionalidade 17: nenhuma resposta vem marcada.
+  fe: {
+    pergunta: "Quer incluir conteúdo de fé católica?",
+    apoio: "Oração da semana, orações e santos protetores da gravidez. Dá para mudar quando quiser, em Eu.",
+    sim: "Sim, quero",
+    nao: "Não, obrigada",
+    depois: "Decidir depois",
+  },
+
   instalar: {
     pergunta: "Deixa o Ninho a um toque",
     apoio: "Instalado na tela inicial, abre na hora, mesmo sem internet, às 3 da manhã.",

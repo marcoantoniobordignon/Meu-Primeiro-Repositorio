@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { artigosRemotos, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { artigosRemotos, oracoesRemotas, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type OracaoRemota, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, perfilAtual, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
+import { enviarContadores } from "@/lib/fe/contadores";
 import { migrarConsultasAntigas } from "@/lib/consultas-acoes";
 import { garantirSessaoAnonima, sessaoAtual, sincronizarSessao } from "@/lib/sessao";
 import { chamarRpc, supabase, supabaseConfigurado, tabela, type Cliente } from "@/lib/supabase/client";
@@ -95,6 +96,7 @@ export async function puxar(sb: Cliente): Promise<void> {
   await puxarConteudos(sb, ultima);
   await puxarFaq(sb, ultima);
   await puxarArtigos(sb, ultima);
+  await puxarOracoes(sb, ultima);
   guardarUltima(ultima);
   await puxarViradas(sb);
   await puxarFamilia(sb);
@@ -134,6 +136,20 @@ async function puxarArtigos(sb: Cliente, ultima: Record<string, string>): Promis
   artigosRemotos.mesclar(linhas.map((a) => ({ ...a, apagado_em: a.status === "published" ? null : a.atualizado_em })));
   const maior = linhas[linhas.length - 1]?.atualizado_em;
   if (maior) ultima.articles = maior;
+}
+
+/**
+ * Funcionalidade 17 RN-11: todas as orações publicadas ficam no aparelho, com o modo ligado ou não
+ * (ligar o modo nunca abre uma biblioteca vazia).
+ */
+async function puxarOracoes(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  const desde = ultima.faith_prayers ?? "1970-01-01T00:00:00Z";
+  const { data, error } = await tabela(sb, "faith_prayers").select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+  if (error || !data) return;
+  const linhas = data as unknown as OracaoRemota[];
+  oracoesRemotas.mesclar(linhas.map((o) => ({ ...o, apagado_em: o.status === "published" ? null : o.atualizado_em })));
+  const maior = linhas[linhas.length - 1]?.atualizado_em;
+  if (maior) ultima.faith_prayers = maior;
 }
 
 /** Funcionalidade 11 RN-06: a virada vista em outro aparelho não aparece de novo neste. */
@@ -258,6 +274,8 @@ export async function sincronizar(): Promise<void> {
     // Arquivos depois das linhas: a policy do Storage exige a linha que referencia o arquivo.
     await sincronizarArquivos(sb);
     await puxar(sb);
+    // Funcionalidade 17 RN-10: contadores anônimos acumulados no aparelho.
+    await enviarContadores();
     aposSincronizar.forEach((cb) => cb());
   } catch {
     /* tenta de novo no próximo ciclo */

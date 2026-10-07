@@ -6,15 +6,18 @@ import type { Prefs } from "@dominio/prefs.ts";
  * fechar no meio e voltar retoma na mesma tela, por até 7 dias.
  */
 
-export const TOTAL_TELAS = 7;
+/** Funcionalidade 17: a tela 6 pergunta sobre a fé; instalar e guardar passam a 7 e 8. */
+export const TOTAL_TELAS = 8;
 export const CHAVE_ESTADO = "ninho.onboarding";
 export const CHAVE_PERFIL = "ninho.perfil";
 const VALIDADE_MS = 7 * 86_400_000;
 
 export type Momento = "gestacao" | "bebe";
+/** Funcionalidade 17 RN-01: sem resposta pré-marcada; "depois" mantém o modo desligado. */
+export type RespostaFe = "sim" | "nao" | "depois";
 
 export interface EstadoOnboarding {
-  tela: number; // 1..7
+  tela: number; // 1..8
   iniciadoEm: number; // epoch ms
   atualizadoEm: number;
   momento?: Momento;
@@ -24,6 +27,7 @@ export interface EstadoOnboarding {
   nome?: string;
   sintomas?: string[];
   pushPermitido?: boolean;
+  fe?: RespostaFe;
   puladas: number[];
 }
 
@@ -104,6 +108,8 @@ export function concluir(e: EstadoOnboarding, anonima: boolean): Perfil {
     pushPermitido: e.pushPermitido,
     anonima,
     plano: "free",
+    // Funcionalidade 17 RN-01: só "Sim" liga; "Não", "Decidir depois" e pular deixam desligado.
+    prefs: { faith_mode: e.fe === "sim" },
     onboardingConcluidoEm: new Date().toISOString(),
   };
   try {

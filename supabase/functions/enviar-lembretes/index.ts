@@ -13,7 +13,7 @@ import { json } from "../_shared/cors.ts";
 import { planejar, selecionarParaEnvio, type Enviado, type Lembrete } from "../_shared/dominio/lembretes.ts";
 import { planejarParceiro, selecionarParaParceiro } from "../_shared/dominio/parceiro.ts";
 import { manutencaoDasDoses, type DoseBase, type MedicamentoAgenda } from "../_shared/dominio/medicamentos.ts";
-import { fusoOuPadrao, MS_DIA, normalizarHora } from "../_shared/dominio/tempo.ts";
+import { dataNoFuso, fusoOuPadrao, MS_DIA, normalizarHora } from "../_shared/dominio/tempo.ts";
 import { assinarToken } from "../_shared/dominio/token.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
@@ -113,7 +113,7 @@ Deno.serve(async (req) => {
       const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", autora);
       if (!subs?.length) continue;
 
-      const [exames, consultas, perguntas, fotos, entradas, estados, enviados, eventos, plano, itensPlano] = await Promise.all([
+      const [exames, consultas, perguntas, fotos, entradas, estados, enviados, eventos, plano, itensPlano, nascimento] = await Promise.all([
         sb.from("user_exams").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointments").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointment_questions").select("*").eq("familia_id", familia).is("apagado_em", null),
@@ -126,9 +126,12 @@ Deno.serve(async (req) => {
         // Funcionalidade 10 RN-07: plano e listas decidem os lembretes das semanas 34 e 36.
         sb.from("birth_plans").select("*").eq("familia_id", familia).is("apagado_em", null).maybeSingle(),
         sb.from("birth_checklist_items").select("id, list, title, quantity, note, is_done, is_custom, position, apagado_em").eq("familia_id", familia).is("apagado_em", null),
+        // Funcionalidade 17 RN-07: o primeiro nascimento da família, para o lembrete do batismo.
+        p.modo === "bebe" ? sb.from("bebes").select("nascido_em").eq("familia_id", familia).is("apagado_em", null).order("nascido_em").limit(1) : Promise.resolve({ data: [] }),
       ]);
       const dosesAtuais = todasDoses.filter((d) => !m.apagar.includes(d.id)).map((d) => (m.semRegistro.includes(d.id) ? { ...d, status: "missed" as const } : d)).concat(m.criar);
 
+      const primeiroNascimento = ((nascimento.data ?? []) as { nascido_em: string }[])[0]?.nascido_em ?? null;
       const candidatos = planejar({
         agora,
         tz,
@@ -144,6 +147,7 @@ Deno.serve(async (req) => {
         marcos: { respondidos: (entradas.data ?? []).map((e) => e.milestone_code as string), estados: (estados.data ?? []) as never },
         eventos: (eventos.data ?? []) as never,
         plano: { plano: (plano.data ?? null) as never, itens: (itensPlano.data ?? []) as never },
+        nascidoEm: primeiroNascimento ? dataNoFuso(new Date(primeiroNascimento), tz) : null,
       });
       const saem = selecionarParaEnvio(candidatos, { agora, tz, prefs: p.prefs as Record<string, unknown>, enviados: (enviados.data ?? []) as Enviado[] });
 

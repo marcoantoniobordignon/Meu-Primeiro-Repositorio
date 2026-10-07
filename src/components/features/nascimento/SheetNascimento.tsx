@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/Card";
 import { Sheet } from "@/components/ui/Sheet";
 import { nascimentoCopy as copy } from "@/copy/nascimento";
 import { track } from "@/lib/analytics";
+import { garantirBatismo } from "@/lib/fe/acoes";
 import { cortesiaFim, semanasNoNascimento, semanasSeprematuro, validarNascimento } from "@/lib/bebe/nascimento";
 import { novoId } from "@/lib/dados/colecao";
 import { bebes } from "@/lib/dados/colecoes";
@@ -78,6 +79,8 @@ export function SheetNascimento({ aberto, onFechar }: Props) {
     atualizarPerfil({ modo: "bebe", nascidoEm: paraISO(nascido), cortesiaFim: cortesia, bebeAtivoId: undefined });
     if (cortesia) track("cortesia_iniciada", {});
     if (temServidor()) void iniciarCortesiaRemota(nascido.toISOString());
+    // Funcionalidade 17 RN-07: com o modo fé, a lista de preparação do batismo nasce junto.
+    if (perfil?.prefs?.faith_mode) garantirBatismo();
     track("nascimento_registrado", {
       semanas_gestacao: perfil?.dpp ? semanasNoNascimento(paraISO(nascido), perfil.dpp) : 40,
       prematuro: prematuroSemanas !== null,

@@ -74,3 +74,12 @@ const { error: e5 } = await sb.from("articles").upsert(
 );
 if (e5) throw e5;
 console.log(`articles: ${artigos.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 17: orações entram como RASCUNHO (RN-05: publicar exige revisão por pessoa de formação católica).
+const oracoes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "oracoes.json"), "utf8"));
+const { error: e6 } = await sb.from("faith_prayers").upsert(
+  oracoes.map((o) => ({ ...o, id: idDeterministico(`faith:${o.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e6) throw e6;
+console.log(`faith_prayers: ${oracoes.length} rascunhos (os que já existiam ficaram como estavam)`);
