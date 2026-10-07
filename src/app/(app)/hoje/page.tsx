@@ -2,6 +2,7 @@
 
 import { ChevronRight, Mic, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { AnelPrimeiroAno } from "@/components/features/bebe/AnelPrimeiroAno";
@@ -11,11 +12,14 @@ import { SheetsRegistro, type EstadoSheet } from "@/components/features/bebe/She
 import { TilesBebe } from "@/components/features/bebe/TilesBebe";
 import { CardHero3D } from "@/components/features/bebe3d/CardHero3D";
 import { StoriesDoDia } from "@/components/features/conteudo/StoriesDoDia";
-import { AnelSemana } from "@/components/features/home/AnelSemana";
-import { CardConsulta } from "@/components/features/home/CardConsulta";
+import { CardExameOntem } from "@/components/features/exames/CardExameOntem";
 import { CardsAtivos } from "@/components/features/home/CardsAtivos";
+import { CardsDoTrimestre } from "@/components/features/home/CardsDoTrimestre";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
+import { CardRetrospectiva } from "@/components/features/retrospectiva/CardRetrospectiva";
+import { HomeParceiro } from "@/components/features/parceiro/HomeParceiro";
+import { CardQualMaternidade } from "@/components/features/plano/CardQualMaternidade";
 import { SheetChutes } from "@/components/features/registrar/SheetChutes";
 import { SheetContracoes } from "@/components/features/registrar/SheetContracoes";
 import { ChipsSintomas } from "@/components/features/sintomas/ChipsSintomas";
@@ -24,6 +28,7 @@ import { Botao } from "@/components/ui/Botao";
 import { bebeCopy } from "@/copy/bebe";
 import { home as copy } from "@/copy/home";
 import { nascimentoCopy } from "@/copy/nascimento";
+import { nomesCopy } from "@/copy/nomes";
 import { track } from "@/lib/analytics";
 import { sonoEmAndamento } from "@/lib/bebe/registros";
 import { useBebes } from "@/lib/bebe/useBebes";
@@ -31,6 +36,8 @@ import { registrosBebe } from "@/lib/dados/colecoes";
 import { idadeDetalhada, paraISO, saudacaoPorHora, semanaGestacional } from "@/lib/dates";
 import { useFamilia } from "@/lib/familia/useFamilia";
 import { usePerfil } from "@/lib/perfil";
+import { idadeGestacional } from "@dominio/tempo.ts";
+import { viradaPendente } from "@dominio/trimestre.ts";
 import type { Especial } from "@/lib/sintomas/catalogo";
 
 const CHAVE_FAIXA = "ninho.faixa-guardar-dispensada";
@@ -40,12 +47,27 @@ type SheetAberto = "sintomas" | "chutes" | "contracoes" | "nascimento" | null;
 export default function PaginaHoje() {
   const perfil = usePerfil();
   const { ativo, bebes, modo } = useBebes();
-  const { permissoes } = useFamilia();
+  const { permissoes, papel } = useFamilia();
   const [sheet, setSheet] = useState<SheetAberto>(null);
   const [sheetBebe, setSheetBebe] = useState<EstadoSheet>({ tipo: null });
   const [faixa, setFaixa] = useState(false);
   const hoje = paraISO(new Date());
   const g = perfil?.dpp && modo === "gestacao" ? semanaGestacional(perfil.dpp, hoje) : null;
+  const router = useRouter();
+
+  // Funcionalidade 11 RN-06: no primeiro acesso depois da virada, a tela de celebração (uma vez).
+  const virada =
+    g && perfil && papel === "mae" && g.diasParaDpp >= 0
+      ? viradaPendente({
+          semana: g.semana,
+          t2Visto: Boolean(perfil.t2VistoEm),
+          t3Visto: Boolean(perfil.t3VistoEm),
+          semanaNaCriacao: perfil.dpp ? idadeGestacional(perfil.dpp, paraISO(new Date(perfil.onboardingConcluidoEm))).semana : null,
+        })
+      : null;
+  useEffect(() => {
+    if (virada) router.replace(`/virada?t=${virada}`);
+  }, [virada, router]);
 
   useEffect(() => {
     if (!perfil) return;
@@ -81,6 +103,8 @@ export default function PaginaHoje() {
             </>
           )}
         </p>
+        {/* Funcionalidade 15 RN-07: o nome escolhido aparece no app. */}
+        {modo === "gestacao" && perfil.nomeDoBebe && <p className="tipo-corpo -mt-2 text-texto-mudo">{nomesCopy.esperando(perfil.nomeDoBebe)}</p>}
         <SeletorBebe />
       </header>
 
@@ -107,9 +131,14 @@ export default function PaginaHoje() {
         </div>
       )}
 
-      {modo === "bebe" && ativo ? (
+      {papel === "parceiro" && modo === "gestacao" ? (
+        // Funcionalidade 12: home própria do parceiro.
+        <HomeParceiro perfil={perfil} />
+      ) : modo === "bebe" && ativo ? (
         <>
           <AnelPrimeiroAno bebe={ativo} />
+          {/* Funcionalidade 07: "Sua retrospectiva está pronta" no primeiro mês. */}
+          <CardRetrospectiva modo="bebe" nascidoEm={ativo.nascido_em} />
           <CardSoneca bebe={ativo} />
           <TilesBebe bebeId={ativo.id} onAbrir={(tipo) => setSheetBebe({ tipo })} />
           <Link href="/registrar" className="tipo-meta flex items-center gap-2 rounded-pilula bg-superficie px-4 py-2.5 [[data-tema=escuro]_&]:border [[data-tema=escuro]_&]:border-fio">
@@ -129,7 +158,11 @@ export default function PaginaHoje() {
             </div>
           )}
           <CardsAtivos onAbrirChutes={() => setSheet("chutes")} onAbrirContracoes={() => setSheet("contracoes")} />
-          {g && <AnelSemana g={g} />}
+          {/* Funcionalidade 07 RN-01: "Sua história até aqui" a partir de 36s0d. */}
+          <CardRetrospectiva modo="gestacao" />
+          {papel === "mae" && <CardQualMaternidade semana={g?.semana ?? null} />}
+          {/* Funcionalidade 11 RN-02: anel e até 6 cards na ordem do trimestre (consulta, exames, plano...). */}
+          {g && <CardsDoTrimestre perfil={perfil} g={g} />}
           {g && <CardHero3D semana={g.semana} />}
 
           {permissoes.verSintomas && (
@@ -151,7 +184,8 @@ export default function PaginaHoje() {
           )}
 
           <StoriesDoDia semana={g?.semana} />
-          <CardConsulta />
+          {/* Exames RN-11: marcado com a data de ontem sem ação. */}
+          {permissoes.verExames && <CardExameOntem />}
 
           <SheetSintomas aberto={sheet === "sintomas"} onFechar={() => setSheet(null)} onEspecial={abrirEspecial} />
           <SheetChutes aberto={sheet === "chutes"} onFechar={() => setSheet(null)} />

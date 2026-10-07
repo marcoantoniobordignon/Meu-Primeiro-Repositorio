@@ -4,6 +4,8 @@
  * e são interpretadas no fuso local do aparelho.
  */
 
+import { trimestreDaSemana } from "@dominio/trimestre.ts";
+
 export const DIAS_GESTACAO = 280;
 export const SEMANAS_GESTACAO = 40;
 const MS_DIA = 86_400_000;
@@ -72,7 +74,8 @@ export function semanaGestacional(dpp: DataISO, hoje: DataISO = paraISO(new Date
   const semana = Math.floor(diasCorridos / 7);
   const dia = diasCorridos % 7;
   const diasParaDpp = diasEntre(hoje, dpp);
-  const trimestre: 1 | 2 | 3 = semana < 13 ? 1 : semana < 27 ? 2 : 3;
+  // Funcionalidade 11 RN-01: as viradas são em 14s0d e 28s0d (a mesma regra dos artigos e do job).
+  const trimestre = trimestreDaSemana(semana);
   return {
     semana,
     dia,
@@ -227,6 +230,12 @@ export function formatarMinutos(min: number): string {
 
 const fmtLonga = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long" });
 const fmtCurta = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+const fmtComAno = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+
+/** "8 de março de 2045": para datas fora deste ano (abertura de carta, data de revisão). */
+export function formatarComAno(iso: DataISO): string {
+  return fmtComAno.format(deISO(iso));
+}
 
 export function formatarLonga(iso: DataISO): string {
   return fmtLonga.format(deISO(iso));

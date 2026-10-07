@@ -1,6 +1,6 @@
 /**
- * `pnpm conteudo:sync`: faz upsert do banco de conteúdo (src/conteudo/banco.json) e do
- * catálogo de sintomas (supabase/seed/sintomas.json) no Supabase, com a service role.
+ * `pnpm conteudo:sync`: faz upsert do banco de conteúdo (src/conteudo/banco.json), das dicas do parceiro e do
+ * catálogo de sintomas (supabase/seed/sintomas.json), os verbetes do FAQ e os artigos (rascunhos) no Supabase, com a service role.
  * Variáveis: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
  */
 import { readFile } from "node:fs/promises";
@@ -40,3 +40,72 @@ const { error: e2 } = await sb.from("sintomas_catalogo").upsert(
 );
 if (e2) throw e2;
 console.log(`sintomas_catalogo: ${catalogo.length} upserts`);
+
+// Funcionalidade 12 RN-09: "Como ajudar esta semana". Rascunho editorial: `reviewed_on` fica vazio até a revisão.
+const dicas = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "dicas-parceiro.json"), "utf8"));
+const { error: e3 } = await sb.from("partner_tips").upsert(
+  dicas.map((d) => ({ ...d, atualizado_em: new Date().toISOString() })),
+  { onConflict: "week_from,week_to" },
+);
+if (e3) throw e3;
+console.log(`partner_tips: ${dicas.length} upserts`);
+
+// Funcionalidade 09: verbetes do FAQ entram como RASCUNHO (RN-09: o revisor humano publica no painel).
+// Só insere o que ainda não existe: nunca sobrescreve um verbete revisado ou publicado.
+// Id determinístico pelo slug (o mesmo do bundle do app). Node 22.18+ importa o TypeScript do domínio direto.
+const { idDeterministico } = await import("../supabase/functions/_shared/dominio/id.ts");
+const verbetes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "faq-verbetes.json"), "utf8"));
+const { error: e4 } = await sb.from("faq_foods").upsert(
+  verbetes.map((v) => ({ ...v, id: idDeterministico(`faq:${v.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e4) throw e4;
+console.log(`faq_foods: ${verbetes.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 11: artigos entram como RASCUNHO (RN-09: publicar exige revisor e data, no banco).
+// Só insere o que ainda não existe: nunca sobrescreve um artigo revisado ou publicado.
+const artigos = [
+  ...JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "artigos-a.json"), "utf8")),
+  ...JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "artigos-b.json"), "utf8")),
+];
+const { error: e5 } = await sb.from("articles").upsert(
+  artigos.map((a) => ({ ...a, id: idDeterministico(`article:${a.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e5) throw e5;
+console.log(`articles: ${artigos.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 17: orações entram como RASCUNHO (RN-05: publicar exige revisão por pessoa de formação católica).
+const oracoes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "oracoes.json"), "utf8"));
+const { error: e6 } = await sb.from("faith_prayers").upsert(
+  oracoes.map((o) => ({ ...o, id: idDeterministico(`faith:${o.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e6) throw e6;
+console.log(`faith_prayers: ${oracoes.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 16: cartões entram como RASCUNHO (RN-01: publicar exige base legal e revisão jurídica) e os canais
+// INATIVOS (os números são conferidos antes de ativar). Nunca sobrescreve o que já existe.
+const direitos = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "direitos.json"), "utf8"));
+const { error: e7 } = await sb.from("rights_cards").upsert(
+  direitos.cards.map((c) => ({ ...c, id: idDeterministico(`rights:${c.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e7) throw e7;
+const { error: e8 } = await sb.from("help_channels").upsert(
+  direitos.channels.map((c) => ({ ...c, id: idDeterministico(`help:${c.slug}`), active: false })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e8) throw e8;
+console.log(`rights_cards: ${direitos.cards.length} rascunhos; help_channels: ${direitos.channels.length} inativos`);
+
+// Funcionalidade 15: catálogo de nomes com `reviewed = false` (significado e origem aparecem depois da revisão).
+// Id pelo nome normalizado (o mesmo do app). Nunca sobrescreve um nome já revisado.
+const { normalizar } = await import("../supabase/functions/_shared/dominio/faq.ts");
+const nomes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "nomes.json"), "utf8"));
+const { error: e9 } = await sb.from("names_catalog").upsert(
+  nomes.map((n) => ({ ...n, id: idDeterministico(`nome:${normalizar(n.name)}`), reviewed: false })),
+  { onConflict: "name", ignoreDuplicates: true },
+);
+if (e9) throw e9;
+console.log(`names_catalog: ${nomes.length} nomes (os que já existiam ficaram como estavam)`);

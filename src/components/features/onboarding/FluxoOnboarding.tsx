@@ -9,6 +9,7 @@ import { onboarding as copy } from "@/copy/onboarding";
 import { track } from "@/lib/analytics";
 import { novoId } from "@/lib/dados/colecao";
 import { sintomas } from "@/lib/dados/colecoes";
+import { contarAnonimo } from "@/lib/fe/contadores";
 import { paraISO } from "@/lib/dates";
 import {
   concluir,
@@ -25,6 +26,7 @@ import { garantirSessaoAnonima, sessaoAtual } from "@/lib/sessao";
 import { TelaBoasVindas } from "./TelaBoasVindas";
 import { TelaComoEsta } from "./TelaComoEsta";
 import { TelaData } from "./TelaData";
+import { TelaFe } from "./TelaFe";
 import { TelaGuardar } from "./TelaGuardar";
 import { TelaInstalar } from "./TelaInstalar";
 import { TelaNome } from "./TelaNome";
@@ -38,7 +40,7 @@ export interface PropsTela {
   atualizar: (mudancas: Partial<EstadoOnboarding>) => void;
 }
 
-/** Orquestra as 7 telas: uma pergunta por tela, progresso sempre visível, retoma onde parou. */
+/** Orquestra as 8 telas: uma pergunta por tela, progresso sempre visível, retoma onde parou. */
 export function FluxoOnboarding() {
   const router = useRouter();
   const [estado, setEstado] = useState<EstadoOnboarding | null>(null);
@@ -71,6 +73,8 @@ export function FluxoOnboarding() {
     (e: EstadoOnboarding) => {
       const sessao = sessaoAtual();
       concluir(e, sessao?.anonima ?? true);
+      // Funcionalidade 17 RN-10: só a contagem anônima, nunca evento de analytics.
+      if (e.fe === "sim") contarAnonimo("faith_on");
       // Tela 5: "isso vira seu diário". Grava com a data de hoje (spec 06).
       const hoje = paraISO(new Date());
       for (const slug of e.sintomas ?? []) {
@@ -166,8 +170,9 @@ export function FluxoOnboarding() {
           {estado.tela === 3 && <TelaValor {...props} />}
           {estado.tela === 4 && <TelaNome {...props} />}
           {estado.tela === 5 && <TelaComoEsta {...props} />}
-          {estado.tela === 6 && <TelaInstalar {...props} />}
-          {estado.tela === 7 && <TelaGuardar {...props} />}
+          {estado.tela === 6 && <TelaFe {...props} />}
+          {estado.tela === 7 && <TelaInstalar {...props} />}
+          {estado.tela === 8 && <TelaGuardar {...props} />}
         </div>
       </main>
     </div>

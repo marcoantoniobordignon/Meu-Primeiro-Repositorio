@@ -12,6 +12,8 @@ interface Props {
   tamanho?: number;
   children?: React.ReactNode;
   rotulo: string;
+  /** Funcionalidade 11: progresso em degradê com as cores do trimestre (--anel-inicio → --anel-fim). */
+  degrade?: boolean;
 }
 
 const TRACO = 12;
@@ -20,8 +22,9 @@ const TRACO = 12;
  * Anel SVG: trilho --fio, progresso teal, marcador do dia branco com borda coral.
  * Anima 600 ms ao montar; com prefers-reduced-motion aparece já preenchido (DS-05).
  */
-export function Anel({ total, atual, segmentos = [], tamanho = 200, children, rotulo }: Props) {
+export function Anel({ total, atual, segmentos = [], tamanho = 200, children, rotulo, degrade = false }: Props) {
   const id = useId();
+  const idDegrade = `anel-${id.replace(/[^a-zA-Z0-9]/g, "")}`;
   const [montado, setMontado] = useState(false);
   useEffect(() => {
     const raf = requestAnimationFrame(() => setMontado(true));
@@ -49,6 +52,15 @@ export function Anel({ total, atual, segmentos = [], tamanho = 200, children, ro
         aria-labelledby={id}
       >
         <title id={id}>{rotulo}</title>
+        {degrade && (
+          <defs>
+            {/* RN-07: na virada de trimestre as cores trocam com transição de 400 ms (0 com "reduzir movimento"). */}
+            <linearGradient id={idDegrade} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" style={{ stopColor: "var(--anel-inicio)", transition: "stop-color var(--anim-tema)" }} />
+              <stop offset="100%" style={{ stopColor: "var(--anel-fim)", transition: "stop-color var(--anim-tema)" }} />
+            </linearGradient>
+          </defs>
+        )}
         <circle cx={centro} cy={centro} r={raio} fill="none" stroke="var(--fio)" strokeWidth={TRACO} />
         {segmentos.map((s) => {
           const a = -Math.PI / 2 + (s / total) * 2 * Math.PI;
@@ -65,7 +77,7 @@ export function Anel({ total, atual, segmentos = [], tamanho = 200, children, ro
           cy={centro}
           r={raio}
           fill="none"
-          stroke="var(--cor-primaria)"
+          stroke={degrade ? `url(#${idDegrade})` : "var(--cor-primaria)"}
           strokeWidth={TRACO}
           strokeLinecap="round"
           strokeDasharray={circ}

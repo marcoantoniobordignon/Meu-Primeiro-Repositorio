@@ -25,6 +25,12 @@
   --color-utero-texto: var(--utero-texto);
   --color-utero-texto-mudo: var(--utero-texto-mudo);
   --color-utero-vidro: var(--utero-vidro);
+  --color-retro-noite: var(--retro-noite);
+  --color-retro-noite-fundo: var(--retro-noite-fundo);
+  --color-retro-luz: var(--retro-luz);
+  --color-retro-luz-suave: var(--retro-luz-suave);
+  --color-retro-coral: var(--retro-coral);
+  --color-retro-ouro: var(--retro-ouro);
 
   --radius-card: var(--raio);
   --radius-pilula: var(--raio-pilula);
@@ -223,4 +229,24 @@
 }
 .anim-girar {
   animation: girar 800ms linear infinite;
+}
+
+/* Funcionalidade 07: o botão da ponte surge subindo, e o card da retrospectiva "respira" devagar. */
+@keyframes retro-surgir {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.anim-retro-surgir {
+  animation: retro-surgir 700ms 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim-retro-surgir {
+    animation: none;
+  }
 }

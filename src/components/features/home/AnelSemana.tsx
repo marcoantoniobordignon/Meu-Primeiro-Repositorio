@@ -12,7 +12,7 @@ export function AnelSemana({ g }: { g: SemanaGestacional }) {
 
   return (
     <div className="flex flex-col items-center">
-      <Anel total={SEMANAS_GESTACAO} atual={atual} segmentos={[13, 27]} rotulo={`${semana} ${copy.semanas}`}>
+      <Anel total={SEMANAS_GESTACAO} atual={atual} segmentos={[14, 28]} rotulo={`${semana} ${copy.semanas}`} degrade>
         <div className="text-center">
           <p className="tipo-heroi text-texto">{semana}</p>
           <p className="tipo-heroi-rotulo text-texto-mudo">

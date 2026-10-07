@@ -14,8 +14,7 @@ import {
   saudacaoPorHora,
   semanaExibida,
   semanaGestacional,
-  somarDias,
-} from "./dates";
+  somarDias, formatarComAno } from "./dates";
 
 describe("datas básicas", () => {
   it("soma dias atravessando mês e ano", () => {
@@ -70,12 +69,13 @@ describe("HG-01 · semana gestacional", () => {
     expect(semanaExibida(45)).toBe(42);
   });
 
-  it("trimestres viram em 13 e 27", () => {
+  it("trimestres viram em 14s0d e 28s0d (funcionalidade 11 RN-01)", () => {
     const dpp = "2027-02-02";
     const dum = "2026-04-28";
-    expect(semanaGestacional(dpp, somarDias(dum, 12 * 7)).trimestre).toBe(1);
-    expect(semanaGestacional(dpp, somarDias(dum, 13 * 7)).trimestre).toBe(2);
-    expect(semanaGestacional(dpp, somarDias(dum, 27 * 7)).trimestre).toBe(3);
+    expect(semanaGestacional(dpp, somarDias(dum, 13 * 7 + 6)).trimestre).toBe(1);
+    expect(semanaGestacional(dpp, somarDias(dum, 14 * 7)).trimestre).toBe(2);
+    expect(semanaGestacional(dpp, somarDias(dum, 27 * 7 + 6)).trimestre).toBe(2);
+    expect(semanaGestacional(dpp, somarDias(dum, 28 * 7)).trimestre).toBe(3);
   });
 });
 
@@ -133,5 +133,11 @@ describe("idade do bebê", () => {
     expect(i.dias).toBe(60);
     expect(i.semanas).toBe(8);
     expect(i.meses).toBe(1);
+  });
+});
+
+describe("formatarComAno", () => {
+  it("dia, mês por extenso e ano", () => {
+    expect(formatarComAno("2045-03-08")).toBe("8 de março de 2045");
   });
 });

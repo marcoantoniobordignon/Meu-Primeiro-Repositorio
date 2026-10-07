@@ -9,7 +9,9 @@ export type EstadoAdmin =
   | { estado: "demo" }
   | { estado: "anonimo" }
   | { estado: "sem_permissao"; email: string }
-  | { estado: "admin"; email: string };
+  | { estado: "admin"; email: string }
+  /** Funcionalidade 09: revisora do FAQ (profiles.is_reviewer) só vê o FAQ. */
+  | { estado: "revisor"; email: string };
 
 /**
  * Quem pode ver o painel: uma conta com e-mail que esteja na tabela admins
@@ -22,8 +24,10 @@ async function lerEstado(): Promise<EstadoAdmin> {
   const { data } = await sb.auth.getSession();
   const user = data.session?.user;
   if (!user || user.is_anonymous || !user.email) return { estado: "anonimo" };
-  const { data: eu } = await chamarRpc<{ email: string; admin: boolean }>(sb, "admin_eu");
-  return eu?.admin ? { estado: "admin", email: user.email } : { estado: "sem_permissao", email: user.email };
+  const { data: eu } = await chamarRpc<{ email: string; admin: boolean; revisor?: boolean }>(sb, "admin_eu");
+  if (eu?.admin) return { estado: "admin", email: user.email };
+  if (eu?.revisor) return { estado: "revisor", email: user.email };
+  return { estado: "sem_permissao", email: user.email };
 }
 
 export function useSessaoAdmin() {

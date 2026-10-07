@@ -9,6 +9,7 @@ import { SheetNascimento } from "@/components/features/nascimento/SheetNasciment
 import { SheetChutes } from "@/components/features/registrar/SheetChutes";
 import { SheetContracoes } from "@/components/features/registrar/SheetContracoes";
 import { SheetSintomas } from "@/components/features/sintomas/SheetSintomas";
+import { useIntencoesDeVoz } from "@/components/features/medicamentos/useVozRemedio";
 import { BotaoVoz } from "@/components/features/voz/BotaoVoz";
 import { Cabecalho } from "@/components/ui/Cabecalho";
 import { bebeCopy } from "@/copy/bebe";
@@ -38,6 +39,7 @@ export default function PaginaRegistrar() {
   const { permissoes } = useFamilia();
   const [gestacao, setGestacao] = useState<TipoGestacao | null>(null);
   const [bebe, setBebe] = useState<EstadoSheet>({ tipo: null });
+  const intencoes = useIntencoesDeVoz();
 
   useEffect(() => {
     track("plus_aberto", { modo, origem: "tab" });
@@ -81,6 +83,7 @@ export default function PaginaRegistrar() {
           bebeAtivoId={ativo?.id}
           onCorrigir={(r) => setBebe({ tipo: r.tipo === "outro" ? null : r.tipo, registro: r })}
           onManual={manual}
+          onIntencaoLocal={intencoes.tratar}
         />
 
         <div className="grid grid-cols-2 gap-3">
@@ -109,6 +112,7 @@ export default function PaginaRegistrar() {
       <SheetContracoes aberto={gestacao === "contracoes"} onFechar={() => setGestacao(null)} />
       <SheetConsulta aberto={gestacao === "consulta"} onFechar={() => setGestacao(null)} />
       <SheetNascimento aberto={gestacao === "nascimento"} onFechar={() => setGestacao(null)} />
+      {intencoes.sheet}
     </div>
   );
 }

@@ -27,13 +27,18 @@ interface Props {
   onCorrigir: (registro: RegistroBebe) => void;
   /** "Registrar à mão" no estado "não entendi". */
   onManual: (tipo: string) => void;
+  /**
+   * Intenções resolvidas no aparelho antes do parser (remédio, pergunta para o médico).
+   * Devolve true quando tratou a frase.
+   */
+  onIntencaoLocal?: (texto: string) => boolean;
 }
 
 const MAX_MS = 20_000;
 const TOQUE_CURTO_MS = 300;
 
 /** VOZ-01..07, VOZ-11: segurar para falar, transcrição parcial, confirmação de uma linha. */
-export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Props) {
+export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual, onIntencaoLocal }: Props) {
   const [estado, setEstado] = useState<Estado>("parado");
   const [parcial, setParcial] = useState("");
   const [resumo, setResumo] = useState("");
@@ -61,6 +66,10 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
 
   const processar = useCallback(
     async (texto: string) => {
+      if (texto && onIntencaoLocal?.(texto)) {
+        setEstado("parado");
+        return;
+      }
       const t0 = Date.now();
       const todos = registrosBebe.listar();
       const contexto: ContextoVoz = {
@@ -111,7 +120,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual }: Pro
       if (fecharTimer.current) window.clearTimeout(fecharTimer.current);
       fecharTimer.current = window.setTimeout(() => setEstado((e) => (e === "entendi" ? "parado" : e)), 4000);
     },
-    [modo, bebes, bebeAtivoId, mostrar],
+    [modo, bebes, bebeAtivoId, mostrar, onIntencaoLocal],
   );
 
   const comecar = useCallback(() => {

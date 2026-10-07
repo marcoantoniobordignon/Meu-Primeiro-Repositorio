@@ -23,6 +23,16 @@ pnpm supabase:functions        # serve as Edge Functions; a de voz precisa de AN
 
 Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interpretar-registro` e `supabase secrets set ANTHROPIC_API_KEY=...`. Deploy do app na Vercel com as duas variáveis públicas.
 
+Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. O mesmo job faz a faxina da galeria (arquivos de documentos excluídos e PDFs exportados com mais de 24 h).
+
+CI (`.github/workflows/ci.yml`): em todo PR e push na `main`, três jobs — app (lint, typecheck, Vitest, build e Playwright), banco (migrations + pgTAP, `scripts/pgtap.sh`, que também roda local: `PSQL="sudo -u postgres psql" scripts/pgtap.sh`) e edge (`deno check` das Edge Functions).
+
+Cartas (funcionalidade 14): `supabase functions deploy carta-publica` e, no job, os segredos `APP_URL` (endereço do app, para os links) e, para os e-mails, `EMAIL_API_KEY` e `EMAIL_FROM` (opcional `EMAIL_API_URL`; o formato é o do Resend e compatíveis — o provedor ainda é decisão em aberto). Sem e-mail configurado, as cartas abrem e o push sai; só os e-mails não.
+
+Calendário (funcionalidade 08): `supabase functions deploy calendario-ics`. O app reescreve `/ics/{token}.ics` para ela quando `NEXT_PUBLIC_SUPABASE_URL` está definido no build.
+
+Galeria de exames (funcionalidade 01): `supabase functions deploy ler-laudo`. Usa o mesmo `ANTHROPIC_API_KEY`; o modelo da leitura é `claude-opus-5-5` por padrão e muda com `supabase secrets set MODELO_LAUDO=...` (decisão em aberto na spec). A função pede fallback automático do lado do servidor: se o modelo principal recusar, a API refaz no modelo recomendado.
+
 ## Deploy na Vercel
 
 O projeto é importado do GitHub com o preset Next.js; nada precisa ser configurado. Cada push na `main` gera um deploy de produção; cada PR gera um preview. Sem variáveis de ambiente o app sobe em modo 100 % local. Para ligar o Supabase, adicione `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` em *Settings → Environment Variables* e faça um redeploy.
@@ -34,8 +44,8 @@ pnpm lint
 pnpm typecheck
 pnpm test          # unitários (Vitest); compila o banco de conteúdo antes
 pnpm build         # gera também o service worker (public/sw.js)
-pnpm e2e           # Playwright, 3 fluxos críticos do app + 2 do painel, contra o build
-pnpm supabase:test # pgTAP: RLS entre famílias e privacidade da mãe (precisa do Supabase local)
+pnpm e2e           # Playwright: fluxos críticos do app, do painel e das funcionalidades 01–06, contra o build
+pnpm supabase:test # pgTAP: RLS entre famílias, privacidade da mãe e as regras das funcionalidades 01–06 (precisa do Supabase local)
 pnpm supabase:types # regenera src/lib/supabase/types.generated.ts (precisa do Supabase local)
 ```
 
@@ -76,6 +86,28 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 
 `tests/voz/frases.json` é o corpus do parser local (frase → registros esperados). Rode `pnpm vitest run src/lib/voz` depois de mexer no parser. O mesmo corpus serve para comparar modelos na Edge Function.
 
+## Funcionalidades 01–06 (`specs/funcionalidades/`)
+
+Galeria de exames e ultrassons (`/galeria`), medicamentos (`/medicamentos`), exames (`/exames`), consultas (`/consultas`), foto da barriga (`/barriga`) e diário (`/diario`), com atalhos em Eu.
+
+- **Nomes**: tabelas, colunas e valores como nas specs; as colunas de infraestrutura seguem a régua do projeto (`familia_id`, `criado_por`, `atualizado_em`, `apagado_em`). Os desvios do modelo estão no topo de `supabase/migrations/0003_funcionalidades.sql`.
+- **Regra única para app e servidor**: `supabase/functions/_shared/dominio/` (fuso, ids determinísticos, doses, exames, consultas, barriga, diário, lembretes) é TypeScript puro, importado no app como `@dominio/*` e nas Edge Functions por caminho relativo. Os testes ficam em `src/lib/dominio` e nas pastas de cada funcionalidade.
+- **Doses e exames gerados nos dois lados**: o app e o job `enviar-lembretes` materializam as doses com o mesmo id determinístico, então nunca duplicam; o mesmo vale para os exames padrão, o marco do diário (um por autora) e a foto da semana.
+- **Lembretes**: derivados do estado atual + `reminders_sent` (nada de fila de agendamento). Mudar a DUM, concluir, dispensar ou cancelar ajusta sozinho; voltar depois de dias não dispara atrasados (tolerância de 30 min); limite de 2 por dia e silêncio das 22h às 7h, exceto medicamento (RN-13). Sem Supabase, o app mostra os avisos enquanto está aberto.
+- **Arquivos**: fotos (JPEG ≤ 1600 px, sem EXIF), áudios e anexos ficam no IndexedDB e sobem para o bucket privado `ninho-privado` depois da linha que os referencia; a policy do Storage segue a RLS da linha.
+- **Galeria**: fotos e PDFs viram páginas JPEG (≤ 2000 px, sem EXIF; PDF renderizado no aparelho com pdf.js) para folhear, dar zoom, ler por IA e exportar do mesmo jeito. A leitura do laudo roda só na Edge Function `ler-laudo` (consentimento, plano e cota de 20/mês conferidos no servidor; a IA só transcreve e o resultado é validado antes de gravar). O PDF exportado é montado no aparelho e sobe para `exportacoes/{uid}/` com link de 24 h. Desvios do modelo no topo de `0004_galeria.sql`.
+- **FAQ de comidas (funcionalidade 09)**: o conteúdo inicial é rascunho; só uma pessoa revisora publica em `/admin/faq` (marque `profiles.is_reviewer = true`). A busca roda no aparelho com a mesma conta do `pg_trgm`.
+- **Cartas (funcionalidade 14)**: o lacre vale no banco: o app não lê a tabela `letters` (só a view `letters_visible`, sem texto, áudio e foto das lacradas) e escreve só por `salvar_carta` (a fila offline chama a função). Lacrar pede conta e internet; lacrada, o conteúdo sai também do aparelho.
+- **Retrospectiva (funcionalidade 07)**: só a configuração é gravada (`retrospectives`, só a gestante); os slides saem dos dados vivos. Player, vídeo e PNG usam o mesmo renderizador em canvas (`src/lib/retrospectiva/render.ts`); o vídeo é gravado no aparelho, nada sai para terceiros.
+- **Nomes (funcionalidade 15)**: votos só de quem votou (RLS); o match nasce no banco por trigger e é o único dado que o casal compartilha. Faltam as posições do Censo IBGE em `supabase/seed/nomes.json` para o filtro de popularidade aparecer.
+- **Direitos da gestante (funcionalidade 16)**: cartões revisados por pessoa da área jurídica (`profiles.is_reviewer`); canais só aparecem com `active = true`, depois de conferidos. Revisões com mais de 12 meses aparecem em `/admin/direitos`.
+- **Modo fé (funcionalidade 17)**: desligado por padrão (`prefs.faith_mode`). Religião é dado sensível: nada vai ao GA4 (o `track()` bloqueia as telas `/fe` e os valores de fé); as métricas ficam em `anon_counters`. Orações publicadas por revisor (`profiles.is_reviewer`); o link do Verbum vem de `NEXT_PUBLIC_VERBUM_URL`.
+- **Adaptação por trimestre (funcionalidade 11)**: a home ordena os cards pela tabela da spec (`@dominio/trimestre.ts`); artigos em `/artigos` (publicar exige revisor e data; a semente é rascunho). O trimestre vira em 14s0d e 28s0d, e `data-trimestre` no `<html>` troca as cores do anel (tokens `--anel-*`).
+- **Plano de parto (funcionalidade 10)**: plano, listas e anexos local-first; o PDF é gerado no aparelho (offline). A aba Enxoval, na gestação, abre as malas e o enxoval (checklist na v1).
+- **Calendário (funcionalidade 08)**: nada é copiado: mês, agenda e feed leem consultas, exames, doses, fotos e DPP de onde já estão (`@dominio/calendario.ts`); só eventos próprios moram em `calendar_events`.
+- **Modo parceiro (funcionalidade 12)**: convite próprio em Eu → Parceiro (link de 7 dias ou código de 6); aceitar exige conta (não anônima); um parceiro por gestação. A matriz de acesso está na RLS (`0005_parceiro.sql`): exames só os marcados, pela RPC; quem sai fica com `removido_em` para o diário seguir com o nome. Central de avisos em Eu → Avisos.
+- **Parceiro**: a gestante liga "Agenda" (padrão ligado) e "Fotos da barriga" (padrão desligado) em Eu → Família. Medicamentos, medidas e orientações nunca aparecem para ele.
+
 ## Estado
 
 | Spec | Status |
@@ -93,6 +125,11 @@ Os textos ficam em `content/*.md` (frontmatter + cards separados por `---`). `pn
 | 11 Virada do parto | **pronta** |
 | 12 Cuidadores | pronta com RPCs; sem servidor, o convite vale só no mesmo aparelho. Falta o QR |
 | Painel de admin | **pronto**: métricas agregadas, usuárias, conteúdo (lista, por dia, editor), voz e sistema; demonstração sem Supabase |
+| F02 Medicamentos | **pronta**; push precisa das chaves VAPID e do Cron |
+| F03 Exames | pronta; o "aparece no calendário" depende da spec 08 das funcionalidades (os dados já estão marcados) e o anexo usa uma `medical_documents` mínima até a galeria (spec 01) |
+| F04 Consultas | **pronta**; a antiga `consultas` virou `appointments` (migração no banco e no aparelho) |
+| F05 Foto da barriga | **pronta**; o lembrete ainda não vai embutido no `week_turn` (spec 13) |
+| F06 Diário | **pronta**; a retrospectiva (spec 07) e o parceiro completo (spec 12) usam estes dados quando chegarem |
 | Bebê 3D | fatia vertical: semana 20 com luz, pele com SSS, animação procedural, pós-processamento e níveis de qualidade; placeholder gerado por código. Faltam as outras semanas, a vista Barriga, o ultrassom 4D e o modelo licenciado |
 
 Ver [`CHANGELOG.md`](CHANGELOG.md).

@@ -6,10 +6,30 @@ import { estadoDoConvite, gerarToken, inicialDoAutor, nomeDoAutor, permissoes } 
 
 describe("CUI-01/04 · permissões por papel", () => {
   it("mãe e parceiro veem tudo; avó e cuidador registram sem ver sintomas nem assinatura", () => {
-    expect(permissoes("mae")).toMatchObject({ verSintomas: true, removerMembro: true, podeConvidar: ["parceiro", "avo", "cuidador"] });
+    expect(permissoes("mae")).toMatchObject({ verSintomas: true, removerMembro: true, podeConvidar: ["avo", "cuidador"] });
     expect(permissoes("parceiro")).toMatchObject({ verSintomas: true, gerarConvite: true, removerMembro: false, podeConvidar: ["cuidador"] });
     for (const p of ["avo", "cuidador"] as const) {
       expect(permissoes(p)).toMatchObject({ verSintomas: false, verCheckinPosParto: false, verAssinatura: false, registrar: true, apagarRegistrosDeOutros: false, gerarConvite: false });
+    }
+  });
+});
+
+describe("Funcionalidades 02–06 · o que cada papel vê", () => {
+  it("medicamentos, medidas e a lista de exames só a gestante; parceiro vê diário, agenda, galeria e plano de parto", () => {
+    expect(permissoes("mae")).toMatchObject({ verMedicamentos: true, verMedidas: true, gerirConsultas: true, verAgenda: true, verFotosBarriga: true, tirarFotosBarriga: true, verDiario: true, verExames: true });
+    expect(permissoes("parceiro")).toMatchObject({ verMedicamentos: false, verMedidas: false, gerirConsultas: false, verAgenda: true, verFotosBarriga: false, tirarFotosBarriga: false, verDiario: true, verExames: false, verGaleria: true, verPlanoParto: true, editarPlanoParto: false });
+    expect(permissoes("mae")).toMatchObject({ verGaleria: true, verPlanoParto: true, editarPlanoParto: true });
+    expect(permissoes("parceiro", { birth_plan: false })).toMatchObject({ verPlanoParto: false });
+  });
+
+  it("a gestante liga as fotos e desliga a agenda do parceiro", () => {
+    expect(permissoes("parceiro", { belly_photos: true })).toMatchObject({ verFotosBarriga: true, tirarFotosBarriga: false, verAgenda: true });
+    expect(permissoes("parceiro", { agenda: false })).toMatchObject({ verAgenda: false });
+  });
+
+  it("avó e cuidador não veem nada de saúde da gestação, nem com permissões", () => {
+    for (const p of ["avo", "cuidador"] as const) {
+      expect(permissoes(p, { agenda: true, belly_photos: true })).toMatchObject({ verMedicamentos: false, verExames: false, verAgenda: false, verMedidas: false, verFotosBarriga: false, verDiario: false });
     }
   });
 });

@@ -1,19 +1,23 @@
 import type { DataISO } from "@/lib/dates";
+import type { Prefs } from "@dominio/prefs.ts";
 
 /**
  * Estado do onboarding, persistido em localStorage (ONB-04):
  * fechar no meio e voltar retoma na mesma tela, por até 7 dias.
  */
 
-export const TOTAL_TELAS = 7;
+/** Funcionalidade 17: a tela 6 pergunta sobre a fé; instalar e guardar passam a 7 e 8. */
+export const TOTAL_TELAS = 8;
 export const CHAVE_ESTADO = "ninho.onboarding";
 export const CHAVE_PERFIL = "ninho.perfil";
 const VALIDADE_MS = 7 * 86_400_000;
 
 export type Momento = "gestacao" | "bebe";
+/** Funcionalidade 17 RN-01: sem resposta pré-marcada; "depois" mantém o modo desligado. */
+export type RespostaFe = "sim" | "nao" | "depois";
 
 export interface EstadoOnboarding {
-  tela: number; // 1..7
+  tela: number; // 1..8
   iniciadoEm: number; // epoch ms
   atualizadoEm: number;
   momento?: Momento;
@@ -23,6 +27,7 @@ export interface EstadoOnboarding {
   nome?: string;
   sintomas?: string[];
   pushPermitido?: boolean;
+  fe?: RespostaFe;
   puladas: number[];
 }
 
@@ -43,7 +48,18 @@ export interface Perfil {
   papel?: "mae" | "parceiro" | "avo" | "cuidador";
   /** Para o botão "ligar para minha equipe" (spec 11). */
   telefoneEquipe?: string;
+  /** `profiles.tz`: fuso IANA do aparelho; lembretes e doses seguem a hora local dele (medicamentos RN-03). */
+  tz?: string;
+  /** `profiles.prefs` (foto da barriga, modo fé, notificações). */
+  prefs?: Prefs;
+  /** `profiles.consents` (galeria RN-05: leitura de laudo por IA). */
+  consents?: { ai_document_reading?: { given_at: string } | null };
   onboardingConcluidoEm: string;
+  /** Funcionalidade 11 RN-06: `profiles.t2_seen_at`/`t3_seen_at` (a tela de virada aparece uma vez). */
+  t2VistoEm?: string | null;
+  /** Funcionalidade 15 RN-07: o nome escolhido ("Este é o nome!"), da família (`familias.baby_name`). */
+  nomeDoBebe?: string | null;
+  t3VistoEm?: string | null;
 }
 
 export function estadoInicial(agora = Date.now()): EstadoOnboarding {
@@ -94,6 +110,8 @@ export function concluir(e: EstadoOnboarding, anonima: boolean): Perfil {
     pushPermitido: e.pushPermitido,
     anonima,
     plano: "free",
+    // Funcionalidade 17 RN-01: só "Sim" liga; "Não", "Decidir depois" e pular deixam desligado.
+    prefs: { faith_mode: e.fe === "sim" },
     onboardingConcluidoEm: new Date().toISOString(),
   };
   try {

@@ -1,9 +1,9 @@
 "use client";
 
-import { BookOpen, ExternalLink, FlaskConical, LayoutDashboard, LogOut, Mic, Moon, Settings, Sun, Users } from "lucide-react";
+import { BookOpen, ExternalLink, FlaskConical, LayoutDashboard, LogOut, Mic, Moon, Scale, Settings, Sun, Users, Utensils } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { Botao } from "@/components/ui/Botao";
 import { CampoTexto } from "@/components/ui/CampoTexto";
@@ -15,6 +15,8 @@ const secoes = [
   { href: "/admin", rotulo: copy.nav.visao, Icone: LayoutDashboard },
   { href: "/admin/usuarias", rotulo: copy.nav.usuarias, Icone: Users },
   { href: "/admin/conteudo", rotulo: copy.nav.conteudo, Icone: BookOpen },
+  { href: "/admin/faq", rotulo: copy.nav.faq, Icone: Utensils },
+  { href: "/admin/direitos", rotulo: copy.nav.direitos, Icone: Scale },
   { href: "/admin/voz", rotulo: copy.nav.voz, Icone: Mic },
   { href: "/admin/sistema", rotulo: copy.nav.sistema, Icone: Settings },
 ] as const;
@@ -28,6 +30,12 @@ export function ShellAdmin({ children }: { children: ReactNode }) {
   const caminho = usePathname();
   const { tema, definirTema } = useTema();
   const escuro = tema === "escuro";
+  const router = useRouter();
+  const revisor = sessao.estado === "revisor";
+  // Funcionalidade 09/16: quem só revisa conteúdo vê o FAQ e o alerta de direitos, não o resto do painel.
+  useEffect(() => {
+    if (revisor && !caminho.startsWith("/admin/faq") && !caminho.startsWith("/admin/direitos")) router.replace("/admin/faq");
+  }, [revisor, caminho, router]);
 
   if (sessao.estado === "carregando") return <div className="min-h-dvh bg-fundo" aria-busy="true" />;
   if (sessao.estado === "anonimo" || sessao.estado === "sem_permissao") {
@@ -78,14 +86,14 @@ export function ShellAdmin({ children }: { children: ReactNode }) {
             </button>
           </div>
           <nav aria-label={copy.nav.rotulo} className="scroll-x-sem-barra mt-2 flex gap-1 px-3 pb-2 md:mt-6 md:flex-col md:px-0 md:pb-0">
-            {secoes.map(item)}
+            {secoes.filter((s) => !revisor || s.href === "/admin/faq" || s.href === "/admin/direitos").map(item)}
           </nav>
           <div className="hidden md:mt-auto md:flex md:flex-col md:gap-1 md:pt-6">
             <Link href="/hoje" className="flex min-h-11 items-center gap-2.5 rounded-pilula px-3.5 text-[13px] text-texto-mudo hover:text-texto">
               <ExternalLink size={16} />
               {copy.nav.voltarApp}
             </Link>
-            {sessao.estado === "admin" && (
+            {(sessao.estado === "admin" || sessao.estado === "revisor") && (
               <button type="button" onClick={() => void sessao.sair()} className="flex min-h-11 items-center gap-2.5 rounded-pilula px-3.5 text-left text-[13px] text-texto-mudo hover:text-texto">
                 <LogOut size={16} />
                 {copy.nav.sair}

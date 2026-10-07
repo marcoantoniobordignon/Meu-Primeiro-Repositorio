@@ -3,7 +3,7 @@
  * e listas com "- ". Sem HTML cru, sem links: o conteúdo é nosso e controlado.
  */
 export type Trecho = { tipo: "texto"; valor: string } | { tipo: "negrito"; valor: string } | { tipo: "italico"; valor: string };
-export type Bloco = { tipo: "paragrafo"; trechos: Trecho[] } | { tipo: "lista"; itens: Trecho[][] };
+export type Bloco = { tipo: "paragrafo"; trechos: Trecho[] } | { tipo: "lista"; itens: Trecho[][]; ordenada?: boolean } | { tipo: "titulo"; trechos: Trecho[] };
 
 export function trechos(linha: string): Trecho[] {
   const saida: Trecho[] = [];
@@ -20,13 +20,21 @@ export function trechos(linha: string): Trecho[] {
   return saida;
 }
 
-export function blocos(md: string): Bloco[] {
+/** `titulos`: "## " vira subtítulo e "1. " lista numerada (artigos, funcionalidade 11); nas stories fica desligado. */
+export function blocos(md: string, opcoes: { titulos?: boolean } = {}): Bloco[] {
   const saida: Bloco[] = [];
   for (const bruto of md.split(/\n\s*\n/)) {
     const par = bruto.trim();
     if (!par) continue;
-    const linhas = par.split("\n").map((l) => l.trim());
-    if (linhas.every((l) => l.startsWith("- "))) {
+    let linhas = par.split("\n").map((l) => l.trim());
+    if (opcoes.titulos && /^#{2,3} /.test(linhas[0]!)) {
+      saida.push({ tipo: "titulo", trechos: trechos(linhas[0]!.replace(/^#{2,3} /, "")) });
+      linhas = linhas.slice(1);
+      if (!linhas.length) continue;
+    }
+    if (opcoes.titulos && linhas.every((l) => /^\d+\. /.test(l))) {
+      saida.push({ tipo: "lista", itens: linhas.map((l) => trechos(l.replace(/^\d+\. /, ""))), ordenada: true });
+    } else if (linhas.every((l) => l.startsWith("- "))) {
       saida.push({ tipo: "lista", itens: linhas.map((l) => trechos(l.slice(2))) });
     } else {
       saida.push({ tipo: "paragrafo", trechos: trechos(linhas.join(" ")) });

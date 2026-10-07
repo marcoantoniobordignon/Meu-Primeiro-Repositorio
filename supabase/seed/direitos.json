@@ -1,0 +1,390 @@
+{
+  "cards": [
+    {
+      "slug": "consultas-e-exames",
+      "topic": "work",
+      "question": "Posso faltar ao trabalho para ir às consultas e exames?",
+      "answer": "Sim. Com carteira assinada, você pode sair do trabalho pelo tempo necessário para pelo menos seis consultas e os exames do pré-natal, sem desconto no salário.",
+      "details_md": "A regra vale para quem trabalha com carteira assinada (CLT). A lei fala em no mínimo seis consultas, mais os exames complementares. Se o seu pré-natal precisar de mais consultas, converse com a empresa e leve os comprovantes.\n\nPara justificar a saída, peça na unidade de saúde ou no consultório um comprovante de comparecimento, com data e horário.\n\nO pai ou companheiro com carteira assinada pode faltar até dois dias, durante a gravidez, para acompanhar consultas e exames, sem desconto no salário.\n\nServidoras públicas e outros regimes têm regras próprias. Confira com o setor de pessoal.",
+      "legal_basis": [
+        "CLT art. 392, §4º, II",
+        "CLT art. 473, X"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm",
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Guarde os comprovantes de cada consulta e exame.\n- Se houver desconto ou recusa, converse com o RH e peça a resposta por escrito.\n- Procure o sindicato da sua categoria.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego, pelo site gov.br.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 1
+    },
+    {
+      "slug": "estabilidade-gestante",
+      "topic": "work",
+      "question": "Posso ser demitida durante a gravidez?",
+      "answer": "Sem justa causa, não. Com carteira assinada, você tem estabilidade desde a confirmação da gravidez até cinco meses após o parto. A proteção vale mesmo se a empresa não sabia da gravidez na hora da demissão.",
+      "details_md": "Estabilidade quer dizer que a empresa não pode fazer a sua demissão sem justa causa nesse período. Justa causa é a demissão por falta grave prevista na lei, como abandono de emprego.\n\nPontos importantes:\n- A estabilidade vale mesmo se a gravidez for confirmada durante o aviso prévio.\n- Vale também para empregadas domésticas com carteira assinada.\n- Se a mãe falecer, quem ficar com a guarda do bebê pode ter a mesma estabilidade.\n- Pedir demissão é diferente de ser demitida. Antes de assinar um pedido de demissão, converse com o sindicato.\n\nEm contratos com prazo determinado, como o de experiência, e no trabalho temporário, a aplicação da regra tem discussões nos tribunais. Busque orientação para o seu caso.\n\nSe a demissão já aconteceu, a Justiça do Trabalho pode determinar a volta ao emprego ou o pagamento do período de estabilidade.",
+      "legal_basis": [
+        "ADCT art. 10, II, \"b\"",
+        "CLT art. 391-A",
+        "LC 150/2015, art. 25, parágrafo único",
+        "LC 146/2014",
+        "STF, Tema 497 de repercussão geral",
+        "TST, Súmula 244"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp150.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp146.htm"
+      ],
+      "what_to_do_md": "- Não assine nada com pressa. Peça cópia de tudo.\n- Junte provas da gravidez, como um exame com data.\n- Avise a empresa por escrito sobre a gravidez e guarde o comprovante.\n- Procure o sindicato ou um advogado trabalhista.\n- Existe prazo para entrar na Justiça do Trabalho. Busque ajuda logo.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 2
+    },
+    {
+      "slug": "licenca-maternidade",
+      "topic": "work",
+      "question": "Quanto tempo dura a licença-maternidade?",
+      "answer": "Com carteira assinada, são 120 dias, sem perder o emprego nem o salário. Se a empresa participa do programa Empresa Cidadã, você pode pedir mais 60 dias, somando 180.",
+      "details_md": "A licença pode começar entre 28 dias antes do parto e a data do parto. Para isso, entregue à empresa um atestado médico com a data de início.\n\nDurante a licença, você recebe o salário-maternidade. Para quem tem carteira assinada, em geral a empresa paga e depois compensa o valor com o INSS.\n\nSobre os 60 dias a mais do Empresa Cidadã:\n- Só valem se a empresa aderiu ao programa.\n- Você precisa pedir até o fim do primeiro mês após o parto.\n- Nesse período, você não pode ter outro trabalho remunerado, e o bebê não pode ficar em creche.\n\nSe você ou o bebê ficarem internados por mais de duas semanas depois do parto, a contagem da licença pode começar na alta. Confirme como isso se aplica no seu caso.\n\nServidoras públicas, autônomas e MEIs têm regras próprias.",
+      "legal_basis": [
+        "CF art. 7º, XVIII",
+        "CLT art. 392",
+        "Lei 11.770/2008",
+        "Lei 8.213/1991, art. 72",
+        "STF, ADI 6327"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/lei/l11770.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+      ],
+      "what_to_do_md": "- Entregue o atestado médico ao RH e peça protocolo.\n- Pergunte por escrito se a empresa participa do Empresa Cidadã.\n- Se a licença ou o pagamento forem negados, procure o sindicato.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego.\n- Dúvidas sobre o benefício: app Meu INSS ou telefone 135.",
+      "week_from": 32,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 3
+    },
+    {
+      "slug": "mudanca-de-funcao",
+      "topic": "work",
+      "question": "Posso mudar de função por causa da gravidez?",
+      "answer": "Sim, quando a sua saúde exigir. Com recomendação médica, você pode ser transferida de função durante a gravidez, sem perder o salário. Depois da licença, você volta para a função de antes.",
+      "details_md": "A mudança depende das suas condições de saúde. Por exemplo, quando a função exige muito esforço físico ou traz algum risco para a gestação.\n\nPeça ao seu médico um atestado que explique a necessidade da mudança e entregue ao RH.\n\nSe o trabalho tem insalubridade, como contato com produtos químicos ou ruído alto, existe uma regra específica. Veja o cartão sobre local insalubre.\n\nA regra vale para quem tem carteira assinada.",
+      "legal_basis": [
+        "CLT art. 392, §4º, I"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Entregue o atestado ao RH e peça protocolo.\n- Se a empresa recusar, peça a resposta por escrito.\n- Procure o sindicato da sua categoria.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego.\n- Se o trabalho trouxer risco, converse com o seu médico sobre afastamento.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 4
+    },
+    {
+      "slug": "local-insalubre",
+      "topic": "work",
+      "question": "Trabalho em local insalubre. E agora?",
+      "answer": "Na gravidez e na amamentação, você deve ser afastada de atividades insalubres, em qualquer grau, sem perder a remuneração. Insalubre é o trabalho que expõe você a agentes que podem fazer mal à saúde.",
+      "details_md": "São exemplos de agentes insalubres produtos químicos, ruído alto, calor excessivo e materiais biológicos. Em geral, quem recebe adicional de insalubridade está nessa situação.\n\nO que a lei prevê:\n- A empresa deve passar você para uma atividade sem insalubridade, mantendo a remuneração, incluindo o adicional de insalubridade.\n- O afastamento vale na gravidez e durante a amamentação.\n- Se não houver atividade adequada na empresa, a situação é tratada como gravidez de risco, e você recebe salário-maternidade durante o afastamento.\n\nEm 2019, o STF decidiu que esse afastamento não depende de atestado médico, seja qual for o grau de insalubridade.",
+      "legal_basis": [
+        "CLT art. 394-A",
+        "STF, ADI 5938"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Peça ao RH, por escrito, a mudança de atividade e guarde o protocolo.\n- Procure o sindicato da sua categoria.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego.\n- Se a empresa disser que não tem atividade adequada, peça orientação sobre o salário-maternidade no INSS, pelo telefone 135.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 5
+    },
+    {
+      "slug": "intervalos-amamentacao",
+      "topic": "work",
+      "question": "Terei intervalos para amamentar?",
+      "answer": "Sim. Até o bebê completar 6 meses, você tem direito a dois descansos de meia hora cada, durante a jornada, para amamentar. Esse prazo pode ser estendido quando a saúde do bebê exigir.",
+      "details_md": "Os horários dos descansos são combinados entre você e a empresa.\n\nEsses descansos são especiais para a amamentação e não se confundem com a pausa para refeição.\n\nAlgumas empresas oferecem sala de apoio à amamentação ou creche. Pergunte ao RH o que existe no seu local de trabalho.\n\nA regra vale para quem tem carteira assinada.",
+      "legal_basis": [
+        "CLT art. 396"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Converse com o RH e peça a resposta por escrito.\n- Procure o sindicato da sua categoria.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego, pelo site gov.br.\n- Para ir à Justiça do Trabalho, busque o sindicato ou um advogado trabalhista.",
+      "week_from": 32,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 6
+    },
+    {
+      "slug": "teste-de-gravidez",
+      "topic": "work",
+      "question": "A empresa pode exigir teste de gravidez?",
+      "answer": "Não. A lei proíbe exigir teste, exame ou atestado de gravidez para contratar você ou para manter o seu emprego. Essa exigência é crime.",
+      "details_md": "A lei também proíbe outras práticas de discriminação por causa da gravidez. Por exemplo:\n- Recusar a sua contratação por você estar grávida.\n- Fazer a sua demissão por causa da gravidez.\n\nSe a demissão foi por discriminação, a lei permite pedir a volta ao trabalho com pagamento do período afastado, ou o pagamento em dobro da remuneração desse período. Também cabe pedido de indenização por dano moral.\n\nFazer um exame por vontade própria é diferente. O que a lei proíbe é a empresa exigir.",
+      "legal_basis": [
+        "Lei 9.029/1995, arts. 1º, 2º e 4º",
+        "CLT art. 373-A, IV"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l9029.htm",
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Anote quem pediu, quando e como. Guarde mensagens e e-mails.\n- Procure o sindicato ou um advogado trabalhista.\n- Denuncie ao Ministério do Trabalho e Emprego ou ao Ministério Público do Trabalho.\n- Como é crime, você também pode registrar boletim de ocorrência.",
+      "week_from": null,
+      "week_to": null,
+      "applies_to": "mother",
+      "position": 7
+    },
+    {
+      "slug": "licenca-paternidade",
+      "topic": "work",
+      "question": "E a licença do pai ou parceiro?",
+      "answer": "Com carteira assinada, o pai tem 5 dias de licença após o nascimento. Se a empresa participa do Empresa Cidadã, são mais 15 dias, somando 20. Na gravidez, ele pode faltar até 2 dias para ir às consultas.",
+      "details_md": "Para ter os 15 dias a mais do Empresa Cidadã, ele precisa:\n- Pedir até 2 dias úteis após o parto.\n- Comprovar participação em atividade de orientação sobre paternidade responsável.\n\nAcordos ou convenções coletivas da categoria podem prever mais dias.\n\nEm casais de duas mães, a mãe que não gestou pode ter direito a licença, segundo decisão do STF. Confirme as regras com o RH.\n\nO Congresso discute a ampliação da licença-paternidade, e as regras podem mudar. Confirme com o RH qual regra vale na data do parto.",
+      "legal_basis": [
+        "CF art. 7º, XIX",
+        "ADCT art. 10, §1º",
+        "Lei 11.770/2008",
+        "CLT art. 473, X",
+        "STF, Tema 1072 de repercussão geral"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+        "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/lei/l11770.htm",
+        "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm"
+      ],
+      "what_to_do_md": "- Avise o RH com antecedência e peça protocolo.\n- Se a empresa participa do Empresa Cidadã, faça o pedido por escrito no prazo.\n- Se a licença for negada, procure o sindicato.\n- Você pode fazer uma denúncia ao Ministério do Trabalho e Emprego.",
+      "week_from": 34,
+      "week_to": 40,
+      "applies_to": "both",
+      "position": 8
+    },
+    {
+      "slug": "pre-natal-gratuito",
+      "topic": "health",
+      "question": "O pré-natal é gratuito?",
+      "answer": "Sim, no SUS. Consultas, exames, vacinas e acompanhamento do pré-natal são oferecidos sem custo nas unidades de saúde. Comece o quanto antes, de preferência no primeiro trimestre.",
+      "details_md": "O SUS atende qualquer pessoa, com ou sem plano de saúde, e não cobra pelo atendimento.\n\nPara começar:\n- Procure a Unidade Básica de Saúde (UBS) mais perto de casa.\n- Leve um documento e, se tiver, o Cartão SUS. Se não tiver, a UBS pode fazer o cadastro.\n- Você vai receber a Caderneta da Gestante. Leve a caderneta em todas as consultas e no parto.\n\nNo pré-natal, a equipe acompanha você e o bebê, pede exames, indica vacinas e orienta sobre o parto.",
+      "legal_basis": [
+        "Lei 8.080/1990, arts. 2º, 7º e 43",
+        "CF art. 196"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l8080.htm",
+        "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+      ],
+      "what_to_do_md": "- Se negarem atendimento ou cobrarem, anote data, local e nome do responsável.\n- Fale com a ouvidoria da secretaria de saúde do seu município.\n- Ligue para o Disque Saúde 136.\n- Se o problema continuar, procure a Defensoria Pública ou o Ministério Público.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 1
+    },
+    {
+      "slug": "maternidade-vinculada",
+      "topic": "health",
+      "question": "Posso escolher a maternidade onde vou ter o bebê?",
+      "answer": "No SUS, a lei não fala em livre escolha. Ela dá a você o direito de saber, desde o pré-natal, em qual maternidade vai ter o bebê e em qual será atendida se tiver alguma complicação na gravidez.",
+      "details_md": "Essa ligação com a maternidade se chama vinculação. Ela deve acontecer quando você entra no pré-natal do SUS. A maternidade indicada precisa ter condições de atender você conforme o risco da sua gestação.\n\nPergunte na UBS:\n- Qual é a maternidade de referência para o seu parto.\n- Onde ir se tiver sangramento, perda de líquido, dor forte ou outra urgência.\n\nAnote os endereços na Caderneta da Gestante.\n\nEm uma emergência, procure o serviço de saúde mais próximo.\n\nCom plano de saúde, a escolha depende da rede credenciada do seu plano.",
+      "legal_basis": [
+        "Lei 11.634/2007, art. 1º"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2007/lei/l11634.htm"
+      ],
+      "what_to_do_md": "- Se não informarem a maternidade, peça na UBS ou na secretaria de saúde.\n- Fale com a ouvidoria da secretaria de saúde do seu município.\n- Ligue para o Disque Saúde 136.\n- Se o problema continuar, procure a Defensoria Pública.",
+      "week_from": 20,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 2
+    },
+    {
+      "slug": "acompanhante-no-parto",
+      "topic": "health",
+      "question": "Posso ter acompanhante no parto?",
+      "answer": "Sim. Você pode ter um acompanhante durante o trabalho de parto, o parto e o pós-parto imediato. Quem escolhe a pessoa é você, não o hospital.",
+      "details_md": "A regra vale para hospitais e maternidades do SUS, próprios ou conveniados. As normas da ANS também preveem o acompanhante no parto pelos planos com cobertura obstétrica.\n\nDesde 2023, a lei também prevê que a mulher pode ter acompanhante em consultas, exames e procedimentos em serviços de saúde públicos e privados.\n\nDicas:\n- Combine antes quem vai ser o acompanhante e se haverá alguém para revezar.\n- Registre no plano de parto o nome do acompanhante.\n- Se houver resistência, peça para falar com a chefia da equipe e anote nomes e horários.",
+      "legal_basis": [
+        "Lei 11.108/2005",
+        "Lei 14.737/2023",
+        "Rol de Procedimentos e Eventos em Saúde da ANS"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11108.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14737.htm"
+      ],
+      "what_to_do_md": "- Peça para falar com a chefia de enfermagem ou a direção do hospital.\n- Registre reclamação na ouvidoria do hospital.\n- Ligue para o Disque Saúde 136. Se for pelo plano, fale também com a ANS.\n- Depois, você pode procurar a Defensoria Pública ou o Ministério Público.",
+      "week_from": 28,
+      "week_to": 40,
+      "applies_to": "both",
+      "position": 3
+    },
+    {
+      "slug": "prioridade-em-filas",
+      "topic": "health",
+      "question": "Tenho prioridade em filas?",
+      "answer": "Sim. Gestantes, lactantes e pessoas com crianças de colo têm atendimento prioritário em órgãos públicos, empresas de serviços públicos e bancos. No transporte coletivo, há assentos reservados.",
+      "details_md": "Lactante é quem está amamentando.\n\nA lei federal prevê prioridade em:\n- Repartições públicas.\n- Empresas que prestam serviço público por concessão, como as de energia, água e transporte.\n- Bancos e outras instituições financeiras.\n\nNo começo da gestação, se pedirem, a Caderneta da Gestante pode ajudar a mostrar a gravidez.\n\nEstados e municípios podem ter leis próprias que ampliam esse direito.",
+      "legal_basis": [
+        "Lei 10.048/2000, arts. 1º, 2º e 3º"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l10048.htm"
+      ],
+      "what_to_do_md": "- Peça para falar com o gerente ou responsável pelo local.\n- Registre reclamação na ouvidoria do órgão, banco ou empresa.\n- No caso de bancos, você também pode reclamar no Banco Central.\n- Procure o Procon da sua cidade.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 4
+    },
+    {
+      "slug": "plano-de-saude",
+      "topic": "health",
+      "question": "Meu plano de saúde cobre pré-natal e parto?",
+      "answer": "Depende do tipo de plano. O plano ambulatorial cobre consultas e exames do pré-natal. O parto é coberto pelo plano hospitalar com obstetrícia. Confira o tipo de plano no seu contrato.",
+      "details_md": "Carência é o tempo de espera, depois de contratar o plano, para usar uma cobertura. Para o parto a termo, o prazo máximo de carência é de 300 dias. Em urgência e emergência, as regras são diferentes.\n\nNo plano com obstetrícia:\n- O bebê tem cobertura nos primeiros 30 dias após o parto.\n- Você pode inscrever o bebê como dependente sem carência, se fizer isso em até 30 dias após o nascimento.\n\nSe o plano negar uma cobertura, peça a negativa por escrito, com o motivo.",
+      "legal_basis": [
+        "Lei 9.656/1998, art. 12, I, II, III e V"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l9656.htm"
+      ],
+      "what_to_do_md": "- Peça a negativa por escrito, com o motivo.\n- Registre reclamação na ouvidoria da operadora do plano.\n- Se não resolver, reclame na ANS, pelo telefone 0800 701 9656 ou pelo site.\n- Você também pode procurar o Procon ou a Defensoria Pública.",
+      "week_from": 4,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 5
+    },
+    {
+      "slug": "violencia-obstetrica",
+      "topic": "birth",
+      "question": "O que é violência obstétrica e como denunciar?",
+      "answer": "É quando a mulher sofre maus-tratos, desrespeito ou procedimentos sem explicação e sem consentimento no pré-natal, no parto ou no pós-parto. Você pode denunciar no hospital, no Disque Saúde 136 ou no Ligue 180.",
+      "details_md": "Você tem direito a um atendimento respeitoso e a receber informações claras sobre o que vai ser feito com você e com o bebê.\n\nAlguns exemplos de situações que podem ser denunciadas:\n- Gritos, humilhações, ameaças ou comentários ofensivos.\n- Procedimentos feitos sem explicar e sem pedir a sua autorização.\n- Impedir a presença do acompanhante.\n- Recusar atendimento ou deixar você sem assistência.\n\nAs diretrizes do Ministério da Saúde para o parto normal recomendam que a mulher receba informações e participe das decisões sobre o próprio parto.\n\nSe aconteceu com você, a culpa não é sua. Você pode denunciar mesmo algum tempo depois do parto.",
+      "legal_basis": [
+        "Lei 8.080/1990, art. 7º, III e V",
+        "Lei 11.108/2005",
+        "Diretrizes Nacionais de Assistência ao Parto Normal (Ministério da Saúde, 2017)"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l8080.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11108.htm"
+      ],
+      "what_to_do_md": "- Anote o que aconteceu, com datas, horários e nomes.\n- Peça cópia do seu prontuário e do prontuário do bebê.\n- Registre reclamação na ouvidoria do hospital.\n- Ligue para o Disque Saúde 136 ou para o Ligue 180.\n- Denuncie ao Conselho Regional de Medicina ou de Enfermagem.\n- Procure a Defensoria Pública ou o Ministério Público.\n- Se o parto foi pelo plano, reclame também na ANS.",
+      "week_from": 30,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 1
+    },
+    {
+      "slug": "registro-de-nascimento",
+      "topic": "postpartum",
+      "question": "O registro de nascimento é gratuito?",
+      "answer": "Sim. O registro civil de nascimento e a primeira certidão são gratuitos para todas as pessoas, em qualquer cartório de registro civil. O cartório não pode cobrar por eles.",
+      "details_md": "Para registrar, em geral você precisa de:\n- Declaração de Nascido Vivo (DNV), entregue pela maternidade.\n- Documento de identidade de quem vai fazer o registro.\n\nO registro pode ser feito no cartório do lugar do nascimento ou do lugar onde os pais moram.\n\nO prazo comum é de 15 dias após o nascimento. Ele pode ser maior em alguns casos, como quando o cartório fica longe. Depois do prazo, ainda é possível registrar.\n\nAlgumas maternidades têm um posto de cartório. Pergunte se a sua tem e, se tiver, registre o bebê antes da alta.\n\nA certidão é o primeiro documento do bebê. Ela é necessária para outros documentos e para incluir o bebê no plano de saúde.",
+      "legal_basis": [
+        "Lei 9.534/1997",
+        "Lei 6.015/1973, arts. 30 e 50"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l9534.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/l6015compilada.htm"
+      ],
+      "what_to_do_md": "- Se o cartório cobrar, diga que o registro e a primeira certidão são gratuitos por lei e peça recibo.\n- Reclame na Corregedoria-Geral de Justiça do Tribunal de Justiça do seu estado.\n- Você também pode procurar a Defensoria Pública.",
+      "week_from": 36,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 1
+    },
+    {
+      "slug": "testes-do-bebe",
+      "topic": "postpartum",
+      "question": "Quais testes o bebê faz ao nascer?",
+      "answer": "Os principais são os testes do pezinho, da orelhinha, do olhinho, do coraçãozinho e da linguinha. Eles ajudam a descobrir cedo problemas que têm tratamento. No SUS, são feitos sem custo.",
+      "details_md": "- Teste do pezinho: gotinhas de sangue do calcanhar. O ideal é fazer entre o 3º e o 5º dia de vida.\n- Teste da orelhinha: avalia a audição.\n- Teste do olhinho: avalia os olhos com uma luz.\n- Teste do coraçãozinho: mede o oxigênio no sangue para ajudar a detectar problemas no coração.\n- Teste da linguinha: avalia a membrana embaixo da língua, que pode atrapalhar a amamentação.\n\nOs testes da orelhinha e da linguinha são obrigatórios por lei em hospitais e maternidades.\n\nDesde 2021, a lei prevê ampliar aos poucos o número de doenças que o teste do pezinho do SUS detecta. A ampliação acontece em etapas e pode variar conforme o estado.\n\nAntes da alta, confira na Caderneta da Criança quais testes foram feitos e quais ainda faltam.",
+      "legal_basis": [
+        "Lei 14.154/2021",
+        "Lei 8.069/1990 (ECA), art. 10",
+        "Lei 12.303/2010",
+        "Lei 13.002/2014"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14154.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/l8069.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2010/lei/l12303.htm",
+        "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l13002.htm"
+      ],
+      "what_to_do_md": "- Antes da alta, pergunte quais testes foram feitos e como pegar os resultados.\n- Se algum teste não foi feito, procure a UBS o quanto antes.\n- Se negarem um teste, fale com a ouvidoria do hospital ou ligue para o Disque Saúde 136.\n- Se for pelo plano, reclame também na ANS.",
+      "week_from": 36,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 2
+    },
+    {
+      "slug": "salario-maternidade-sem-carteira",
+      "topic": "benefits",
+      "question": "Não tenho carteira assinada. Tenho salário-maternidade?",
+      "answer": "Pode ter. Se você contribui para o INSS como autônoma, MEI ou facultativa, ou é trabalhadora rural (segurada especial), pode receber o salário-maternidade por 120 dias. O pedido é feito no Meu INSS.",
+      "details_md": "Quem pode ter direito, mesmo sem carteira assinada:\n- Contribuinte individual (autônoma) e MEI.\n- Segurada facultativa, que contribui sem ter renda de trabalho, como dona de casa.\n- Segurada especial, como agricultora familiar e pescadora artesanal.\n- Quem perdeu o emprego, mas ainda está no período de graça. É um tempo em que a pessoa continua coberta pelo INSS mesmo sem contribuir.\n\nA lei exigia um número mínimo de contribuições para algumas dessas seguradas. Em 2024, o STF decidiu que essa exigência é inconstitucional. Confirme no INSS como a regra está sendo aplicada.\n\nO benefício pode começar até 28 dias antes do parto. O valor depende da sua categoria e das suas contribuições.\n\nSe você não contribui para o INSS e não é segurada especial, em geral não tem direito a esse benefício.",
+      "legal_basis": [
+        "Lei 8.213/1991, arts. 71 a 73",
+        "Lei 8.213/1991, art. 15",
+        "STF, ADI 2110 e ADI 2111"
+      ],
+      "legal_links": [
+        "https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm",
+        "https://www.planalto.gov.br/ccivil_03/leis/l8213cons.htm"
+      ],
+      "what_to_do_md": "- Faça o pedido pelo app ou site Meu INSS, ou pelo telefone 135.\n- Separe documento com foto, CPF, certidão de nascimento do bebê ou atestado médico, e comprovantes de contribuição ou de atividade rural.\n- Se o pedido for negado, você pode recorrer pelo próprio Meu INSS.\n- Para ajuda gratuita, procure a Defensoria Pública da União ou o sindicato rural.",
+      "week_from": 20,
+      "week_to": 40,
+      "applies_to": "mother",
+      "position": 1
+    }
+  ],
+  "channels": [
+    {
+      "slug": "ligue-180",
+      "name": "Ligue 180 – Central de Atendimento à Mulher",
+      "phone": "180",
+      "url": "https://www.gov.br/mulheres/pt-br/ligue180",
+      "description": "Atende mulheres em situação de violência, inclusive violência obstétrica. A ligação é gratuita.",
+      "position": 1
+    },
+    {
+      "slug": "disque-saude-136",
+      "name": "Disque Saúde 136 – Ouvidoria do SUS",
+      "phone": "136",
+      "url": "https://www.gov.br/saude/pt-br/canais-de-atendimento/ouvidoria-do-sus",
+      "description": "Recebe dúvidas, reclamações e denúncias sobre o atendimento no SUS. A ligação é gratuita.",
+      "position": 2
+    },
+    {
+      "slug": "ans",
+      "name": "ANS – Agência Nacional de Saúde Suplementar",
+      "phone": "08007019656",
+      "url": "https://www.gov.br/ans",
+      "description": "Recebe reclamações contra planos de saúde, como negativa de cobertura no pré-natal ou no parto.",
+      "position": 3
+    },
+    {
+      "slug": "defensoria-publica",
+      "name": "Defensoria Pública do seu estado",
+      "phone": null,
+      "url": "https://www.anadep.org.br",
+      "description": "Orientação jurídica gratuita para quem não pode pagar advogado. No site, procure a Defensoria Pública do seu estado.",
+      "position": 4
+    }
+  ]
+}

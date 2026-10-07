@@ -33,6 +33,8 @@
     "@supabase/supabase-js": "^2.117.2",
     "lucide-react": "^1.49.0",
     "next": "^15.5.27",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299",
     "postprocessing": "^6.39.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

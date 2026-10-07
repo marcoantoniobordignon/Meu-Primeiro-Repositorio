@@ -1,10 +1,17 @@
 /**
- * IndexedDB mínimo para a outbox (ARQ-01). Sem dependência; cai em memória
+ * IndexedDB mínimo para a outbox (ARQ-01), os arquivos e as ações do push. Sem dependência; cai em memória
  * quando o IndexedDB não existe (testes, Safari em modo privado).
  */
 const NOME = "ninho";
-const VERSAO = 1;
+const VERSAO = 2;
 export const STORE_OUTBOX = "outbox";
+/** Fotos e áudios do aparelho: o blob fica aqui até subir para o Storage (e depois, como cache). */
+export const STORE_ARQUIVOS = "arquivos";
+/** Arquivos apagados aqui que ainda precisam sair do Storage. */
+export const STORE_REMOCOES = "remocoes";
+/** Ações tocadas na notificação ("Tomei", "Adiar") com o app fechado; o service worker grava, o app aplica. */
+export const STORE_ACOES_PUSH = "acoes_push";
+const STORES = [STORE_OUTBOX, STORE_ARQUIVOS, STORE_REMOCOES, STORE_ACOES_PUSH];
 
 let db: Promise<IDBDatabase | null> | null = null;
 const memoria = new Map<string, Map<string, unknown>>();
@@ -17,7 +24,7 @@ function abrir(): Promise<IDBDatabase | null> {
       const req = indexedDB.open(NOME, VERSAO);
       req.onupgradeneeded = () => {
         const d = req.result;
-        if (!d.objectStoreNames.contains(STORE_OUTBOX)) d.createObjectStore(STORE_OUTBOX, { keyPath: "id" });
+        for (const store of STORES) if (!d.objectStoreNames.contains(store)) d.createObjectStore(store, { keyPath: "id" });
       };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => resolve(null);
@@ -60,6 +67,13 @@ export async function idbSalvar<T extends { id: string }>(store: string, item: T
   }
   const tx = d.transaction(store, "readwrite");
   await pedir(tx.objectStore(store).put(item));
+}
+
+export async function idbObter<T extends { id: string }>(store: string, id: string): Promise<T | undefined> {
+  const d = await abrir();
+  if (!d) return mem(store).get(id) as T | undefined;
+  const tx = d.transaction(store, "readonly");
+  return (await pedir(tx.objectStore(store).get(id))) as T | undefined;
 }
 
 export async function idbApagar(store: string, id: string): Promise<void> {

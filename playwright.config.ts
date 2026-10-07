@@ -1,5 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// e2e/rede.ts: as rotas também valem para o service worker (offline de verdade em qualquer Chromium).
+process.env.PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS ??= "1";
+
 /** Spec 01: Playwright para 3 fluxos críticos. `pnpm e2e` (usa o build de produção). */
 export default defineConfig({
   testDir: "./e2e",

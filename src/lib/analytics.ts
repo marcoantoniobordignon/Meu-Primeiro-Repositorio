@@ -23,8 +23,6 @@ export type Eventos = {
   onb_concluido: { segundos: number; telas_puladas: number };
   // spec 05
   home_gestacao_vista: { semana: number; trimestre: number };
-  consulta_criada: { tipo: string };
-  consulta_realizada: Record<string, never>;
   chutes_sessao: { total: number; minutos: number };
   contracoes_sessao: { n: number; alerta_padrao: boolean };
   // spec 06
@@ -68,6 +66,125 @@ export type Eventos = {
   convite_aberto: { valido: boolean };
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
+  // paywall (disparado pelas funcionalidades 02, 05 e 06)
+  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan" | "articles" | "letters"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" | "premium_article" | "letter_limit" | "letter_media" };
+  // funcionalidade 08 · calendário
+  cal_viewed: { mode: "month" | "agenda" };
+  cal_event_created: { category: string };
+  cal_item_opened: { item_type: string };
+  cal_feed_created: Record<string, never>;
+  cal_feed_revoked: Record<string, never>;
+  cal_item_exported: Record<string, never>;
+  // funcionalidade 09 · FAQ de comidas (nunca o texto da busca nem o da pergunta)
+  faq_search: { query_len: number; results: number };
+  faq_item_viewed: { slug: string; verdict: string };
+  faq_favorite_added: Record<string, never>;
+  faq_question_submitted: Record<string, never>;
+  faq_question_voted: Record<string, never>;
+  faq_answer_push_opened: Record<string, never>;
+  // funcionalidade 14 · cartas (letter_opened e letter_delivery_email_sent são do servidor: ficam no banco)
+  letter_draft_created: Record<string, never>;
+  letter_sealed: { open_rule: string; has_audio: boolean };
+  letter_unsealed: Record<string, never>;
+  letter_share_link_created: Record<string, never>;
+  letter_exported: Record<string, never>;
+  // funcionalidade 07 · retrospectiva (nunca o conteúdo dos slides)
+  retro_preview_shown: Record<string, never>;
+  retro_opened: { kind: "preview" | "final" };
+  retro_slide_viewed: { index: number; type: string };
+  retro_slide_hidden: { type: string };
+  retro_exported: { format: "video" | "png"; tier: "free" | "premium" };
+  retro_shared: Record<string, never>;
+  birth_registered: { weeks_at_birth: number; has_weight: boolean };
+  // funcionalidade 15 · nomes (nunca o nome em si)
+  names_swipe: { vote: "like" | "dislike" };
+  names_undo: Record<string, never>;
+  names_ranked: Record<string, never>;
+  names_match_created: Record<string, never>;
+  names_chosen: Record<string, never>;
+  names_listen_tapped: Record<string, never>;
+  names_custom_added: Record<string, never>;
+  // funcionalidade 16 · direitos da gestante (nunca o texto da busca)
+  rights_card_opened: { slug: string; source: "search" | "home" | "link" };
+  rights_search: { query_len: number; results: number };
+  rights_card_shared: Record<string, never>;
+  rights_favorited: Record<string, never>;
+  rights_help_channel_tapped: { channel: string };
+  // funcionalidade 11 · adaptação por trimestre
+  home_card_tapped: { card: string; position: number };
+  article_opened: { slug: string; source: "home" | "para_esta_semana" | "biblioteca" | "busca" | "favoritos" | "virada" | "link" };
+  article_read: { slug: string };
+  article_favorited: Record<string, never>;
+  trimester_transition_viewed: { to: 2 | 3 };
+  trimester_transition_cta: { target: string };
+  // funcionalidade 10 · plano de parto
+  bp_started: Record<string, never>;
+  bp_step_completed: { step: number };
+  bp_pdf_generated: { offline: boolean };
+  bp_pdf_shared: Record<string, never>;
+  bp_checklist_toggled: { list: string };
+  bp_item_added: { list: string };
+  bp_call_maternity_tapped: Record<string, never>;
+  bp_reminder_opened: { week: number };
+  // funcionalidade 12 · modo parceiro
+  partner_invite_created: Record<string, never>;
+  partner_invite_accepted: { hours_to_accept: number };
+  partner_permission_changed: { key: "agenda" | "belly_photos" | "birth_plan"; value: boolean };
+  partner_removed: { by: "owner" | "partner" };
+  partner_home_viewed: Record<string, never>;
+  partner_question_added: Record<string, never>;
+  partner_checklist_toggled: Record<string, never>;
+  partner_tip_viewed: { week: number };
+  // funcionalidade 01 · galeria de exames e ultrassons
+  exam_doc_add_started: Record<string, never>;
+  exam_doc_added: { kind: string; pages: number; source: "camera" | "gallery" | "pdf" | "mixed" };
+  exam_doc_viewed: { kind: string };
+  exam_doc_ai_consent_given: Record<string, never>;
+  exam_doc_ai_read_requested: Record<string, never>;
+  exam_doc_ai_read_done: { ok: boolean };
+  exam_doc_exported: { docs: number; pages: number };
+  exam_doc_deleted: Record<string, never>;
+  exam_doc_linked_to_exam: Record<string, never>;
+  // funcionalidade 02 · medicamentos
+  med_added: { schedule_type: string };
+  med_dose_taken: { source: "push" | "app" | "voice" | "backfill"; minutes_late: number };
+  med_dose_skipped: Record<string, never>;
+  med_dose_snoozed: Record<string, never>;
+  med_adherence_viewed: Record<string, never>;
+  med_voice_logged: { matched: boolean };
+  med_list_shared: Record<string, never>;
+  // funcionalidade 03 · exames
+  exam_reminder_opened: { code: string };
+  exam_scheduled: { code: string; days_to_window_end: number | null };
+  exam_marked_done: { with_document: boolean };
+  exam_dismissed: { code: string };
+  exam_restored: Record<string, never>;
+  exam_custom_added: Record<string, never>;
+  exam_extra_added: { code: string };
+  // funcionalidade 04 · consultas
+  appt_created: { kind: string; source: "manual" | "suggestion" };
+  appt_completed: { has_measures: boolean };
+  appt_cancelled: Record<string, never>;
+  appt_question_added: { source: "text" | "voice" | "partner" };
+  appt_question_asked: Record<string, never>;
+  appt_bring_opened: Record<string, never>;
+  appt_share_tapped: Record<string, never>;
+  appt_reminder_opened: Record<string, never>;
+  // funcionalidade 05 · foto da barriga
+  belly_photo_added: { source: "camera" | "gallery"; replaced: boolean; week: number };
+  belly_photo_deleted: Record<string, never>;
+  belly_reminder_opened: Record<string, never>;
+  belly_timelapse_played: { photos: number };
+  belly_video_export_started: { tier: "free" | "premium" };
+  belly_video_exported: { tier: "free" | "premium"; ok: boolean };
+  belly_photo_shared: Record<string, never>;
+  // funcionalidade 06 · diário
+  diary_entry_created: { kind: "free" | "milestone"; milestone_code: string | null; has_audio: boolean; photos: number; source: "text" | "dictation" };
+  diary_milestone_shown: { code: string };
+  diary_milestone_skipped: { code: string };
+  diary_milestone_snoozed: { code: string };
+  diary_entry_shared_partner: Record<string, never>;
+  diary_search_used: Record<string, never>;
 };
 
 type Gtag = (comando: "event", nome: string, params?: Record<string, unknown>) => void;
@@ -78,10 +195,27 @@ declare global {
   }
 }
 
+/**
+ * Funcionalidade 17 RN-10: religião é dado sensível. Nada que denuncie o modo fé vai ao GA4: nenhum evento
+ * sai de uma tela de fé (o gtag anexa a URL a todo evento) e valores de fé (marco "Primeira oração", lista
+ * do batismo, card da oração) viram "oculto". As métricas do modo fé ficam só nos contadores anônimos.
+ */
+export const ROTAS_DE_FE = /^\/fe(\/|$)/;
+export const VALORES_DE_FE = new Set(["first_prayer", "baptism", "oracao"]);
+
+export function paraOGa(rota: string, params: Record<string, unknown>): Record<string, unknown> | null {
+  if (ROTAS_DE_FE.test(rota)) return null;
+  const saida: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(params)) saida[k] = typeof v === "string" && VALORES_DE_FE.has(v) ? "oculto" : v;
+  return saida;
+}
+
 export function track<N extends keyof Eventos>(nome: N, params: Eventos[N]): void {
   if (typeof window === "undefined") return;
+  const limpo = paraOGa(window.location.pathname, params as Record<string, unknown>);
+  if (!limpo) return;
   if (window.gtag) {
-    window.gtag("event", nome, params);
+    window.gtag("event", nome, limpo);
     return;
   }
   if (process.env.NODE_ENV === "development") {

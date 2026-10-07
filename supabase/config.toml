@@ -49,3 +49,22 @@ verify_jwt = true
 
 [functions.enviar-push]
 verify_jwt = true
+
+# Lembretes (funcionalidades 02–06): o job usa LEMBRETES_SEGREDO; a ação do push usa o token assinado.
+[functions.enviar-lembretes]
+verify_jwt = false
+
+[functions.acao-lembrete]
+verify_jwt = false
+
+# Galeria (funcionalidade 01): leitura de laudo por IA, só com a sessão da gestante.
+[functions.ler-laudo]
+verify_jwt = true
+
+# Calendário (funcionalidade 08): o feed iCal se autoriza pelo token do link.
+[functions.calendario-ics]
+verify_jwt = false
+
+# Cartas (funcionalidade 14): a leitura pública se autoriza pelo token do link.
+[functions.carta-publica]
+verify_jwt = false

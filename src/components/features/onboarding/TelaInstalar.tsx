@@ -17,7 +17,7 @@ interface EventoInstalar extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-/** Tela 6: instalar e avisar. Push só depois de instalado (ONB-05). */
+/** Tela 7: instalar e avisar. Push só depois de instalado (ONB-05). */
 export function TelaInstalar({ avancar }: PropsTela) {
   const [sistema, setSistema] = useState<Sistema>("outro");
   const [instalado, setInstalado] = useState(false);
