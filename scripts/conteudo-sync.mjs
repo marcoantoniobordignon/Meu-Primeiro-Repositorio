@@ -49,3 +49,15 @@ const { error: e3 } = await sb.from("partner_tips").upsert(
 );
 if (e3) throw e3;
 console.log(`partner_tips: ${dicas.length} upserts`);
+
+// Funcionalidade 09: verbetes do FAQ entram como RASCUNHO (RN-09: o revisor humano publica no painel).
+// Só insere o que ainda não existe: nunca sobrescreve um verbete revisado ou publicado.
+// Id determinístico pelo slug (o mesmo do bundle do app). Node 22.18+ importa o TypeScript do domínio direto.
+const { idDeterministico } = await import("../supabase/functions/_shared/dominio/id.ts");
+const verbetes = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "faq-verbetes.json"), "utf8"));
+const { error: e4 } = await sb.from("faq_foods").upsert(
+  verbetes.map((v) => ({ ...v, id: idDeterministico(`faq:${v.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e4) throw e4;
+console.log(`faq_foods: ${verbetes.length} rascunhos (os que já existiam ficaram como estavam)`);

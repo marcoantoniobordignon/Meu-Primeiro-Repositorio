@@ -153,9 +153,9 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
-      avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
+      avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null; push_pendente: boolean }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
       partner_tips: Tabela<{ id: string; week_from: number; week_to: number; trimester: number; feeling_text: string; help_tips: string[]; reviewed_on: string | null; atualizado_em: string }>;
       // Funcionalidade 08 (0006_calendario.sql)
@@ -196,6 +196,31 @@ export interface Database {
       >;
       birth_checklist_items: Tabela<Base & { list: "documents" | "bag_mother" | "bag_baby" | "bag_companion" | "layette" | "baptism"; title: string; quantity: number | null; note: string | null; is_done: boolean; is_custom: boolean; position: number }>;
       birth_item_attachments: Tabela<Base & { item_id: string; storage_path: string; position: number }>;
+      // Funcionalidade 09 (0008_faq.sql)
+      faq_foods: Tabela<{
+        id: string;
+        slug: string;
+        name: string;
+        aliases: string[];
+        category: "meat" | "fish" | "dairy" | "fruit_veg" | "drink" | "sweet" | "herb_tea" | "other";
+        verdict: "safe" | "caution" | "avoid";
+        short_answer: string;
+        details: string | null;
+        condition_note: string | null;
+        source_label: string;
+        source_url: string | null;
+        reviewed_by: string | null;
+        reviewed_on: string | null;
+        status: "draft" | "published" | "archived";
+        views_count: number;
+        asked_count: number;
+        criado_em: string;
+        atualizado_em: string;
+      }>;
+      faq_questions: Tabela<{ id: string; asked_by: string; text: string; normalized: string; status: "open" | "answered" | "rejected" | "duplicate"; duplicate_of: string | null; answered_food_id: string | null; reject_reason: "fora_do_escopo" | "pergunta_medica" | "repetida" | null; votes_count: number; created_at: string }>;
+      faq_question_votes: Tabela<{ question_id: string; user_id: string; criado_em: string }>;
+      faq_favorites: Tabela<{ id: string; user_id: string; food_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
+      faq_bloqueio: Tabela<{ palavra: string }>;
       calendar_feed_tokens: Tabela<{ id: string; familia_id: string; token: string; criado_em: string; revoked_at: string | null }>;
     };
     Views: {
@@ -220,6 +245,16 @@ export interface Database {
       convite_parceiro_publico: { Args: { p_token?: string | null; p_code?: string | null }; Returns: Json };
       aceitar_convite_parceiro: { Args: { p_token?: string | null; p_code?: string | null; p_nome?: string | null }; Returns: Json };
       sair_da_gestacao: { Args: Record<string, never>; Returns: undefined };
+      // Funcionalidade 09
+      buscar_faq: { Args: { q: string }; Returns: { slug: string; name: string; verdict: string; category: string; pontuacao: number }[] };
+      faq_contar_visualizacao: { Args: { p_slug: string }; Returns: undefined };
+      faq_perguntas_parecidas: { Args: { p_texto: string }; Returns: { id: string; text: string; votes_count: number; ja_votei: boolean }[] };
+      faq_perguntar: { Args: { p_texto: string }; Returns: string };
+      faq_votar: { Args: { p_pergunta: string }; Returns: number };
+      faq_tem_ofensa: { Args: { p_texto: string }; Returns: boolean };
+      faq_perguntas_abertas: { Args: Record<string, never>; Returns: { id: string; text: string; votes_count: number; created_at: string }[] };
+      faq_publicar: { Args: { p_food: string; p_perguntas?: string[]; p_revisor?: string | null; p_revisado_em?: string | null }; Returns: number };
+      faq_rejeitar: { Args: { p_pergunta: string; p_motivo: string }; Returns: undefined };
       // Funcionalidade 08
       feed_calendario: { Args: { p_novo?: boolean }; Returns: string };
       revogar_feed_calendario: { Args: Record<string, never>; Returns: undefined };

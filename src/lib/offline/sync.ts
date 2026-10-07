@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { conteudosRemotos, membros, userExams, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { conteudosRemotos, faqVerbetes, membros, userExams, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
@@ -93,6 +93,7 @@ export async function puxar(sb: Cliente): Promise<void> {
     if (maior) ultima[m.tabela] = maior;
   }
   await puxarConteudos(sb, ultima);
+  await puxarFaq(sb, ultima);
   guardarUltima(ultima);
   await puxarFamilia(sb);
 }
@@ -106,6 +107,20 @@ async function puxarConteudos(sb: Cliente, ultima: Record<string, string>): Prom
   conteudosRemotos.mesclar(linhas as never);
   const maior = linhas[linhas.length - 1]?.atualizado_em;
   if (maior) ultima.conteudos = maior;
+}
+
+/**
+ * Funcionalidade 09 RN-10: o que é publicado fica no aparelho (busca e leitura offline). Um verbete
+ * revisado chega com o texto novo pelo `atualizado_em`; o arquivado sai da lista.
+ */
+async function puxarFaq(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  const desde = ultima.faq_foods ?? "1970-01-01T00:00:00Z";
+  const { data, error } = await tabela(sb, "faq_foods").select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+  if (error || !data) return;
+  const linhas = data as unknown as FaqVerbete[];
+  faqVerbetes.mesclar(linhas.map((v) => ({ ...v, apagado_em: v.status === "published" ? null : v.atualizado_em })));
+  const maior = linhas[linhas.length - 1]?.atualizado_em;
+  if (maior) ultima.faq_foods = maior;
 }
 
 /** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */

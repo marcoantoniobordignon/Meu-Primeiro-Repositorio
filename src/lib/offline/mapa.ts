@@ -7,6 +7,7 @@ import {
   birthItemAttachments,
   birthPlans,
   calendarEvents,
+  faqFavoritos,
   appointments,
   bebes,
   bellyPhotos,
@@ -83,6 +84,7 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: birthPlans as Colecao<Registro>, tabela: "birth_plans", conflito: "id" },
   { colecao: birthChecklistItems as Colecao<Registro>, tabela: "birth_checklist_items", conflito: "id" },
   { colecao: birthItemAttachments as Colecao<Registro>, tabela: "birth_item_attachments", conflito: "id" },
+  { colecao: faqFavoritos as Colecao<Registro>, tabela: "faq_favorites", conflito: "id" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

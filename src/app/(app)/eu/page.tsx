@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Bell, Bookmark, CalendarRange, ClipboardList, Heart, CalendarDays, Camera, ChevronRight, FlaskConical, FolderHeart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
+import { Apple, Baby, Bell, Bookmark, CalendarRange, ClipboardList, Heart, CalendarDays, Camera, ChevronRight, FlaskConical, FolderHeart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -113,6 +113,7 @@ export default function PaginaEu() {
           {gestacao && permissoes.verPlanoParto && atalho("/plano-parto", copy.planoParto, ClipboardList)}
           {gestacao && permissoes.verFotosBarriga && atalho("/barriga", copy.barriga, Camera)}
           {gestacao && permissoes.verDiario && atalho("/diario", copy.diarioGravidez, Sparkles)}
+          {atalho("/faq", copy.faq, Apple)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
           {atalho("/eu/guardados", copy.guardados, Bookmark)}
         </div>

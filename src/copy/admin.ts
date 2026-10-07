@@ -6,6 +6,7 @@ export const adminCopy = {
     visao: "Visão geral",
     usuarias: "Usuárias",
     conteudo: "Conteúdo",
+    faq: "FAQ de comidas",
     voz: "Voz",
     sistema: "Sistema",
     voltarApp: "Abrir o app",

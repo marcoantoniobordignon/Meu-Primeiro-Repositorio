@@ -75,6 +75,13 @@ export type Eventos = {
   cal_feed_created: Record<string, never>;
   cal_feed_revoked: Record<string, never>;
   cal_item_exported: Record<string, never>;
+  // funcionalidade 09 · FAQ de comidas (nunca o texto da busca nem o da pergunta)
+  faq_search: { query_len: number; results: number };
+  faq_item_viewed: { slug: string; verdict: string };
+  faq_favorite_added: Record<string, never>;
+  faq_question_submitted: Record<string, never>;
+  faq_question_voted: Record<string, never>;
+  faq_answer_push_opened: Record<string, never>;
   // funcionalidade 10 · plano de parto
   bp_started: Record<string, never>;
   bp_step_completed: { step: number };

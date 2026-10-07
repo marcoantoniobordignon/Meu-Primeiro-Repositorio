@@ -2,6 +2,13 @@
 
 ## Não lançado
 
+### Funcionalidade 09 · FAQ de comidas na gravidez (specs/funcionalidades/09-faq-comidas.md)
+- Migration `0008_faq.sql`: `pg_trgm` e `unaccent`, `faq_foods` (publicar exige fonte, nome de quem revisou e data: RN-01/09 no banco), `faq_questions`, `faq_question_votes`, `faq_favorites`, lista de bloqueio, `profiles.is_reviewer`. RPCs `buscar_faq` (similaridade ≥ 0,3, até 20), `faq_perguntar` (3–140 caracteres, ofensa, 5 por dia, parecida ≥ 0,6 não duplica), `faq_votar` (um voto por pessoa), `faq_publicar` (responde perguntas, aviso + push `faq_answer` para cada votante), `faq_rejeitar` (motivo padronizado, só na central). Perguntas são de quem pergunta (o parceiro nunca vê). pgTAP: `supabase/tests/faq.test.sql`, 35 testes.
+- Busca no aparelho com a mesma conta do `pg_trgm` (testada contra valores do Postgres), tolerante a acento, erro de digitação e trecho do nome; os verbetes publicados ficam em cópia local (leitura, busca e favoritos sem rede).
+- Telas: FAQ (busca, categorias, favoritos, mais buscados; nunca vazia), resultado com semáforo, verbete (veredito, resposta, condição, detalhes, fonte, revisão, "Perguntado por N mães", aviso fixo da RN-03, favoritar), perguntar (parecidas e "Eu também quero saber"; pede conexão) e o painel `/admin/faq` para revisora ou admin (perguntas por votos, editor, publicar com revisão, rejeitar com motivo).
+- Conteúdo: `supabase/seed/faq-verbetes.json` com 167 verbetes em **rascunho**, escritos com IA e aguardando revisão profissional; o `conteudo:sync` insere como rascunho e nunca sobrescreve o que já foi revisado. Sem servidor, o app mostra a semente com o selo "Rascunho".
+- Testes: Vitest +21; Playwright: 6 fluxos.
+
 ### Funcionalidade 10 · Plano de parto, malas e enxoval (specs/funcionalidades/10-plano-parto.md)
 - Migration `0007_plano_parto.sql`: `birth_plans` (um por gestação; preferências validadas; etapas 1–5), `birth_checklist_items` (inclui a lista `baptism` da spec 17), `birth_item_attachments` (até 3 por item) e o Storage dos anexos. RN-10 no banco: o parceiro com `birth_plan` lê tudo, marca e adiciona itens; preferências e contatos, só ela. pgTAP: `supabase/tests/plano_parto.test.sql`, 24 testes.
 - Telas: Plano (n de 5 etapas, "Ligar para a maternidade", "Gerar PDF"), Onde (Lei 11.634/2007), Como (preferências como desejos, com o texto fixo da RN-03), Quem (Lei 11.108/2005), Documentos (foto por item; free até 10 anexos, depois paywall), Malas e enxoval (progresso por lista, adicionar, quantidade, remover) e a prévia do PDF. Cada campo salva sozinho (800 ms).
