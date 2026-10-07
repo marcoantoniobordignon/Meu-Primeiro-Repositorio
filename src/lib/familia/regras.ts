@@ -11,10 +11,12 @@ export const nomePapel: Record<Papel, string> = {
 export interface PermissoesParceiro {
   agenda?: boolean;
   belly_photos?: boolean;
+  /** Funcionalidades 10 e 12: plano de parto e listas (ler e marcar itens). */
+  birth_plan?: boolean;
 }
 
-/** Padrões: agenda ligada (o parceiro já via as consultas); fotos da barriga desligadas (spec 05 RN-11). */
-export const PERMISSOES_PARCEIRO_PADRAO: Required<PermissoesParceiro> = { agenda: true, belly_photos: false };
+/** Padrões (funcionalidade 12): agenda e plano de parto ligados; fotos da barriga desligadas (spec 05 RN-11). */
+export const PERMISSOES_PARCEIRO_PADRAO: Required<PermissoesParceiro> = { agenda: true, belly_photos: false, birth_plan: true };
 
 export interface Permissoes {
   verSintomas: boolean;
@@ -28,7 +30,7 @@ export interface Permissoes {
   podeConvidar: Exclude<Papel, "mae">[];
   /** Funcionalidade 02 RN-14: só a gestante. */
   verMedicamentos: boolean;
-  /** Funcionalidade 03: dado de saúde, mesma régua dos sintomas (mãe e parceiro). */
+  /** Funcionalidade 03: a lista de exames é da gestante (funcionalidade 12: o parceiro vê só os marcados, na agenda). */
   verExames: boolean;
   /** Funcionalidade 04 RN-10: data, local, profissional e pauta. */
   verAgenda: boolean;
@@ -41,17 +43,23 @@ export interface Permissoes {
   tirarFotosBarriga: boolean;
   /** Funcionalidade 06 RN-09: mãe e parceiro escrevem; cada um edita só o seu. */
   verDiario: boolean;
+  /** Funcionalidade 01 RN-10: a gestante vê tudo; o parceiro, só o compartilhado. */
+  verGaleria: boolean;
+  /** Funcionalidade 10 RN-10: ler o plano e marcar/adicionar itens das listas (parceiro com `birth_plan`). */
+  verPlanoParto: boolean;
+  /** Funcionalidade 10 RN-10: preferências e contatos, só a gestante. */
+  editarPlanoParto: boolean;
 }
 
 /** CUI-01/04: permissões por papel. Parceiro vê sintomas por padrão (decisão da spec). */
 export function permissoes(papel: Papel, doParceiro: PermissoesParceiro = {}): Permissoes {
   const parc = { ...PERMISSOES_PARCEIRO_PADRAO, ...doParceiro };
-  const semFuncionalidades = { verMedicamentos: false, verExames: false, verAgenda: false, gerirConsultas: false, verMedidas: false, verFotosBarriga: false, tirarFotosBarriga: false, verDiario: false };
+  const semFuncionalidades = { verMedicamentos: false, verExames: false, verAgenda: false, gerirConsultas: false, verMedidas: false, verFotosBarriga: false, tirarFotosBarriga: false, verDiario: false, verGaleria: false, verPlanoParto: false, editarPlanoParto: false };
   switch (papel) {
     case "mae":
-      return { verSintomas: true, verCheckinPosParto: true, verAssinatura: true, registrar: true, apagarRegistrosDeOutros: true, gerarConvite: true, removerMembro: true, podeConvidar: ["parceiro", "avo", "cuidador"], verMedicamentos: true, verExames: true, verAgenda: true, gerirConsultas: true, verMedidas: true, verFotosBarriga: true, tirarFotosBarriga: true, verDiario: true };
+      return { verSintomas: true, verCheckinPosParto: true, verAssinatura: true, registrar: true, apagarRegistrosDeOutros: true, gerarConvite: true, removerMembro: true, podeConvidar: ["avo", "cuidador"], verMedicamentos: true, verExames: true, verAgenda: true, gerirConsultas: true, verMedidas: true, verFotosBarriga: true, tirarFotosBarriga: true, verDiario: true, verGaleria: true, verPlanoParto: true, editarPlanoParto: true };
     case "parceiro":
-      return { verSintomas: true, verCheckinPosParto: true, verAssinatura: true, registrar: true, apagarRegistrosDeOutros: true, gerarConvite: true, removerMembro: false, podeConvidar: ["cuidador"], ...semFuncionalidades, verExames: true, verAgenda: parc.agenda, verFotosBarriga: parc.belly_photos, verDiario: true };
+      return { verSintomas: true, verCheckinPosParto: true, verAssinatura: true, registrar: true, apagarRegistrosDeOutros: true, gerarConvite: true, removerMembro: false, podeConvidar: ["cuidador"], ...semFuncionalidades, verAgenda: parc.agenda, verFotosBarriga: parc.belly_photos, verDiario: true, verGaleria: true, verPlanoParto: parc.birth_plan };
     default:
       return { verSintomas: false, verCheckinPosParto: false, verAssinatura: false, registrar: true, apagarRegistrosDeOutros: false, gerarConvite: false, removerMembro: false, podeConvidar: [], ...semFuncionalidades };
   }
@@ -84,7 +92,13 @@ export function inicialDoAutor(criadoPor: string, meuId: string, lista: Membro[]
   return (m?.nome.trim()[0] ?? "?").toUpperCase();
 }
 
+/** Funcionalidade 12 RN-06: quem saiu continua na lista (apagado) para o "Escrito por {nome}". */
 export function nomeDoAutor(criadoPor: string, meuId: string, lista: Membro[]): string {
   if (criadoPor === meuId) return "você";
   return lista.find((x) => x.profile_id === criadoPor)?.nome ?? "alguém";
+}
+
+/** Funcionalidade 12 RN-03: um parceiro ativo por gestação. */
+export function parceiroAtivo(lista: Membro[]): Membro | undefined {
+  return lista.find((m) => m.papel === "parceiro" && !m.apagado_em);
 }

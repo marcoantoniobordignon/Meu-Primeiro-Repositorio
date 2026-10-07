@@ -35,6 +35,21 @@ export const textosLembretes = {
     duasHoras: () => "Consulta daqui a 2 horas",
     duasHorasCorpo: (local: string | null) => local ?? "Toque para ver a pauta.",
   },
+  // Funcionalidade 12 RN-08: avisos do parceiro (em "você", sobre "ela").
+  parceiro: {
+    vespera: (hora: string) => `Amanhã tem consulta, às ${hora}`,
+    vesperaCorpo: (local: string | null) => (local ? `${local}. Que tal ir junto?` : "Que tal ir junto?"),
+    exame: (nome: string) => `Ela marcou: ${nome}`,
+    exameCorpo: (quando: string) => `${quando}. Toque para ver na agenda.`,
+    marco: (semana: number) => `Semana ${semana}!`,
+    marcoCorpo: (semana: number) =>
+      semana === 12 ? "Fim do primeiro trimestre à vista. Veja o que muda." :
+      semana === 20 ? "Metade do caminho. Veja como ajudar esta semana." :
+      semana === 28 ? "Começou o terceiro trimestre. Veja como ajudar." :
+      semana === 36 ? "Reta final. Confira a mala e o plano de parto juntos." :
+      semana === 38 ? "Pode ser a qualquer momento. Deixe o telefone por perto." :
+      "Chegou a data provável. Respire: muitos bebês vêm depois.",
+  },
   belly: {
     virada: (semana: number) => `Semana ${semana}: hora da foto da barriga`,
     viradaCorpo: "Uma foto por semana, e a gente monta o vídeo no fim.",

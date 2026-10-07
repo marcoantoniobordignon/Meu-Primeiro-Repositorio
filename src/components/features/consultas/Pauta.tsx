@@ -45,6 +45,7 @@ export function Pauta({ consulta }: Props) {
     if (!perguntaValida(texto)) return;
     adicionarPergunta(texto, consulta && consulta.id !== proxima?.id ? consulta.id : null);
     track("appt_question_added", { source: papel === "parceiro" ? "partner" : origem });
+    if (papel === "parceiro") track("partner_question_added", {});
     mostrar(copy.perguntaSalva);
     setTexto("");
     setOrigem("text");

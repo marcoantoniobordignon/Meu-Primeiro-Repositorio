@@ -3,7 +3,7 @@
 // Para cada gestante: mantém as doses (job diário do modelo, idempotente), planeja os lembretes
 // a partir do estado atual e manda por Web Push só o que venceu agora (`selecionarParaEnvio`),
 // registrando em `reminders_sent`. Toda a regra mora em ../_shared/dominio (testada no Vitest).
-// Também faz a faxina da galeria: arquivos de documentos excluídos e PDFs exportados vencidos.
+// Também manda os avisos do parceiro (funcionalidade 12) e faz a faxina da galeria: arquivos de documentos excluídos e PDFs exportados vencidos.
 //
 // Segredos: LEMBRETES_SEGREDO, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:...).
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -11,6 +11,7 @@ import webpush from "npm:web-push@3.6.7";
 
 import { json } from "../_shared/cors.ts";
 import { planejar, selecionarParaEnvio, type Enviado, type Lembrete } from "../_shared/dominio/lembretes.ts";
+import { planejarParceiro, selecionarParaParceiro } from "../_shared/dominio/parceiro.ts";
 import { manutencaoDasDoses, type DoseBase, type MedicamentoAgenda } from "../_shared/dominio/medicamentos.ts";
 import { fusoOuPadrao, MS_DIA, normalizarHora } from "../_shared/dominio/tempo.ts";
 import { assinarToken } from "../_shared/dominio/token.ts";
@@ -57,7 +58,8 @@ Deno.serve(async (req) => {
   const { data: gestantes, error } = await sb
     .from("membros_familia")
     .select("familia_id, profile_id, profiles!membros_familia_profile_id_fkey(dpp, modo, tz, prefs, onboarding_concluido_em)")
-    .eq("papel", "mae");
+    .eq("papel", "mae")
+    .is("removido_em", null);
   if (error) return json({ erro: error.message }, 500);
 
   for (const g of gestantes ?? []) {
@@ -128,6 +130,43 @@ Deno.serve(async (req) => {
       console.error("familia", familia, e instanceof Error ? e.message : e);
     }
   }
+  // Funcionalidade 12 RN-08: avisos do parceiro (no fuso dele, com os opt-outs dele, até 3 por semana).
+  const dppDaFamilia = new Map((gestantes ?? []).map((g) => {
+    const p = (Array.isArray(g.profiles) ? g.profiles[0] : g.profiles) as Linha | null;
+    return [g.familia_id as string, p?.modo === "gestacao" ? ((p?.dpp as string) ?? null) : null];
+  }));
+  const { data: parceiros } = await sb
+    .from("membros_familia")
+    .select("familia_id, profile_id, permissoes, profiles!membros_familia_profile_id_fkey(tz, prefs)")
+    .eq("papel", "parceiro")
+    .is("removido_em", null);
+  for (const m of parceiros ?? []) {
+    const familia = m.familia_id as string;
+    const parceiroId = m.profile_id as string;
+    const p = (Array.isArray(m.profiles) ? m.profiles[0] : m.profiles) as Linha | null;
+    try {
+      const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", parceiroId);
+      if (!subs?.length) continue;
+      const agenda = (m.permissoes as Record<string, unknown> | null)?.agenda !== false;
+      const [consultas, exames, enviados] = await Promise.all([
+        agenda ? sb.from("appointments").select("id, starts_at, kind, status, provider_name, location, apagado_em").eq("familia_id", familia).is("apagado_em", null) : Promise.resolve({ data: [] }),
+        agenda ? sb.from("user_exams").select("id, catalog_code, custom_name, scheduled_at, scheduled_all_day, atualizado_em").eq("familia_id", familia).eq("status", "scheduled").is("apagado_em", null) : Promise.resolve({ data: [] }),
+        sb.from("reminders_sent").select("chave, categoria, ref, enviado_em, essencial").eq("familia_id", familia).like("chave", `partner:${parceiroId}:%`).gte("enviado_em", new Date(agora.getTime() - 8 * MS_DIA).toISOString()),
+      ]);
+      const tz = fusoOuPadrao(p?.tz as string);
+      const candidatos = planejarParceiro({ parceiroId, agora, tz, dpp: dppDaFamilia.get(familia) ?? null, prefs: p?.prefs as Record<string, unknown>, agenda, consultas: (consultas.data ?? []) as never, exames: (exames.data ?? []) as never });
+      const saem = selecionarParaParceiro(candidatos, { agora, tz, prefs: p?.prefs as Record<string, unknown>, enviados: (enviados.data ?? []) as Enviado[] });
+      for (const l of saem) {
+        await enviar(l, subs, familia, sb);
+        await sb.from("reminders_sent").insert({ familia_id: familia, chave: l.chave, categoria: l.categoria, tipo: l.tipo, ref: l.ref, essencial: false, enviado_em: agora.toISOString() });
+        resumo.enviados++;
+      }
+    } catch (e) {
+      resumo.erros++;
+      console.error("parceiro", parceiroId, e instanceof Error ? e.message : e);
+    }
+  }
+
   return json(resumo);
 });
 

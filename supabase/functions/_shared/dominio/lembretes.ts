@@ -15,7 +15,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {

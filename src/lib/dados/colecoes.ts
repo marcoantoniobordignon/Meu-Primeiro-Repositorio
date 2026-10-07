@@ -266,6 +266,20 @@ export interface Convite extends Registro {
   expira_em: string;
   usado_por?: string | null;
   usado_em?: string | null;
+  /** Funcionalidade 12 (modo sem servidor): código de 6 e revogação ao gerar outro. */
+  code?: string | null;
+  revogado_em?: string | null;
+}
+
+/** Funcionalidade 12: central de avisos (sem push). */
+export interface Aviso extends Registro {
+  para: string;
+  tipo: string;
+  titulo: string;
+  corpo: string | null;
+  url: string | null;
+  lido_em: string | null;
+  criado_em: string;
 }
 
 /** Spec 08 */
@@ -296,6 +310,7 @@ export const posPartoCheckins = criarColecao<PosPartoCheckin>("ninho.pos_parto_c
 export const membros = criarColecao<Membro>("ninho.membros");
 export const convites = criarColecao<Convite>("ninho.convites");
 export const vozPendentes = criarColecao<VozPendente>("ninho.voz_pendentes");
+export const avisos = criarColecao<Aviso>("ninho.avisos");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -323,4 +338,5 @@ export const todasColecoes = [
   membros,
   convites,
   vozPendentes,
+  avisos,
 ];

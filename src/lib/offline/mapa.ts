@@ -2,6 +2,7 @@ import type { Colecao, Registro } from "@/lib/dados/colecao";
 import {
   appointmentMeasures,
   appointmentQuestions,
+  avisos,
   appointments,
   bebes,
   bellyPhotos,
@@ -71,6 +72,8 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: contracoes as Colecao<Registro>, tabela: "contracoes", conflito: "id" },
   { colecao: posPartoCheckins as Colecao<Registro>, tabela: "pos_parto_checkins", conflito: "id" },
   { colecao: conteudosLidos as Colecao<Registro>, tabela: "conteudos_lidos", conflito: "id" },
+  // Funcionalidade 12: só o "lido" sai daqui; os avisos nascem no servidor.
+  { colecao: avisos as Colecao<Registro>, tabela: "avisos", conflito: "id" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

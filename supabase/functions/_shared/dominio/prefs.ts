@@ -14,6 +14,10 @@ export interface Prefs {
   /** Horário silencioso da fundação, "HH:MM". */
   quiet_start?: string;
   quiet_end?: string;
+  /** Funcionalidade 12 RN-08: opt-out por tipo de aviso do parceiro. */
+  partner_appointment_eve?: boolean;
+  partner_exam_scheduled?: boolean;
+  partner_milestones?: boolean;
 }
 
 export const PREFS_PADRAO: Required<Prefs> = {
@@ -27,6 +31,9 @@ export const PREFS_PADRAO: Required<Prefs> = {
   notifications_discreet: false,
   quiet_start: "22:00",
   quiet_end: "07:00",
+  partner_appointment_eve: true,
+  partner_exam_scheduled: true,
+  partner_milestones: true,
 };
 
 export const OPACIDADE_FANTASMA_MAX = 0.6;

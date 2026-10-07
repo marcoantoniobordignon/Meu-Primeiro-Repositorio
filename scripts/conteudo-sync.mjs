@@ -1,5 +1,5 @@
 /**
- * `pnpm conteudo:sync`: faz upsert do banco de conteúdo (src/conteudo/banco.json) e do
+ * `pnpm conteudo:sync`: faz upsert do banco de conteúdo (src/conteudo/banco.json), das dicas do parceiro e do
  * catálogo de sintomas (supabase/seed/sintomas.json) no Supabase, com a service role.
  * Variáveis: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
  */
@@ -40,3 +40,12 @@ const { error: e2 } = await sb.from("sintomas_catalogo").upsert(
 );
 if (e2) throw e2;
 console.log(`sintomas_catalogo: ${catalogo.length} upserts`);
+
+// Funcionalidade 12 RN-09: "Como ajudar esta semana". Rascunho editorial: `reviewed_on` fica vazio até a revisão.
+const dicas = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "dicas-parceiro.json"), "utf8"));
+const { error: e3 } = await sb.from("partner_tips").upsert(
+  dicas.map((d) => ({ ...d, atualizado_em: new Date().toISOString() })),
+  { onConflict: "week_from,week_to" },
+);
+if (e3) throw e3;
+console.log(`partner_tips: ${dicas.length} upserts`);

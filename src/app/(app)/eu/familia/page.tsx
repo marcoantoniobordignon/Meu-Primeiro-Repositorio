@@ -1,6 +1,7 @@
 "use client";
 
 import { UserPlus, Users } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 import { SheetConvite } from "@/components/features/familia/SheetConvite";
@@ -20,7 +21,7 @@ import { useFamilia } from "@/lib/familia/useFamilia";
 
 /** Spec 12: membros com papel e último acesso; convidar e remover (CUI-01/08). */
 export default function PaginaFamilia() {
-  const { membros, meuId, permissoes } = useFamilia();
+  const { membros, meuId, permissoes, papel } = useFamilia();
   const [convidando, setConvidando] = useState(false);
   const { mostrar } = useToast();
 
@@ -101,6 +102,12 @@ export default function PaginaFamilia() {
           );
         })}
 
+        {papel === "mae" && (
+          // Funcionalidade 12: o parceiro tem convite próprio (link e código, 7 dias).
+          <Link href="/eu/parceiro" className="tipo-corpo flex min-h-11 items-center font-medium text-primaria-texto">
+            {copy.convidarParceiro}
+          </Link>
+        )}
         {permissoes.gerarConvite ? (
           <Botao largura="total" tamanho="lg" icone={<UserPlus size={18} aria-hidden />} onClick={() => setConvidando(true)}>
             {copy.convidar}

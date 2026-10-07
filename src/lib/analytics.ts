@@ -68,6 +68,15 @@ export type Eventos = {
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
   paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" };
+  // funcionalidade 12 · modo parceiro
+  partner_invite_created: Record<string, never>;
+  partner_invite_accepted: { hours_to_accept: number };
+  partner_permission_changed: { key: "agenda" | "belly_photos" | "birth_plan"; value: boolean };
+  partner_removed: { by: "owner" | "partner" };
+  partner_home_viewed: Record<string, never>;
+  partner_question_added: Record<string, never>;
+  partner_checklist_toggled: Record<string, never>;
+  partner_tip_viewed: { week: number };
   // funcionalidade 01 · galeria de exames e ultrassons
   exam_doc_add_started: Record<string, never>;
   exam_doc_added: { kind: string; pages: number; source: "camera" | "gallery" | "pdf" | "mixed" };

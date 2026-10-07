@@ -28,5 +28,7 @@ export function useFamilia() {
     }
   }, [perfil, eu, id]);
 
-  return { membros: lista, meuId: id, papel, permissoes: permissoes(papel, eu?.permissoes) };
+  // Funcionalidade 12 RN-06: quem saiu não aparece nas listas, mas o nome segue no "Escrito por".
+  const comQuemSaiu = colecao.listarTodos();
+  return { membros: lista, comQuemSaiu, meuId: id, papel, permissoes: permissoes(papel, eu?.permissoes) };
 }

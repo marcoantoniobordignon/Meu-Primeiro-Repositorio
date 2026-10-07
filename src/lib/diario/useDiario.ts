@@ -15,7 +15,8 @@ export function useDiario() {
   const entradas = useColecao(diaryEntries);
   const estados = useColecao(diaryMilestoneStates);
   const perfil = usePerfil();
-  const { meuId, papel, membros, permissoes } = useFamilia();
+  // Funcionalidade 12 RN-06: o diário usa a lista com quem saiu, para o "Escrito por {nome}".
+  const { meuId, papel, comQuemSaiu: membros, permissoes } = useFamilia();
   const tz = useFuso();
   const agora = new Date();
   const hoje = dataNoFuso(agora, tz);

@@ -96,7 +96,7 @@ select is((select count(*) from public.diary_photos), 0::bigint, 'DIA RN-09: nem
 insert into public.diary_entries (id, kind, body) values ('e0000000-0000-0000-0000-000000000009', 'free', 'Escrito pelo pai');
 update public.diary_entries set body = 'mexi', atualizado_em = now() + interval '1 minute' where id = 'e0000000-0000-0000-0000-000000000002';
 select is((select body from public.diary_entries where id = 'e0000000-0000-0000-0000-000000000002'), 'Para ele ler', 'DIA RN-09: só a autora edita a dela');
-select is((select count(*) from public.user_exams), 1::bigint, 'EXA: parceiro vê os exames (mesma régua dos sintomas)');
+select is((select count(*) from public.user_exams), 0::bigint, 'PAR RN-04: parceiro não lê a tabela de exames (só os marcados, pela RPC)');
 
 -- ---------------------------------------------------------------------------
 -- A gestante liga as fotos e desliga a agenda; vê a entrada do parceiro.
@@ -104,7 +104,7 @@ select is((select count(*) from public.user_exams), 1::bigint, 'EXA: parceiro v�
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000000a","role":"authenticated"}';
 select is((select count(*) from public.diary_entries where criado_por = '00000000-0000-0000-0000-00000000000c'), 1::bigint, 'DIA RN-09: entrada do parceiro aparece sempre para a gestante');
 select lives_ok($$ select public.definir_permissoes_parceiro('00000000-0000-0000-0000-00000000000c', '{"belly_photos": true, "agenda": false}') $$, 'gestante muda as permissões');
-select is((select permissoes from public.meus_membros() where papel = 'parceiro'), '{"agenda": false, "belly_photos": true}'::jsonb, 'meus_membros devolve as permissões');
+select is((select permissoes from public.meus_membros() where papel = 'parceiro'), '{"agenda": false, "birth_plan": true, "belly_photos": true}'::jsonb, 'meus_membros devolve as permissões');
 
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000000c","role":"authenticated"}';
 select is((select count(*) from public.belly_photos), 1::bigint, 'BAR RN-11: com a permissão, parceiro vê a grade');

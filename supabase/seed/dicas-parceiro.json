@@ -1,0 +1,442 @@
+[
+  {
+    "week_from": 4,
+    "week_to": 4,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar entre a surpresa e a ansiedade. O corpo quase não mudou, mas a cabeça já está a mil.",
+    "help_tips": [
+      "Pergunte como ela se sente com a notícia e só escute, sem pressa de responder.",
+      "Ajude a marcar a primeira consulta do pré-natal e anote a data na agenda de vocês dois.",
+      "Combinem juntos para quem e quando contar."
+    ]
+  },
+  {
+    "week_from": 5,
+    "week_to": 5,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar com um cansaço que não passa e os primeiros enjoos, às vezes do nada.",
+    "help_tips": [
+      "Assuma o jantar nos dias de enjoo. Comida simples e sem cheiro forte ajuda.",
+      "Deixe ela dormir mais cedo sem culpa. A louça pode ser com você.",
+      "Pergunte quais cheiros estão incomodando e evite eles em casa."
+    ]
+  },
+  {
+    "week_from": 6,
+    "week_to": 6,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar enjoada boa parte do dia e mais emotiva que o normal. As duas coisas são comuns agora.",
+    "help_tips": [
+      "Deixe lanches pequenos à mão: biscoito de água e sal, fruta, o que ela tolerar.",
+      "Se o enjoo for tanto que ela não segura nem água, liguem para o médico.",
+      "Quando ela chorar sem motivo claro, não precisa resolver. Um abraço basta."
+    ]
+  },
+  {
+    "week_from": 7,
+    "week_to": 7,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar com os seios doloridos, vontade de fazer xixi toda hora e pouca energia.",
+    "help_tips": [
+      "Cuidado com abraços apertados. Pergunte antes o que está confortável.",
+      "Assuma as tarefas que pedem força ou pressa, como mercado e lixo.",
+      "Planeje programas tranquilos em casa em vez de saídas longas."
+    ]
+  },
+  {
+    "week_from": 8,
+    "week_to": 8,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar ansiosa com o primeiro ultrassom e cansada de passar mal sem ninguém saber.",
+    "help_tips": [
+      "Pergunte se ela quer companhia no ultrassom e reorganize sua agenda para ir.",
+      "Leve as dúvidas de vocês anotadas para perguntar na consulta.",
+      "Se ainda não contaram para ninguém, seja o apoio dela no trabalho e na família."
+    ]
+  },
+  {
+    "week_from": 9,
+    "week_to": 9,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar com o humor oscilando, sono pesado e paladar mudado. Comidas que amava podem enjoar.",
+    "help_tips": [
+      "Não leve para o pessoal uma resposta mais curta. É o corpo trabalhando muito.",
+      "Pergunte o que ela tem vontade de comer hoje e vá buscar.",
+      "Faça uma pausa nos comentários sobre o corpo dela, mesmo os de brincadeira."
+    ]
+  },
+  {
+    "week_from": 10,
+    "week_to": 10,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar sentindo as roupas apertarem e o corpo mudar antes de a barriga aparecer.",
+    "help_tips": [
+      "Ofereça ir com ela comprar um sutiã mais confortável ou roupas mais soltas.",
+      "Pergunte sobre os exames pedidos e ajude a marcar os que faltam.",
+      "Reserve um momento só de vocês, sem falar de gravidez."
+    ]
+  },
+  {
+    "week_from": 11,
+    "week_to": 11,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar esperando o enjoo aliviar e ainda preocupada até passar do primeiro trimestre.",
+    "help_tips": [
+      "Pergunte se ela quer companhia no ultrassom do primeiro trimestre.",
+      "Acolha o medo dela sem minimizar. Evite frases como \"vai dar tudo certo\" no automático.",
+      "Leve a garrafa de água para onde ela estiver. Beber água ajuda no dia a dia."
+    ]
+  },
+  {
+    "week_from": 12,
+    "week_to": 12,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar mais aliviada e animada para contar a novidade, mas ainda com dias de cansaço.",
+    "help_tips": [
+      "Combinem como e para quem contar. A decisão é de vocês dois, no ritmo dela.",
+      "Fique com a parte chata do anúncio: responder mensagens e conselhos não pedidos.",
+      "Comece com ela uma lista de dúvidas para a próxima consulta."
+    ]
+  },
+  {
+    "week_from": 13,
+    "week_to": 13,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar sentindo a energia voltar aos poucos. Alguns dias ainda pesam.",
+    "help_tips": [
+      "Aproveite a disposição dela para um passeio leve, se ela quiser.",
+      "Pergunte o que ela gostaria de dividir melhor em casa daqui para frente.",
+      "Comemore o fim do primeiro trimestre, do jeito que fizer sentido para vocês."
+    ]
+  },
+  {
+    "week_from": 14,
+    "week_to": 14,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar mais disposta e com fome de verdade. A barriga começa a dar sinais.",
+    "help_tips": [
+      "Cozinhem juntos algo que ela está com vontade.",
+      "Pergunte como ela se sente com o corpo mudando. Elogie sem exagero.",
+      "Comecem a conversar sobre licenças no trabalho e o que cada um precisa saber."
+    ]
+  },
+  {
+    "week_from": 15,
+    "week_to": 15,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com dificuldade para achar posição na cama e o nariz entupido com frequência.",
+    "help_tips": [
+      "Arrume um travesseiro extra para ela colocar entre as pernas ao dormir de lado.",
+      "Se o ronco de alguém atrapalhar o sono, pensem juntos numa solução sem drama.",
+      "Ofereça uma massagem nas costas ou nos pés no fim do dia."
+    ]
+  },
+  {
+    "week_from": 16,
+    "week_to": 16,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar atenta a cada sensação na barriga, esperando sentir o bebê se mexer.",
+    "help_tips": [
+      "Se ela ainda não sentiu nada, tranquilize. Cada gestação tem seu tempo.",
+      "Quando ela contar que sentiu algo, pare o que está fazendo e escute.",
+      "Comecem a pensar juntos em nomes, sem pressão de decidir."
+    ]
+  },
+  {
+    "week_from": 17,
+    "week_to": 17,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com mais apetite, dor nas costas e pele mais sensível ao sol.",
+    "help_tips": [
+      "Abasteça a casa com lanches que ela gosta e que sejam fáceis de pegar.",
+      "Carregue as sacolas e o que for pesado, sem precisar ela pedir.",
+      "Leve protetor solar e chapéu quando forem sair durante o dia."
+    ]
+  },
+  {
+    "week_from": 18,
+    "week_to": 18,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar mais conectada ao bebê e querendo você junto nessa conexão.",
+    "help_tips": [
+      "Converse com o bebê perto da barriga. Ele começa a ouvir vozes.",
+      "Leia uma história ou cante algo para vocês três antes de dormir.",
+      "Pergunte se ela quer companhia no ultrassom morfológico e já marque na agenda."
+    ]
+  },
+  {
+    "week_from": 19,
+    "week_to": 19,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com pontadas nas laterais da barriga ao levantar ou virar rápido.",
+    "help_tips": [
+      "Ajude ela a levantar do sofá e da cama sem pressa.",
+      "Se a dor for forte, não passar ou vier com sangramento, liguem para o médico.",
+      "Assuma as tarefas que pedem abaixar ou esticar o corpo."
+    ]
+  },
+  {
+    "week_from": 20,
+    "week_to": 20,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar entre a empolgação e o nervosismo com o morfológico. Metade do caminho.",
+    "help_tips": [
+      "Vá ao morfológico com ela, se ela quiser. Tire o dia, se puder.",
+      "Leve as perguntas de vocês anotadas e anote as respostas também.",
+      "Depois do exame, reserve um tempo para conversar sobre como cada um se sentiu."
+    ]
+  },
+  {
+    "week_from": 21,
+    "week_to": 21,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar sentindo o bebê com mais clareza e querendo dividir isso com você.",
+    "help_tips": [
+      "Deixe a mão na barriga quando ela chamar. Pode demorar até você sentir.",
+      "Pergunte em que horários ele costuma mexer mais e fiquem juntos nesses momentos.",
+      "Comecem a ver o que vocês precisam comprar de verdade, sem exagero."
+    ]
+  },
+  {
+    "week_from": 22,
+    "week_to": 22,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com coceira na barriga e se olhando muito no espelho, nem sempre com carinho.",
+    "help_tips": [
+      "Ofereça passar hidratante na barriga dela. Vira um momento de vocês.",
+      "Diga o que você admira nela, para além da aparência.",
+      "Pesquisem juntos o hospital ou maternidade e as regras para acompanhante."
+    ]
+  },
+  {
+    "week_from": 23,
+    "week_to": 23,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com os pés inchados no fim do dia e cansada de ficar de pé.",
+    "help_tips": [
+      "No fim do dia, ajude ela a deitar com as pernas elevadas numa almofada.",
+      "Se o inchaço vier de repente no rosto ou nas mãos, com dor de cabeça, liguem para o médico.",
+      "Ofereça trocar de lugar nas filas e nos programas que pedem ficar em pé."
+    ]
+  },
+  {
+    "week_from": 24,
+    "week_to": 24,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar preocupada com novos exames e com a lista de coisas que só cresce.",
+    "help_tips": [
+      "Ajude a marcar o exame de glicose e vá junto, se ela quiser. Leve um lanche para depois.",
+      "Dividam a lista de pendências. Escolha algumas e assuma de ponta a ponta.",
+      "Pergunte o que está pesando mais na cabeça dela esta semana."
+    ]
+  },
+  {
+    "week_from": 25,
+    "week_to": 25,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com azia, principalmente à noite, e dormindo pior.",
+    "help_tips": [
+      "Antecipe o horário do jantar para ela não deitar logo depois de comer.",
+      "Ajeite travesseiros para ela dormir com o tronco mais elevado.",
+      "Se o sono dela está ruim, cuide do barulho e da luz no quarto."
+    ]
+  },
+  {
+    "week_from": 26,
+    "week_to": 26,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com falta de ar leve ao subir escadas ou falar muito. A barriga ocupa espaço.",
+    "help_tips": [
+      "Ande no ritmo dela. Sem pressa nas escadas e nos passeios.",
+      "Se a falta de ar for forte, vier com dor no peito ou não melhorar em repouso, liguem para o médico.",
+      "Comecem a conversar sobre o plano de parto e o que ela espera de você."
+    ]
+  },
+  {
+    "week_from": 27,
+    "week_to": 27,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar sentindo que a reta final começou e pensando muito no parto.",
+    "help_tips": [
+      "Pergunte o que ela imagina para o parto. Escute antes de dar opinião.",
+      "Procurem juntos um curso de gestantes ou roda de conversa para acompanhantes.",
+      "Combinem quem vai poder visitar depois do nascimento, e quando."
+    ]
+  },
+  {
+    "week_from": 28,
+    "week_to": 28,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar mais pesada, com sono picado e consultas mais frequentes na agenda.",
+    "help_tips": [
+      "Coloque as próximas consultas na sua agenda e organize o trabalho para ir junto.",
+      "Assuma de vez uma tarefa da casa que era dela, sem precisar lembrar.",
+      "Pergunte como ela está dormindo e o que ajudaria."
+    ]
+  },
+  {
+    "week_from": 29,
+    "week_to": 29,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar acordando com cãibras na perna e sentindo chutes fortes a qualquer hora.",
+    "help_tips": [
+      "Se ela acordar com cãibra, ajude a esticar a perna puxando a ponta do pé para cima.",
+      "Antes de dormir, ofereça uma massagem leve nas panturrilhas.",
+      "Aproveite os chutes para curtir o bebê junto com ela."
+    ]
+  },
+  {
+    "week_from": 30,
+    "week_to": 30,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar exausta de dormir mal e com medo de não dar conta do que vem.",
+    "help_tips": [
+      "Garanta que ela consiga uma soneca curta no fim de semana. Segure as pontas.",
+      "Diga que vocês vão aprender juntos. Ninguém começa sabendo.",
+      "Comece a montar o quarto ou o cantinho do bebê sem esperar ela pedir."
+    ]
+  },
+  {
+    "week_from": 31,
+    "week_to": 31,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar sentindo a barriga endurecer de vez em quando, sem dor forte.",
+    "help_tips": [
+      "Aprenda com ela a diferença entre contração de treino e de trabalho de parto, na consulta.",
+      "Se as contrações ficarem regulares e doloridas antes da hora, liguem para o médico.",
+      "Salve o telefone da maternidade e do médico no seu celular."
+    ]
+  },
+  {
+    "week_from": 32,
+    "week_to": 32,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar preocupada com a bolsa da maternidade e com tudo que ainda falta.",
+    "help_tips": [
+      "Montem juntos a lista da bolsa da maternidade, incluindo a sua.",
+      "Separe os documentos dela, os seus e os exames numa pasta só.",
+      "Pergunte o que ela quer delegar e assuma sem pedir lembrete."
+    ]
+  },
+  {
+    "week_from": 33,
+    "week_to": 33,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar atenta aos movimentos do bebê e insegura quando ele fica mais quieto.",
+    "help_tips": [
+      "Pergunte na consulta como acompanhar os movimentos e ajude ela a lembrar de contar.",
+      "Se ela sentir o bebê mexendo bem menos que o normal, liguem para o médico.",
+      "Façam o caminho até a maternidade uma vez e vejam onde estacionar."
+    ]
+  },
+  {
+    "week_from": 34,
+    "week_to": 34,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar com dificuldade de se mexer, dor no quadril e vontade de ser cuidada.",
+    "help_tips": [
+      "Revisem juntos os sinais de trabalho de parto que o médico passou.",
+      "Ajude ela a calçar sapatos, se abaixar e sair do carro.",
+      "Combinem quem vocês avisam primeiro e quem cuida da casa ou dos bichos."
+    ]
+  },
+  {
+    "week_from": 35,
+    "week_to": 35,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar com vontade de arrumar a casa inteira e, ao mesmo tempo, sem fôlego para isso.",
+    "help_tips": [
+      "Faça você a parte pesada da arrumação. Ela escolhe, você executa.",
+      "Lave as roupinhas do bebê junto com ela, se ela quiser.",
+      "Ajuste o trabalho para estar mais disponível a partir das próximas semanas."
+    ]
+  },
+  {
+    "week_from": 36,
+    "week_to": 36,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar respirando melhor, mas andando com mais peso e indo ao banheiro toda hora.",
+    "help_tips": [
+      "As consultas costumam ser semanais agora. Vá junto sempre que puder.",
+      "Instale a cadeirinha do carro ou combine como vão voltar da maternidade.",
+      "Deixe o celular carregado e com som ligado, mesmo no trabalho."
+    ]
+  },
+  {
+    "week_from": 37,
+    "week_to": 37,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar ansiosa e em alerta. A qualquer momento pode ser o dia.",
+    "help_tips": [
+      "Deixe a bolsa da maternidade e os documentos na porta ou no carro.",
+      "Combinem um plano para quando começar: quem liga, quem dirige, o que levar.",
+      "Responda rápido às mensagens dela. Uma resposta curta já tranquiliza."
+    ]
+  },
+  {
+    "week_from": 38,
+    "week_to": 38,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar cansada de perguntas sobre quando o bebê vai nascer.",
+    "help_tips": [
+      "Seja o filtro: responda você os parentes e amigos que perguntam toda hora.",
+      "Se a bolsa romper ou ela tiver sangramento, liguem para o médico e sigam o que ele orientar.",
+      "Planeje coisas leves para os dias de espera: filme, passeio curto, comida boa."
+    ]
+  },
+  {
+    "week_from": 39,
+    "week_to": 39,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar com contrações mais frequentes e tentando entender se é a hora.",
+    "help_tips": [
+      "Ajude a cronometrar as contrações. Anote o início de cada uma e o intervalo.",
+      "Siga o critério que o médico passou para ir à maternidade e ligue quando ele bater.",
+      "Mantenha a calma por vocês dois. Respire junto com ela."
+    ]
+  },
+  {
+    "week_from": 40,
+    "week_to": 40,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar frustrada se o bebê ainda não veio, e muito cansada.",
+    "help_tips": [
+      "Lembre que passar da data é comum. Acompanhem o que o médico orienta nas consultas.",
+      "Cuide para ela descansar o quanto der. Assuma a casa por inteiro.",
+      "Desligue o grupo da família por um tempo, se ela preferir silêncio."
+    ]
+  },
+  {
+    "week_from": 1,
+    "week_to": 13,
+    "trimester": 1,
+    "feeling_text": "Ela pode estar com enjoo, sono e emoções à flor da pele, mesmo antes de a barriga aparecer.",
+    "help_tips": [
+      "Assuma o jantar e as tarefas com cheiro forte nos dias de enjoo.",
+      "Pergunte se ela quer companhia nas primeiras consultas e ultrassons.",
+      "Se o enjoo impedir ela de comer ou beber, ou houver sangramento, liguem para o médico."
+    ]
+  },
+  {
+    "week_from": 14,
+    "week_to": 27,
+    "trimester": 2,
+    "feeling_text": "Ela pode estar com mais energia, sentindo o bebê mexer e vendo o corpo mudar rápido.",
+    "help_tips": [
+      "Pergunte se ela quer companhia no morfológico e nos exames desta fase.",
+      "Converse com o bebê perto da barriga. Ele começa a ouvir vozes.",
+      "Comecem juntos a pensar no plano de parto e nas compras essenciais."
+    ]
+  },
+  {
+    "week_from": 28,
+    "week_to": 42,
+    "trimester": 3,
+    "feeling_text": "Ela pode estar pesada, dormindo mal e ansiosa com a chegada do bebê.",
+    "help_tips": [
+      "Vá às consultas, que ficam mais frequentes, sempre que puder.",
+      "Deixem a bolsa da maternidade, os documentos e o caminho até lá prontos.",
+      "Se ela tiver contrações regulares, perda de líquido, sangramento ou sentir o bebê mexer bem menos, liguem para o médico."
+    ]
+  }
+]

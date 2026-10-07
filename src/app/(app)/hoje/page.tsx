@@ -17,6 +17,7 @@ import { CardExameOntem } from "@/components/features/exames/CardExameOntem";
 import { CardsAtivos } from "@/components/features/home/CardsAtivos";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
+import { HomeParceiro } from "@/components/features/parceiro/HomeParceiro";
 import { SheetChutes } from "@/components/features/registrar/SheetChutes";
 import { SheetContracoes } from "@/components/features/registrar/SheetContracoes";
 import { ChipsSintomas } from "@/components/features/sintomas/ChipsSintomas";
@@ -41,7 +42,7 @@ type SheetAberto = "sintomas" | "chutes" | "contracoes" | "nascimento" | null;
 export default function PaginaHoje() {
   const perfil = usePerfil();
   const { ativo, bebes, modo } = useBebes();
-  const { permissoes } = useFamilia();
+  const { permissoes, papel } = useFamilia();
   const [sheet, setSheet] = useState<SheetAberto>(null);
   const [sheetBebe, setSheetBebe] = useState<EstadoSheet>({ tipo: null });
   const [faixa, setFaixa] = useState(false);
@@ -108,7 +109,10 @@ export default function PaginaHoje() {
         </div>
       )}
 
-      {modo === "bebe" && ativo ? (
+      {papel === "parceiro" && modo === "gestacao" ? (
+        // Funcionalidade 12: home própria do parceiro.
+        <HomeParceiro perfil={perfil} />
+      ) : modo === "bebe" && ativo ? (
         <>
           <AnelPrimeiroAno bebe={ativo} />
           <CardSoneca bebe={ativo} />

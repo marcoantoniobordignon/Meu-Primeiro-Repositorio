@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { conteudosRemotos, membros, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { conteudosRemotos, membros, userExams, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
@@ -111,8 +111,8 @@ async function puxarConteudos(sb: Cliente, ultima: Record<string, string>): Prom
 /** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */
 async function puxarFamilia(sb: Cliente): Promise<void> {
   const [{ data: fam }, { data: lista }] = await Promise.all([
-    chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null }[]>(sb, "minha_familia"),
-    chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string; permissoes: PermissoesParceiro | null }[]>(sb, "meus_membros"),
+    chamarRpc<{ papel: string; plano: string; cortesia_fim: string | null; dpp: string | null }[]>(sb, "minha_familia"),
+    chamarRpc<{ profile_id: string; nome: string | null; papel: string; convidado_por: string | null; ultimo_acesso_em: string; permissoes: PermissoesParceiro | null; removido_em: string | null }[]>(sb, "meus_membros"),
   ]);
   const f = fam?.[0];
   if (f) {
@@ -120,6 +120,8 @@ async function puxarFamilia(sb: Cliente): Promise<void> {
       papel: f.papel as Papel,
       plano: (f.plano === "expirado" ? "free" : f.plano) as Perfil["plano"],
       cortesiaFim: f.cortesia_fim,
+      // Funcionalidade 12: quem acompanha vê a semana dela (a DPP é da gestante).
+      ...(f.papel !== "mae" && f.dpp ? { dpp: f.dpp } : {}),
     });
   }
   const atuais = membros.listarTodos();
@@ -134,10 +136,46 @@ async function puxarFamilia(sb: Cliente): Promise<void> {
       ultimo_acesso_em: l.ultimo_acesso_em,
       permissoes: l.permissoes ?? {},
       atualizado_em: new Date().toISOString(),
-      apagado_em: null,
+      // RN-06: quem saiu fica (apagado) só para o "Escrito por {nome}".
+      apagado_em: l.removido_em,
     };
     membros.mesclar([registro]);
   }
+  if (f?.papel === "parceiro") await puxarExamesDoParceiro(sb);
+}
+
+/**
+ * Funcionalidade 12 RN-04: o parceiro não lê `user_exams`; os marcados chegam só com nome e data
+ * e substituem a cópia local (o que ela desmarcou some daqui).
+ */
+async function puxarExamesDoParceiro(sb: Cliente): Promise<void> {
+  const { data, error } = await chamarRpc<{ id: string; catalog_code: string | null; custom_name: string | null; scheduled_at: string | null; scheduled_all_day: boolean; atualizado_em: string }[]>(sb, "exames_marcados_parceiro");
+  if (error || !data) return;
+  const agora = new Date().toISOString();
+  const vivos = new Set(data.map((e) => e.id));
+  const sairam = userExams.listarTodos().filter((e) => !vivos.has(e.id) && !e.apagado_em).map((e) => ({ ...e, apagado_em: agora, atualizado_em: agora }));
+  userExams.mesclar([
+    ...sairam,
+    ...data.map((e) => ({
+      id: e.id,
+      catalog_code: e.catalog_code,
+      custom_name: e.custom_name,
+      status: "scheduled" as const,
+      window_start_date: null,
+      window_end_date: null,
+      past_window: false,
+      window_start_week: null,
+      window_end_week: null,
+      scheduled_at: e.scheduled_at,
+      scheduled_all_day: e.scheduled_all_day,
+      location: null,
+      notes: null,
+      done_on: null,
+      document_id: null,
+      atualizado_em: e.atualizado_em,
+      apagado_em: null,
+    })),
+  ]);
 }
 
 /** Sessão local (criada sem rede) vira remota; registros com autor local ganham o uid real. */

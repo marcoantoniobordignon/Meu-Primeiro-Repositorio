@@ -1,5 +1,6 @@
 /** Copy de cuidadores (spec 12). */
 export const familiaCopy = {
+  convidarParceiro: "Convidar meu parceiro →",
   titulo: "Família",
   apoio: "Quem acompanha com você. Uma assinatura vale para todos.",
   convidar: "Convidar alguém",
