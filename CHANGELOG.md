@@ -2,6 +2,14 @@
 
 ## Não lançado
 
+### Funcionalidade 10 · Plano de parto, malas e enxoval (specs/funcionalidades/10-plano-parto.md)
+- Migration `0007_plano_parto.sql`: `birth_plans` (um por gestação; preferências validadas; etapas 1–5), `birth_checklist_items` (inclui a lista `baptism` da spec 17), `birth_item_attachments` (até 3 por item) e o Storage dos anexos. RN-10 no banco: o parceiro com `birth_plan` lê tudo, marca e adiciona itens; preferências e contatos, só ela. pgTAP: `supabase/tests/plano_parto.test.sql`, 24 testes.
+- Telas: Plano (n de 5 etapas, "Ligar para a maternidade", "Gerar PDF"), Onde (Lei 11.634/2007), Como (preferências como desejos, com o texto fixo da RN-03), Quem (Lei 11.108/2005), Documentos (foto por item; free até 10 anexos, depois paywall), Malas e enxoval (progresso por lista, adicionar, quantidade, remover) e a prévia do PDF. Cada campo salva sozinho (800 ms).
+- Sementes copiadas na primeira abertura com ids determinísticos (dois aparelhos não duplicam). Revisão editorial das sementes em aberto.
+- PDF A4 de uma página montado no aparelho (pdf-lib, funciona em modo avião), seções vazias omitidas, rodapé "feito com Ninho" no free; Web Share API com arquivo e, sem ela, download.
+- Lembretes `birth_plan_nudge` às 10h: semana 28; 34 só com mala incompleta; 36 só com documentos incompletos; plano completo não recebe. Card "Qual maternidade?" na Hoje a partir da semana 37; da 34 em diante as telas do plano são pré-carregadas. Na gestação, a aba Enxoval abre as malas e o enxoval.
+- Testes: Vitest +16; Playwright: 8 fluxos.
+
 ### Funcionalidade 08 · Calendário (specs/funcionalidades/08-calendario.md)
 - Migration `0006_calendario.sql`: `calendar_events` (RN-06 no banco: dia inteiro sem hora, senão hora obrigatória; lembrete nenhum/0/60/1440), `calendar_feed_tokens` (um link ativo; revogar gera outro), RPCs `feed_calendario` e `revogar_feed_calendario`, view `calendar_items_v` (só o que o feed publica, sem notas) e RLS (parceiro com `agenda` vê só os eventos visíveis; só a gestante cria). pgTAP: `supabase/tests/calendario.test.sql`, 26 testes.
 - Itens derivados no aparelho, sem cópia (`@dominio/calendario.ts`): consultas e exames marcados, eventos próprios, "Medicamentos (n)" por dia com a adesão nos dias passados, foto da semana na virada com check, DPP. Cor por tipo, só com tokens.

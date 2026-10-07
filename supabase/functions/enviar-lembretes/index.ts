@@ -92,7 +92,7 @@ Deno.serve(async (req) => {
       const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", autora);
       if (!subs?.length) continue;
 
-      const [exames, consultas, perguntas, fotos, entradas, estados, enviados, eventos] = await Promise.all([
+      const [exames, consultas, perguntas, fotos, entradas, estados, enviados, eventos, plano, itensPlano] = await Promise.all([
         sb.from("user_exams").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointments").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointment_questions").select("*").eq("familia_id", familia).is("apagado_em", null),
@@ -102,6 +102,9 @@ Deno.serve(async (req) => {
         sb.from("reminders_sent").select("chave, categoria, ref, enviado_em, essencial").eq("familia_id", familia).gte("enviado_em", new Date(agora.getTime() - 3 * MS_DIA).toISOString()),
         // Funcionalidade 08 RN-06: eventos próprios com lembrete.
         sb.from("calendar_events").select("*").eq("familia_id", familia).is("apagado_em", null).not("remind_offset_minutes", "is", null),
+        // Funcionalidade 10 RN-07: plano e listas decidem os lembretes das semanas 34 e 36.
+        sb.from("birth_plans").select("*").eq("familia_id", familia).is("apagado_em", null).maybeSingle(),
+        sb.from("birth_checklist_items").select("id, list, title, quantity, note, is_done, is_custom, position, apagado_em").eq("familia_id", familia).is("apagado_em", null),
       ]);
       const dosesAtuais = todasDoses.filter((d) => !m.apagar.includes(d.id)).map((d) => (m.semRegistro.includes(d.id) ? { ...d, status: "missed" as const } : d)).concat(m.criar);
 
@@ -119,6 +122,7 @@ Deno.serve(async (req) => {
         semanasComFoto: (fotos.data ?? []).map((f) => f.gest_week as number),
         marcos: { respondidos: (entradas.data ?? []).map((e) => e.milestone_code as string), estados: (estados.data ?? []) as never },
         eventos: (eventos.data ?? []) as never,
+        plano: { plano: (plano.data ?? null) as never, itens: (itensPlano.data ?? []) as never },
       });
       const saem = selecionarParaEnvio(candidatos, { agora, tz, prefs: p.prefs as Record<string, unknown>, enviados: (enviados.data ?? []) as Enviado[] });
 

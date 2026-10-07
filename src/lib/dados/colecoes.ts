@@ -1,6 +1,7 @@
 import type { DataISO } from "@/lib/dates";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import type { EventoCalendario } from "@dominio/calendario.ts";
+import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
 
@@ -277,6 +278,19 @@ export interface CalendarEvent extends Registro, EventoCalendario {
   criado_por?: string;
 }
 
+/** Funcionalidade 10 · plano de parto, listas e anexos. */
+export interface BirthPlan extends Registro, PlanoParto {
+  criado_por?: string;
+}
+export interface BirthChecklistItem extends Registro, ItemLista {
+  criado_por?: string;
+}
+export interface BirthItemAttachment extends Registro {
+  item_id: string;
+  storage_path: string;
+  position: number;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -318,6 +332,9 @@ export const convites = criarColecao<Convite>("ninho.convites");
 export const vozPendentes = criarColecao<VozPendente>("ninho.voz_pendentes");
 export const avisos = criarColecao<Aviso>("ninho.avisos");
 export const calendarEvents = criarColecao<CalendarEvent>("ninho.calendar_events");
+export const birthPlans = criarColecao<BirthPlan>("ninho.birth_plans");
+export const birthChecklistItems = criarColecao<BirthChecklistItem>("ninho.birth_checklist_items");
+export const birthItemAttachments = criarColecao<BirthItemAttachment>("ninho.birth_item_attachments");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -347,4 +364,7 @@ export const todasColecoes = [
   vozPendentes,
   avisos,
   calendarEvents,
+  birthPlans,
+  birthChecklistItems,
+  birthItemAttachments,
 ];

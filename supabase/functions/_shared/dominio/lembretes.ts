@@ -7,6 +7,7 @@
  * (só sai o que está dentro da tolerância).
  */
 import { lembretesDeEventos, type EventoCalendario } from "./calendario.ts";
+import { lembretesDoPlano, type ItemLista, type PlanoParto } from "./plano-parto.ts";
 import { pautaDaConsulta, proximaConsulta, type ConsultaBase, type PerguntaBase } from "./consultas.ts";
 import { lembretesDaSemana } from "./barriga.ts";
 import { CATALOGO_MARCOS, DIAS_PUSH_DESCOBERTA, estadoDoMarco, marcoVisivel, perguntaDoMarco, type SituacaoMarco } from "./diario.ts";
@@ -16,7 +17,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {
@@ -64,6 +65,8 @@ export interface EstadoParaLembretes {
   marcos: { respondidos: string[]; estados: { milestone_code: string; skipped_at: string | null; snoozed_until: string | null }[] };
   /** Funcionalidade 08 RN-06: eventos próprios com lembrete. */
   eventos?: EventoCalendario[];
+  /** Funcionalidade 10 RN-07: plano e listas (sem eles, só o lembrete da semana 28). */
+  plano?: { plano: PlanoParto | null; itens: ItemLista[] };
 }
 
 const url = (caminho: string, categoria: Categoria, extra: Record<string, string> = {}) => {
@@ -203,6 +206,7 @@ export function planejar(e: EstadoParaLembretes): Lembrete[] {
     ...lembretesDaBarriga(e, prefs),
     ...lembretesDoDiario(e, prefs),
     ...lembretesDeEventos(e.eventos ?? [], e.tz),
+    ...(e.plano ? lembretesDoPlano({ dpp: e.dpp, tz: e.tz, plano: e.plano.plano, itens: e.plano.itens }) : []),
   ];
 }
 

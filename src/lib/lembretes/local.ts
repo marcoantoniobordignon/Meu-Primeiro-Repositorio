@@ -6,6 +6,8 @@ import {
   appointmentQuestions,
   appointments,
   bellyPhotos,
+  birthChecklistItems,
+  birthPlans,
   calendarEvents,
   diaryEntries,
   diaryMilestoneStates,
@@ -40,6 +42,7 @@ export function estadoDoAparelho(perfil: Perfil, autor: string, tz: string, agor
       estados: diaryMilestoneStates.listar().filter((s) => s.criado_por === autor),
     },
     eventos: calendarEvents.listar(),
+    plano: { plano: birthPlans.listar()[0] ?? null, itens: birthChecklistItems.listar() },
   };
 }
 

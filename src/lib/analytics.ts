@@ -67,7 +67,7 @@ export type Eventos = {
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
-  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" };
+  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" };
   // funcionalidade 08 · calendário
   cal_viewed: { mode: "month" | "agenda" };
   cal_event_created: { category: string };
@@ -75,6 +75,15 @@ export type Eventos = {
   cal_feed_created: Record<string, never>;
   cal_feed_revoked: Record<string, never>;
   cal_item_exported: Record<string, never>;
+  // funcionalidade 10 · plano de parto
+  bp_started: Record<string, never>;
+  bp_step_completed: { step: number };
+  bp_pdf_generated: { offline: boolean };
+  bp_pdf_shared: Record<string, never>;
+  bp_checklist_toggled: { list: string };
+  bp_item_added: { list: string };
+  bp_call_maternity_tapped: Record<string, never>;
+  bp_reminder_opened: { week: number };
   // funcionalidade 12 · modo parceiro
   partner_invite_created: Record<string, never>;
   partner_invite_accepted: { hours_to_accept: number };

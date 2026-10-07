@@ -3,6 +3,9 @@ import {
   appointmentMeasures,
   appointmentQuestions,
   avisos,
+  birthChecklistItems,
+  birthItemAttachments,
+  birthPlans,
   calendarEvents,
   appointments,
   bebes,
@@ -76,6 +79,10 @@ export const mapeamentos: Mapeamento[] = [
   // Funcionalidade 12: só o "lido" sai daqui; os avisos nascem no servidor.
   { colecao: avisos as Colecao<Registro>, tabela: "avisos", conflito: "id" },
   { colecao: calendarEvents as Colecao<Registro>, tabela: "calendar_events", conflito: "id" },
+  // Funcionalidade 10: o item antes do anexo (a FK e a policy do Storage pedem a linha).
+  { colecao: birthPlans as Colecao<Registro>, tabela: "birth_plans", conflito: "id" },
+  { colecao: birthChecklistItems as Colecao<Registro>, tabela: "birth_checklist_items", conflito: "id" },
+  { colecao: birthItemAttachments as Colecao<Registro>, tabela: "birth_item_attachments", conflito: "id" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

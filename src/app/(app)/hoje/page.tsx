@@ -18,6 +18,7 @@ import { CardsAtivos } from "@/components/features/home/CardsAtivos";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
 import { HomeParceiro } from "@/components/features/parceiro/HomeParceiro";
+import { CardQualMaternidade } from "@/components/features/plano/CardQualMaternidade";
 import { SheetChutes } from "@/components/features/registrar/SheetChutes";
 import { SheetContracoes } from "@/components/features/registrar/SheetContracoes";
 import { ChipsSintomas } from "@/components/features/sintomas/ChipsSintomas";
@@ -135,6 +136,7 @@ export default function PaginaHoje() {
           )}
           <CardsAtivos onAbrirChutes={() => setSheet("chutes")} onAbrirContracoes={() => setSheet("contracoes")} />
           {g && <AnelSemana g={g} />}
+          {papel === "mae" && <CardQualMaternidade semana={g?.semana ?? null} />}
           {g && <CardHero3D semana={g.semana} />}
 
           {permissoes.verSintomas && (

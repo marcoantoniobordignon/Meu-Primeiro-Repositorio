@@ -153,7 +153,7 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
       avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
@@ -171,6 +171,31 @@ export interface Database {
           visible_to_partner: boolean;
         }
       >;
+      // Funcionalidade 10 (0007_plano_parto.sql)
+      birth_plans: Tabela<
+        Base & {
+          maternity_name: string | null;
+          maternity_address: string | null;
+          maternity_phone: string | null;
+          maternity_maps_url: string | null;
+          coverage: "sus" | "private" | "unknown" | null;
+          insurer_name: string | null;
+          doctor_name: string | null;
+          doctor_phone: string | null;
+          wished_delivery: "vaginal" | "cesarean" | "open" | "undecided";
+          prefs: Json;
+          notes: string | null;
+          companion_name: string | null;
+          companion_phone: string | null;
+          doula_name: string | null;
+          doula_phone: string | null;
+          emergency_name: string | null;
+          emergency_phone: string | null;
+          completed_steps: number[];
+        }
+      >;
+      birth_checklist_items: Tabela<Base & { list: "documents" | "bag_mother" | "bag_baby" | "bag_companion" | "layette" | "baptism"; title: string; quantity: number | null; note: string | null; is_done: boolean; is_custom: boolean; position: number }>;
+      birth_item_attachments: Tabela<Base & { item_id: string; storage_path: string; position: number }>;
       calendar_feed_tokens: Tabela<{ id: string; familia_id: string; token: string; criado_em: string; revoked_at: string | null }>;
     };
     Views: {
