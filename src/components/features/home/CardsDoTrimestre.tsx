@@ -1,9 +1,10 @@
 "use client";
 
-import { Apple, BookOpen, Church, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill, Scale } from "lucide-react";
+import { Apple, BookOpen, Church, Camera, Check, ChevronRight, ClipboardList, FlaskConical, Luggage, NotebookPen, Pill } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { CardDireitosDaFase } from "@/components/features/direitos/CardDireitosDaFase";
 import { CardConsulta } from "@/components/features/home/CardConsulta";
 import { AnelSemana } from "@/components/features/home/AnelSemana";
 import { artigosCopy } from "@/copy/artigos";
@@ -79,8 +80,6 @@ export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGesta
         return { href: "/faq", icone: <Apple size={18} />, titulo: copy.faq.titulo, texto: copy.faq.texto };
       case "oracao":
         return detalhes.oracao ? { href: `/fe/oracao?semana=${detalhes.oracao.week}`, icone: <Church size={18} />, titulo: copy.oracao.titulo, texto: detalhes.oracao.title } : null;
-      case "direitos":
-        return detalhes.direitos ? { href: `/artigos/ler?slug=${detalhes.direitos.slug}&de=home`, icone: <Scale size={18} />, titulo: copy.direitos.titulo, texto: copy.direitos.texto[tri] } : null;
       default:
         return null;
     }
@@ -101,6 +100,8 @@ export function CardsDoTrimestre({ perfil, g }: { perfil: Perfil; g: SemanaGesta
               <AnelSemana g={g} />
             </div>
           );
+        if (c.card === "direitos")
+          return detalhes.direitos.length ? <CardDireitosDaFase key="direitos" cartoes={detalhes.direitos} onToque={() => tocar("direitos", posicao)} /> : null;
         if (c.card === "consulta")
           return (
             <div key="consulta" className="py-1" onClickCapture={() => tocar("consulta", posicao)}>

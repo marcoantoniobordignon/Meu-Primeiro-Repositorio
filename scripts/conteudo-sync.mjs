@@ -83,3 +83,18 @@ const { error: e6 } = await sb.from("faith_prayers").upsert(
 );
 if (e6) throw e6;
 console.log(`faith_prayers: ${oracoes.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 16: cartões entram como RASCUNHO (RN-01: publicar exige base legal e revisão jurídica) e os canais
+// INATIVOS (os números são conferidos antes de ativar). Nunca sobrescreve o que já existe.
+const direitos = JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "direitos.json"), "utf8"));
+const { error: e7 } = await sb.from("rights_cards").upsert(
+  direitos.cards.map((c) => ({ ...c, id: idDeterministico(`rights:${c.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e7) throw e7;
+const { error: e8 } = await sb.from("help_channels").upsert(
+  direitos.channels.map((c) => ({ ...c, id: idDeterministico(`help:${c.slug}`), active: false })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e8) throw e8;
+console.log(`rights_cards: ${direitos.cards.length} rascunhos; help_channels: ${direitos.channels.length} inativos`);

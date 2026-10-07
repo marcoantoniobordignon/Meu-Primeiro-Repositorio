@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { CampoAuto } from "@/components/features/plano/CampoAuto";
 import { Etapa } from "@/components/features/plano/Etapa";
 import { Card } from "@/components/ui/Card";
@@ -31,6 +33,10 @@ function Campos({ plano, editar }: { plano: BirthPlan; editar: boolean }) {
     <>
       <Card tom="suave">
         <p className="tipo-corpo text-texto">{copy.direitoAcompanhante}</p>
+        {/* Funcionalidade 16 RN-08: o cartão de direito correspondente. */}
+        <Link href="/direitos/cartao?slug=acompanhante-no-parto&de=link" className="mt-1 inline-flex min-h-11 items-center text-[15px] font-medium text-primaria-texto">
+          {copy.verDireito}
+        </Link>
       </Card>
       {par(copy.acompanhante, "companion_name", "companion_phone")}
       {par(copy.doula, "doula_name", "doula_phone")}

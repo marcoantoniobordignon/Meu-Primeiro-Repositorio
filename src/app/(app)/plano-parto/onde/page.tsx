@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin } from "lucide-react";
+import Link from "next/link";
 
 import { CampoAuto } from "@/components/features/plano/CampoAuto";
 import { Etapa } from "@/components/features/plano/Etapa";
@@ -50,6 +51,10 @@ function Campos({ plano, editar }: { plano: BirthPlan; editar: boolean }) {
       <CampoAuto rotulo={copy.telMedico} valor={plano.doctor_phone} onSalvar={salvar("doctor_phone")} maxLength={30} desativado={!editar} tipo="tel" inputMode="tel" />
       <Card tom="suave">
         <p className="tipo-corpo text-texto">{copy.direitoConhecer}</p>
+        {/* Funcionalidade 16 RN-08: o cartão de direito correspondente. */}
+        <Link href="/direitos/cartao?slug=maternidade-vinculada&de=link" className="mt-1 inline-flex min-h-11 items-center text-[15px] font-medium text-primaria-texto">
+          {copy.verDireito}
+        </Link>
       </Card>
     </>
   );

@@ -82,6 +82,12 @@ export type Eventos = {
   faq_question_submitted: Record<string, never>;
   faq_question_voted: Record<string, never>;
   faq_answer_push_opened: Record<string, never>;
+  // funcionalidade 16 · direitos da gestante (nunca o texto da busca)
+  rights_card_opened: { slug: string; source: "search" | "home" | "link" };
+  rights_search: { query_len: number; results: number };
+  rights_card_shared: Record<string, never>;
+  rights_favorited: Record<string, never>;
+  rights_help_channel_tapped: { channel: string };
   // funcionalidade 11 · adaptação por trimestre
   home_card_tapped: { card: string; position: number };
   article_opened: { slug: string; source: "home" | "para_esta_semana" | "biblioteca" | "busca" | "favoritos" | "virada" | "link" };

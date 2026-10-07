@@ -17,6 +17,11 @@ export interface DadosDaHome {
   mala: { feitos: number; total: number };
   artigo: { existe: boolean; naoLidos: number };
   direitos: boolean;
+  /**
+   * Funcionalidade 16 RN-03: um direito que entrou na fase nesta semana conta como pendente (+10). Sem isso, na
+   * semana 28 a tabela da spec 11 deixaria o card fora dos 6, e a spec 16 pede que a home sugira o acompanhante.
+   */
+  direitoNovo?: boolean;
   /** Cards de features que este papel não vê (avó e cuidador não veem medicamentos, exames, plano...). */
   semPermissao?: CardDaTabela[];
 }
@@ -34,17 +39,10 @@ export function estadosDosCards(d: DadosDaHome): Record<CardDaTabela, EstadoCard
     // RN-08: sem artigo para a semana nem para o trimestre, o card some.
     artigo: !d.artigo.existe ? "oculto" : d.artigo.naoLidos > 0 ? "pendente" : "feito",
     faq: "normal",
-    direitos: d.direitos ? "normal" : "oculto",
+    direitos: !d.direitos ? "oculto" : d.direitoNovo ? "pendente" : "normal",
     // A funcionalidade de nomes ainda não existe: o card fica de fora até ela ter spec.
     nomes: "oculto",
   };
   for (const c of d.semPermissao ?? []) estados[c] = "oculto";
   return estados;
 }
-
-/** Funcionalidade 11: o artigo de direitos de cada fase (sem ele publicado, o card some). */
-export const ARTIGO_DE_DIREITOS: Record<1 | 2 | 3, string> = {
-  1: "direitos-da-gestante-no-trabalho",
-  2: "direitos-da-gestante-no-trabalho",
-  3: "direitos-no-parto-acompanhante-maternidade-licenca",
-};

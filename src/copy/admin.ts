@@ -7,6 +7,7 @@ export const adminCopy = {
     usuarias: "Usuárias",
     conteudo: "Conteúdo",
     faq: "FAQ de comidas",
+    direitos: "Direitos",
     voz: "Voz",
     sistema: "Sistema",
     voltarApp: "Abrir o app",
@@ -215,5 +216,15 @@ export const adminCopy = {
       "Na Vercel, defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY e faça redeploy.",
       "Rode `pnpm conteudo:sync` para subir o banco de conteúdo e o catálogo de sintomas.",
     ],
+  },
+
+  // Funcionalidade 16 RN-02: alerta de revisão vencida.
+  direitos: {
+    titulo: "Direitos para revisar",
+    apoio: "Cartões publicados com revisão de mais de 12 meses. No app, eles mostram \"Conferir atualização\".",
+    vazio: "Nenhum cartão com revisão vencida.",
+    carregando: "Carregando…",
+    erro: "Não deu para carregar a lista. Tente de novo.",
+    revisadoEm: (data: string) => `Revisado em ${data}`,
   },
 } as const;

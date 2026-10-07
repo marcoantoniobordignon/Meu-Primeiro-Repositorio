@@ -47,15 +47,6 @@ export const artigosCopy = {
     artigo: { titulo: "Artigo da semana", feito: "Você leu os artigos desta semana" },
     oracao: { titulo: "Oração da semana" },
     faq: { titulo: "Posso comer?", texto: "Busque um alimento e veja se pode na gravidez" },
-    direitos: {
-      titulo: "Seus direitos nesta fase",
-      // Fatos da lei, sem interpretação: CLT art. 392 §4º, ADCT art. 10, Lei 11.108/2005 e CLT art. 392.
-      texto: {
-        1: "A lei garante a saída do trabalho para consultas e exames do pré-natal.",
-        2: "Você tem estabilidade no emprego desde a confirmação da gravidez até 5 meses após o parto.",
-        3: "Acompanhante de sua escolha no parto e licença-maternidade de 120 dias.",
-      } as Record<1 | 2 | 3, string>,
-    },
   },
 
   virada: {

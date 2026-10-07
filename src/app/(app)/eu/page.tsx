@@ -1,6 +1,6 @@
 "use client";
 
-import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, Church, ClipboardList, Droplets, FlaskConical, FolderHeart, Heart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
+import { Apple, Baby, Bell, BookOpen, Bookmark, CalendarDays, CalendarRange, Camera, ChevronRight, Church, ClipboardList, Droplets, FlaskConical, FolderHeart, Heart, NotebookPen, Pill, Scale, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -116,6 +116,7 @@ export default function PaginaEu() {
           {gestacao && permissoes.verFotosBarriga && atalho("/barriga", copy.barriga, Camera)}
           {gestacao && permissoes.verDiario && atalho("/diario", copy.diarioGravidez, Sparkles)}
           {gestacao && atalho("/artigos", copy.artigos, BookOpen)}
+          {atalho("/direitos", copy.direitos, Scale)}
           {atalho("/faq", copy.faq, Apple)}
           {atalho("/hoje/diario", copy.diario, NotebookPen)}
           {atalho("/eu/guardados", copy.guardados, Bookmark)}

@@ -267,6 +267,30 @@ export interface Database {
       }>;
       faith_favorites: Tabela<{ id: string; user_id: string; prayer_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
       anon_counters: Tabela<{ dia: string; chave: "faith_on" | "faith_off" | "prayer_viewed" | "library_opened" | "verbum_link_tapped"; contagem: number }>;
+      // Funcionalidade 16 (0011_direitos.sql)
+      rights_cards: Tabela<{
+        id: string;
+        slug: string;
+        topic: "work" | "health" | "birth" | "postpartum" | "benefits";
+        question: string;
+        answer: string;
+        details_md: string | null;
+        legal_basis: string[];
+        legal_links: string[];
+        what_to_do_md: string;
+        week_from: number | null;
+        week_to: number | null;
+        applies_to: "mother" | "partner" | "both";
+        position: number;
+        reviewed_by: string | null;
+        reviewed_on: string | null;
+        status: "draft" | "published" | "archived";
+        content_updated_at: string;
+        criado_em: string;
+        atualizado_em: string;
+      }>;
+      rights_favorites: Tabela<{ id: string; user_id: string; card_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
+      help_channels: Tabela<{ id: string; slug: string; name: string; phone: string | null; url: string | null; description: string; position: number; active: boolean; atualizado_em: string }>;
       article_reads: Tabela<{ id: string; user_id: string; article_id: string; first_opened_at: string; read_at: string | null; is_favorite: boolean; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
     };
     Views: {
@@ -301,6 +325,10 @@ export interface Database {
       faq_perguntas_abertas: { Args: Record<string, never>; Returns: { id: string; text: string; votes_count: number; created_at: string }[] };
       faq_publicar: { Args: { p_food: string; p_perguntas?: string[]; p_revisor?: string | null; p_revisado_em?: string | null }; Returns: number };
       faq_rejeitar: { Args: { p_pergunta: string; p_motivo: string }; Returns: undefined };
+      // Funcionalidade 16
+      sou_parceiro: { Args: Record<string, never>; Returns: boolean };
+      buscar_direitos: { Args: { p_q: string; p_topic?: string | null }; Returns: Tabelas["rights_cards"]["Row"][] };
+      direitos_para_revisar: { Args: Record<string, never>; Returns: { slug: string; question: string; reviewed_on: string }[] };
       // Funcionalidade 17 RN-10: contadores anônimos (o app chama sem sessão).
       somar_contadores_anonimos: { Args: { p_itens: Json }; Returns: undefined };
       // Funcionalidade 08

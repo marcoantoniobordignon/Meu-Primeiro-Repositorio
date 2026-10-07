@@ -2,6 +2,14 @@
 
 ## Não lançado
 
+### Funcionalidade 16 · Direitos da gestante (specs/funcionalidades/16-direitos-gestante.md)
+- Migration `0011_direitos.sql`: `rights_cards` (publicar exige base legal, revisor e data, RN-01 no banco; `content_updated_at` muda só quando o texto muda), `rights_favorites`, `help_channels` (nascem inativos até os números serem conferidos), RPCs `buscar_direitos` (`to_tsvector('portuguese')` na pergunta e na resposta + tema), `direitos_para_revisar` (RN-02) e RLS do parceiro (só `partner` e `both`, RN-07). pgTAP: `supabase/tests/direitos.test.sql`, 18 testes.
+- Telas: Direitos (abas Todos e Favoritos, busca, temas, "Para esta fase", "Onde buscar ajuda"), Cartão (pergunta, resposta, detalhes, base legal com link, "Se não respeitarem", favoritar, compartilhar pela Web Share API, data da revisão, aviso fixo da RN-06, selos "Conferir atualização" e "Atualizado") e Onde buscar ajuda (ligar abre o discador). Atalho em Eu (também para o parceiro) e `/admin/direitos` com o alerta de revisão vencida.
+- Home: o card "Direitos para esta fase" da funcionalidade 11 passa a mostrar até 2 cartões da semana, com dispensar (`prefs.rights_dismissed`). Um direito que entrou na fase nesta semana conta como pendente (+10), para caber na home (critério da semana 28).
+- Busca offline no aparelho com um radical simples em português (no servidor, o `tsvector` de verdade); cartões e canais ficam no aparelho (RN-10). O plano de parto linka os cartões do acompanhante e da maternidade (RN-08).
+- Conteúdo: `supabase/seed/direitos.json` com os 17 cartões e os 4 canais em **rascunho escrito com IA, aguardando revisão jurídica** (telefones, links do Planalto e pontos legais listados para conferência). Semanas de licença-maternidade (32–40), licença-paternidade (34–40) e violência obstétrica (30–40) ajustadas para "Para esta fase" fazer sentido.
+- Testes: Vitest +15; Playwright: 8 fluxos.
+
 ### Funcionalidade 17 · Modo fé (católico) (specs/funcionalidades/17-modo-fe.md)
 - Migration `0010_fe.sql`: `faith_prayers` (semanal com semana 1–40, uma publicada por semana; texto até 1200; publicar exige fonte, revisor e data, RN-05 no banco), `faith_favorites` (de cada pessoa), `anon_counters` + RPC `somar_contadores_anonimos` (RN-10: só dia, chave e contagem; o app chama sem a sessão) e a categoria `faith` nos envios. pgTAP: `supabase/tests/fe.test.sql`, 19 testes.
 - A chave continua em `profiles.prefs.faith_mode` (onde o diário já lia), padrão desligado; a oração no push é `prefs.faith_weekly_push`, também desligada.

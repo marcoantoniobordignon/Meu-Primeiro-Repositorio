@@ -10,6 +10,7 @@ import {
   faqFavoritos,
   articleReads,
   faithFavoritos,
+  rightsFavoritos,
   appointments,
   bebes,
   bellyPhotos,
@@ -91,6 +92,7 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: faqFavoritos as Colecao<Registro>, tabela: "faq_favorites", conflito: "id", soLocal: ["criado_por"] },
   { colecao: articleReads as Colecao<Registro>, tabela: "article_reads", conflito: "id", soLocal: ["criado_por"] },
   { colecao: faithFavoritos as Colecao<Registro>, tabela: "faith_favorites", conflito: "id", soLocal: ["criado_por"] },
+  { colecao: rightsFavoritos as Colecao<Registro>, tabela: "rights_favorites", conflito: "id", soLocal: ["criado_por"] },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

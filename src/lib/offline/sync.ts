@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { artigosRemotos, oracoesRemotas, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type OracaoRemota, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { artigosRemotos, canaisRemotos, cartoesRemotos, oracoesRemotas, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type CanalRemoto, type CartaoRemoto, type OracaoRemota, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import { aoMudarPerfil, atualizarPerfil, perfilAtual, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
@@ -97,6 +97,7 @@ export async function puxar(sb: Cliente): Promise<void> {
   await puxarFaq(sb, ultima);
   await puxarArtigos(sb, ultima);
   await puxarOracoes(sb, ultima);
+  await puxarDireitos(sb, ultima);
   guardarUltima(ultima);
   await puxarViradas(sb);
   await puxarFamilia(sb);
@@ -150,6 +151,24 @@ async function puxarOracoes(sb: Cliente, ultima: Record<string, string>): Promis
   oracoesRemotas.mesclar(linhas.map((o) => ({ ...o, apagado_em: o.status === "published" ? null : o.atualizado_em })));
   const maior = linhas[linhas.length - 1]?.atualizado_em;
   if (maior) ultima.faith_prayers = maior;
+}
+
+/** Funcionalidade 16 RN-10: cartões e canais ficam no aparelho; despublicado ou desativado sai da lista. */
+async function puxarDireitos(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  const cartoes = await tabela(sb, "rights_cards").select("*").gt("atualizado_em", ultima.rights_cards ?? "1970-01-01T00:00:00Z").order("atualizado_em", { ascending: true }).limit(1000);
+  if (!cartoes.error && cartoes.data) {
+    const linhas = cartoes.data as unknown as CartaoRemoto[];
+    cartoesRemotos.mesclar(linhas.map((c) => ({ ...c, apagado_em: c.status === "published" ? null : c.atualizado_em })));
+    const maior = linhas[linhas.length - 1]?.atualizado_em;
+    if (maior) ultima.rights_cards = maior;
+  }
+  const canais = await tabela(sb, "help_channels").select("*").gt("atualizado_em", ultima.help_channels ?? "1970-01-01T00:00:00Z").order("atualizado_em", { ascending: true }).limit(100);
+  if (!canais.error && canais.data) {
+    const linhas = canais.data as unknown as CanalRemoto[];
+    canaisRemotos.mesclar(linhas.map((c) => ({ ...c, apagado_em: c.active ? null : c.atualizado_em })));
+    const maior = linhas[linhas.length - 1]?.atualizado_em;
+    if (maior) ultima.help_channels = maior;
+  }
 }
 
 /** Funcionalidade 11 RN-06: a virada vista em outro aparelho não aparece de novo neste. */

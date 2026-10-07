@@ -16,7 +16,9 @@ import { dataNoFuso } from "@dominio/tempo.ts";
 import { cardsDaHome, paraEstaSemana, temArtigoParaASemana, trimestreDaSemana, type CardDaTabela } from "@dominio/trimestre.ts";
 import { oracaoDaSemana } from "@dominio/fe.ts";
 
-import { ARTIGO_DE_DIREITOS, estadosDosCards } from "./home";
+import { estadosDosCards } from "./home";
+import { useDireitos } from "@/lib/direitos/useDireitos";
+import { paraEstaFase } from "@dominio/direitos.ts";
 import { useArtigos } from "./useArtigos";
 import { useFe } from "@/lib/fe/useFe";
 
@@ -47,7 +49,9 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
   const mala = LISTAS_MALAS.map((l) => progressoDaLista(itens, l)).reduce((a, p) => ({ feitos: a.feitos + p.feitos, total: a.total + p.total }), { feitos: 0, total: 0 });
   const semana3 = paraEstaSemana(artigos, lidos, semana);
   const marcos = cardsDoDiario(semana, prefsCompletas(prefs).faith_mode, situacoes(entradas, estadosMarcos, meuId), agora);
-  const direitos = artigos.find((a) => a.slug === ARTIGO_DE_DIREITOS[tri]) ?? null;
+  // Funcionalidade 16 RN-03: "Direitos para esta fase" = até 2 cartões da semana, ainda não dispensados.
+  const { cartoes } = useDireitos();
+  const direitos = paraEstaFase(cartoes, semana, prefs?.rights_dismissed ?? []);
   const semPermissao: CardDaTabela[] = [
     ...(!permissoes.verMedicamentos ? (["medicamentos"] as const) : []),
     ...(!permissoes.verDiario ? (["marco"] as const) : []),
@@ -64,7 +68,8 @@ export function useHomeDoTrimestre(dpp: string, semana: number, prefs: Parameter
     planoEtapas: planos[0] ? progressoDoPlano(planos[0].completed_steps).feitas : null,
     mala,
     artigo: { existe: temArtigoParaASemana(artigos, semana), naoLidos: semana3.length },
-    direitos: Boolean(direitos),
+    direitos: direitos.length > 0,
+    direitoNovo: direitos.some((c) => c.week_from === semana),
     semPermissao,
   });
 

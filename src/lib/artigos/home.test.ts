@@ -58,6 +58,13 @@ describe("RN-02 · estado de cada card pelo que a feature tem", () => {
     expect(estadosDosCards({ ...vazia, mala: { feitos: 0, total: 0 } }).mala).toBe("pendente");
   });
 
+  it("funcionalidade 16: direito que entrou na fase nesta semana é pendente e cabe na home da semana 28", () => {
+    expect(estadosDosCards({ ...vazia, direitoNovo: true }).direitos).toBe("pendente");
+    expect(estadosDosCards({ ...vazia, direitos: false, direitoNovo: true }).direitos).toBe("oculto");
+    const e = estadosDosCards({ ...vazia, direitoNovo: true, planoEtapas: 0, artigo: { existe: true, naoLidos: 3 } });
+    expect(cardsDaHome(3, e).map((c) => c.card)).toContain("direitos");
+  });
+
   it("papel sem a feature não vê o card", () => {
     const e = estadosDosCards({ ...vazia, semPermissao: ["medicamentos", "plano_parto", "mala"] });
     expect([e.medicamentos, e.plano_parto, e.mala]).toEqual(["oculto", "oculto", "oculto"]);

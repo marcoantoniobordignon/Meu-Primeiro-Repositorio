@@ -50,6 +50,7 @@ export const planoCopy = {
   fotosOpcoes: { allowed: "Pode", no: "Prefiro que não" },
   observacoes: "Observações",
   // Quem
+  verDireito: "Ver o cartão deste direito",
   direitoAcompanhante: "A lei garante a presença de um acompanhante de sua escolha no trabalho de parto, parto e pós-parto imediato (Lei 11.108/2005).",
   acompanhante: "Acompanhante",
   doula: "Doula",

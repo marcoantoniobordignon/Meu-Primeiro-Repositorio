@@ -4,6 +4,7 @@ import type { EventoCalendario } from "@dominio/calendario.ts";
 import type { Verbete } from "@dominio/faq.ts";
 import type { Artigo } from "@dominio/trimestre.ts";
 import type { Oracao } from "@dominio/fe.ts";
+import type { CanalDeAjuda, CartaoDireito } from "@dominio/direitos.ts";
 import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
@@ -324,6 +325,19 @@ export interface FaithFavorito extends Registro {
   prayer_id: string;
 }
 
+/** Funcionalidade 16 · cartão e canal publicados (cópias para ler sem rede) e favorito (de cada pessoa). */
+export interface CartaoRemoto extends Registro, CartaoDireito {
+  id: string;
+}
+export interface CanalRemoto extends Registro, CanalDeAjuda {
+  id: string;
+}
+export interface RightsFavorito extends Registro {
+  /** Id determinístico pelo slug (`idDoCartao`): o mesmo no bundle e no banco. */
+  card_id: string;
+  criado_em?: string;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -377,6 +391,10 @@ export const articleReads = criarColecao<ArticleRead>("ninho.article_reads");
 /** Funcionalidade 17: orações (só leitura, do servidor) e favoritos de fé. */
 export const oracoesRemotas = criarColecao<OracaoRemota>("ninho.faith_prayers");
 export const faithFavoritos = criarColecao<FaithFavorito>("ninho.faith_favorites");
+/** Funcionalidade 16: cartões e canais (só leitura, do servidor) e favoritos de direitos. */
+export const cartoesRemotos = criarColecao<CartaoRemoto>("ninho.rights_cards");
+export const canaisRemotos = criarColecao<CanalRemoto>("ninho.help_channels");
+export const rightsFavoritos = criarColecao<RightsFavorito>("ninho.rights_favorites");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -412,4 +430,5 @@ export const todasColecoes = [
   faqFavoritos,
   articleReads,
   faithFavoritos,
+  rightsFavoritos,
 ];

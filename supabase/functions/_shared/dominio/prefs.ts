@@ -11,6 +11,8 @@ export interface Prefs {
   faith_mode?: boolean;
   /** Funcionalidade 17 RN-08: a oração da semana no aviso da virada (padrão desligado). */
   faith_weekly_push?: boolean;
+  /** Funcionalidade 16 RN-03: cartões de direitos dispensados da home (slugs). */
+  rights_dismissed?: string[];
   notifications_suspended?: boolean;
   notifications_discreet?: boolean;
   /** Horário silencioso da fundação, "HH:MM". */
@@ -29,6 +31,7 @@ export const PREFS_PADRAO: Required<Prefs> = {
   belly_resumed_week: null,
   faith_mode: false,
   faith_weekly_push: false,
+  rights_dismissed: [],
   notifications_suspended: false,
   // Decisão em aberto (spec 02): discreto por padrão? Por enquanto, não.
   notifications_discreet: false,
