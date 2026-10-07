@@ -60,3 +60,7 @@ verify_jwt = false
 # Galeria (funcionalidade 01): leitura de laudo por IA, só com a sessão da gestante.
 [functions.ler-laudo]
 verify_jwt = true
+
+# Calendário (funcionalidade 08): o feed iCal se autoriza pelo token do link.
+[functions.calendario-ics]
+verify_jwt = false

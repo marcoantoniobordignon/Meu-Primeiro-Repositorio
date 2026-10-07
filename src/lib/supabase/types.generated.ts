@@ -153,14 +153,32 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
       avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
       partner_tips: Tabela<{ id: string; week_from: number; week_to: number; trimester: number; feeling_text: string; help_tips: string[]; reviewed_on: string | null; atualizado_em: string }>;
+      // Funcionalidade 08 (0006_calendario.sql)
+      calendar_events: Tabela<
+        Base & {
+          title: string;
+          category: "exam" | "appointment" | "course" | "purchase" | "other";
+          starts_at: string | null;
+          all_day: boolean;
+          all_day_date: string | null;
+          notes: string | null;
+          remind_offset_minutes: 0 | 60 | 1440 | null;
+          visible_to_partner: boolean;
+        }
+      >;
+      calendar_feed_tokens: Tabela<{ id: string; familia_id: string; token: string; criado_em: string; revoked_at: string | null }>;
     };
     Views: {
       v_modo: { Row: { familia_id: string; modo: "gestacao" | "bebe" }; Relationships: [] };
+      calendar_items_v: {
+        Row: { familia_id: string; item_type: "appointment" | "exam" | "custom" | "edd"; item_id: string; title: string; location: string | null; starts_at: string | null; all_day: boolean; all_day_date: string | null; color_key: string; deep_link: string };
+        Relationships: [];
+      };
     };
     Functions: {
       criar_convite: { Args: { p_papel: string }; Returns: string };
@@ -177,6 +195,9 @@ export interface Database {
       convite_parceiro_publico: { Args: { p_token?: string | null; p_code?: string | null }; Returns: Json };
       aceitar_convite_parceiro: { Args: { p_token?: string | null; p_code?: string | null; p_nome?: string | null }; Returns: Json };
       sair_da_gestacao: { Args: Record<string, never>; Returns: undefined };
+      // Funcionalidade 08
+      feed_calendario: { Args: { p_novo?: boolean }; Returns: string };
+      revogar_feed_calendario: { Args: Record<string, never>; Returns: undefined };
       exames_marcados_parceiro: { Args: Record<string, never>; Returns: { id: string; catalog_code: string | null; custom_name: string | null; scheduled_at: string | null; scheduled_all_day: boolean; atualizado_em: string }[] };
       familia_do_usuario: { Args: Record<string, never>; Returns: string | null };
       // Painel de admin (0002_admin.sql): só agregados, exigem eh_admin().

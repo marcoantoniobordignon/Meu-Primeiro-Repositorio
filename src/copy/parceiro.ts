@@ -82,6 +82,7 @@ export const parceiroCopy = {
   semCompromissos: "Ela ainda não adicionou compromissos.",
   consulta: "Consulta",
   atalhos: "Atalhos",
+  calendario: "Calendário",
   pauta: "Pauta da consulta",
   listas: "Plano de parto e listas",
   diario: "Diário",

@@ -1,6 +1,6 @@
 "use client";
 
-import { BookHeart, CalendarDays, ChevronRight, ListChecks, MessageCircleQuestion } from "lucide-react";
+import { BookHeart, CalendarDays, CalendarRange, ChevronRight, ListChecks, MessageCircleQuestion } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -114,6 +114,7 @@ export function HomeParceiro({ perfil }: { perfil: Perfil }) {
         <h2 className="tipo-titulo-secao mb-2 text-texto-mudo">{copy.atalhos}</h2>
         <Card compacto>
           <div className="-mx-4 divide-y divide-fio">
+            {permissoes.verAgenda && atalho("/calendario", copy.calendario, CalendarRange)}
             {permissoes.verAgenda && atalho("/consultas/pauta", copy.pauta, MessageCircleQuestion)}
             {permissoes.verPlanoParto && atalho("/plano-parto", copy.listas, ListChecks)}
             {permissoes.verDiario && atalho("/diario", copy.diario, BookHeart)}

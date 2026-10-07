@@ -1,6 +1,6 @@
 "use client";
 
-import { Baby, Bell, Bookmark, Heart, CalendarDays, Camera, ChevronRight, FlaskConical, FolderHeart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
+import { Baby, Bell, Bookmark, CalendarRange, Heart, CalendarDays, Camera, ChevronRight, FlaskConical, FolderHeart, NotebookPen, Pill, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -105,6 +105,7 @@ export default function PaginaEu() {
           {gestacao && papel === "mae" && atalho("/eu/parceiro", copy.parceiro, Heart)}
           {atalho("/eu/familia", copy.familia, Users)}
           {atalho("/eu/avisos", naoLidos ? `${copy.avisos} · ${copy.novos(naoLidos)}` : copy.avisos, Bell)}
+          {gestacao && permissoes.verAgenda && atalho("/calendario", copy.calendario, CalendarRange)}
           {permissoes.verAgenda && atalho("/consultas", copy.consultas, CalendarDays)}
           {permissoes.verMedicamentos && atalho("/medicamentos", copy.medicamentos, Pill)}
           {gestacao && permissoes.verExames && atalho("/exames", copy.exames, FlaskConical)}

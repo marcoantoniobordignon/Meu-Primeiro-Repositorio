@@ -68,6 +68,13 @@ export type Eventos = {
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
   paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" };
+  // funcionalidade 08 · calendário
+  cal_viewed: { mode: "month" | "agenda" };
+  cal_event_created: { category: string };
+  cal_item_opened: { item_type: string };
+  cal_feed_created: Record<string, never>;
+  cal_feed_revoked: Record<string, never>;
+  cal_item_exported: Record<string, never>;
   // funcionalidade 12 · modo parceiro
   partner_invite_created: Record<string, never>;
   partner_invite_accepted: { hours_to_accept: number };

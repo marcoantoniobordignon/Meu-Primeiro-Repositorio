@@ -92,7 +92,7 @@ Deno.serve(async (req) => {
       const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", autora);
       if (!subs?.length) continue;
 
-      const [exames, consultas, perguntas, fotos, entradas, estados, enviados] = await Promise.all([
+      const [exames, consultas, perguntas, fotos, entradas, estados, enviados, eventos] = await Promise.all([
         sb.from("user_exams").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointments").select("*").eq("familia_id", familia).is("apagado_em", null),
         sb.from("appointment_questions").select("*").eq("familia_id", familia).is("apagado_em", null),
@@ -100,6 +100,8 @@ Deno.serve(async (req) => {
         sb.from("diary_entries").select("milestone_code").eq("familia_id", familia).eq("criado_por", autora).is("apagado_em", null).not("milestone_code", "is", null),
         sb.from("diary_milestone_states").select("milestone_code, skipped_at, snoozed_until").eq("familia_id", familia).eq("criado_por", autora).is("apagado_em", null),
         sb.from("reminders_sent").select("chave, categoria, ref, enviado_em, essencial").eq("familia_id", familia).gte("enviado_em", new Date(agora.getTime() - 3 * MS_DIA).toISOString()),
+        // Funcionalidade 08 RN-06: eventos próprios com lembrete.
+        sb.from("calendar_events").select("*").eq("familia_id", familia).is("apagado_em", null).not("remind_offset_minutes", "is", null),
       ]);
       const dosesAtuais = todasDoses.filter((d) => !m.apagar.includes(d.id)).map((d) => (m.semRegistro.includes(d.id) ? { ...d, status: "missed" as const } : d)).concat(m.criar);
 
@@ -116,6 +118,7 @@ Deno.serve(async (req) => {
         perguntas: (perguntas.data ?? []) as never,
         semanasComFoto: (fotos.data ?? []).map((f) => f.gest_week as number),
         marcos: { respondidos: (entradas.data ?? []).map((e) => e.milestone_code as string), estados: (estados.data ?? []) as never },
+        eventos: (eventos.data ?? []) as never,
       });
       const saem = selecionarParaEnvio(candidatos, { agora, tz, prefs: p.prefs as Record<string, unknown>, enviados: (enviados.data ?? []) as Enviado[] });
 

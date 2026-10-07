@@ -6,6 +6,7 @@ import {
   appointmentQuestions,
   appointments,
   bellyPhotos,
+  calendarEvents,
   diaryEntries,
   diaryMilestoneStates,
   medicationDoses,
@@ -38,6 +39,7 @@ export function estadoDoAparelho(perfil: Perfil, autor: string, tz: string, agor
       respondidos: entradas.flatMap((e) => (e.milestone_code ? [e.milestone_code] : [])),
       estados: diaryMilestoneStates.listar().filter((s) => s.criado_por === autor),
     },
+    eventos: calendarEvents.listar(),
   };
 }
 

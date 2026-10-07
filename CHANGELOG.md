@@ -2,6 +2,14 @@
 
 ## Não lançado
 
+### Funcionalidade 08 · Calendário (specs/funcionalidades/08-calendario.md)
+- Migration `0006_calendario.sql`: `calendar_events` (RN-06 no banco: dia inteiro sem hora, senão hora obrigatória; lembrete nenhum/0/60/1440), `calendar_feed_tokens` (um link ativo; revogar gera outro), RPCs `feed_calendario` e `revogar_feed_calendario`, view `calendar_items_v` (só o que o feed publica, sem notas) e RLS (parceiro com `agenda` vê só os eventos visíveis; só a gestante cria). pgTAP: `supabase/tests/calendario.test.sql`, 26 testes.
+- Itens derivados no aparelho, sem cópia (`@dominio/calendario.ts`): consultas e exames marcados, eventos próprios, "Medicamentos (n)" por dia com a adesão nos dias passados, foto da semana na virada com check, DPP. Cor por tipo, só com tokens.
+- Telas: Mês (até 3 pontos e "+n", marcador "22s" na virada, "Hoje"), Agenda ("Hoje, 22s3d"), Dia (cada item abre a origem; "Adicionar ao meu calendário" gera o .ics), novo/editar evento, Ajustes (gerar, copiar e revogar o link, com o aviso de que qualquer pessoa com o link vê os compromissos). Atalhos em Eu e na home do parceiro.
+- Feed iCal: Edge Function `calendario-ics` em `{APP_URL}/ics/{token}.ics` (rewrite do Next), cache de 15 min, UID estável `{tipo}-{id}@ninho`, título e local, nunca notas, medicamentos ou fotos; revogado devolve 404.
+- Lembrete `calendar_event` (na hora, 1 h antes, 1 dia antes às 9h) no planejador comum: sai pelo job e, sem servidor, pelo próprio aparelho.
+- Testes: Vitest +20; Playwright: 8 fluxos.
+
 ### Funcionalidade 12 · Modo parceiro (specs/funcionalidades/12-modo-parceiro.md)
 - Migration `0005_parceiro.sql`: `partner_invites` (só o hash do token; código de 6 sem ambíguos; 7 dias; um ativo por família), remoção suave em `membros_familia.removido_em` com um parceiro ativo por gestação (índice único), permissão `birth_plan` (padrão ligada), `minha_familia` com a DPP da gestante, central de `avisos`, `partner_tips`, RPCs `criar_convite_parceiro`, `revogar_convite_parceiro`, `convite_parceiro_publico`, `aceitar_convite_parceiro` (exige conta não anônima; um papel por conta), `sair_da_gestacao`, `exames_marcados_parceiro`; `remover_membro` passa a ser suave para o parceiro (push apagado, diário fica com ela). RN-04 no banco: o parceiro deixa de ler `user_exams` e vê só os exames marcados (nome e data). pgTAP: `supabase/tests/parceiro.test.sql`, 47 testes.
 - Telas: Eu → Parceiro (convidar com link e código, compartilhar pela Web Share API, gerar outro, permissões agenda/fotos/plano, remover), aceitar convite pelo link ou pelo código em `/convite` (explica o que ele verá, pede login com Google ou e-mail, mensagens de expirado/cancelado/usado/outra conta), home do parceiro (semana, tamanho, DPP, "Como ela pode estar", "Como ajudar esta semana", próximos compromissos, atalhos), ajustes dele (avisos por tipo e sair) e a central de Avisos em Eu.

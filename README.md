@@ -25,6 +25,8 @@ Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interp
 
 Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. O mesmo job faz a faxina da galeria (arquivos de documentos excluídos e PDFs exportados com mais de 24 h).
 
+Calendário (funcionalidade 08): `supabase functions deploy calendario-ics`. O app reescreve `/ics/{token}.ics` para ela quando `NEXT_PUBLIC_SUPABASE_URL` está definido no build.
+
 Galeria de exames (funcionalidade 01): `supabase functions deploy ler-laudo`. Usa o mesmo `ANTHROPIC_API_KEY`; o modelo da leitura é `claude-opus-5-5` por padrão e muda com `supabase secrets set MODELO_LAUDO=...` (decisão em aberto na spec). A função pede fallback automático do lado do servidor: se o modelo principal recusar, a API refaz no modelo recomendado.
 
 ## Deploy na Vercel
@@ -90,6 +92,7 @@ Galeria de exames e ultrassons (`/galeria`), medicamentos (`/medicamentos`), exa
 - **Lembretes**: derivados do estado atual + `reminders_sent` (nada de fila de agendamento). Mudar a DUM, concluir, dispensar ou cancelar ajusta sozinho; voltar depois de dias não dispara atrasados (tolerância de 30 min); limite de 2 por dia e silêncio das 22h às 7h, exceto medicamento (RN-13). Sem Supabase, o app mostra os avisos enquanto está aberto.
 - **Arquivos**: fotos (JPEG ≤ 1600 px, sem EXIF), áudios e anexos ficam no IndexedDB e sobem para o bucket privado `ninho-privado` depois da linha que os referencia; a policy do Storage segue a RLS da linha.
 - **Galeria**: fotos e PDFs viram páginas JPEG (≤ 2000 px, sem EXIF; PDF renderizado no aparelho com pdf.js) para folhear, dar zoom, ler por IA e exportar do mesmo jeito. A leitura do laudo roda só na Edge Function `ler-laudo` (consentimento, plano e cota de 20/mês conferidos no servidor; a IA só transcreve e o resultado é validado antes de gravar). O PDF exportado é montado no aparelho e sobe para `exportacoes/{uid}/` com link de 24 h. Desvios do modelo no topo de `0004_galeria.sql`.
+- **Calendário (funcionalidade 08)**: nada é copiado: mês, agenda e feed leem consultas, exames, doses, fotos e DPP de onde já estão (`@dominio/calendario.ts`); só eventos próprios moram em `calendar_events`.
 - **Modo parceiro (funcionalidade 12)**: convite próprio em Eu → Parceiro (link de 7 dias ou código de 6); aceitar exige conta (não anônima); um parceiro por gestação. A matriz de acesso está na RLS (`0005_parceiro.sql`): exames só os marcados, pela RPC; quem sai fica com `removido_em` para o diário seguir com o nome. Central de avisos em Eu → Avisos.
 - **Parceiro**: a gestante liga "Agenda" (padrão ligado) e "Fotos da barriga" (padrão desligado) em Eu → Família. Medicamentos, medidas e orientações nunca aparecem para ele.
 

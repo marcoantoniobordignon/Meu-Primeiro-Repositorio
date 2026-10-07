@@ -6,6 +6,7 @@
  * lembretes sozinho, sem duplicar; e voltar depois de semanas não gera enxurrada
  * (só sai o que está dentro da tolerância).
  */
+import { lembretesDeEventos, type EventoCalendario } from "./calendario.ts";
 import { pautaDaConsulta, proximaConsulta, type ConsultaBase, type PerguntaBase } from "./consultas.ts";
 import { lembretesDaSemana } from "./barriga.ts";
 import { CATALOGO_MARCOS, DIAS_PUSH_DESCOBERTA, estadoDoMarco, marcoVisivel, perguntaDoMarco, type SituacaoMarco } from "./diario.ts";
@@ -15,7 +16,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {
@@ -61,6 +62,8 @@ export interface EstadoParaLembretes {
   semanasComFoto: number[];
   /** Diário da gestante (autora dos marcos). */
   marcos: { respondidos: string[]; estados: { milestone_code: string; skipped_at: string | null; snoozed_until: string | null }[] };
+  /** Funcionalidade 08 RN-06: eventos próprios com lembrete. */
+  eventos?: EventoCalendario[];
 }
 
 const url = (caminho: string, categoria: Categoria, extra: Record<string, string> = {}) => {
@@ -199,6 +202,7 @@ export function planejar(e: EstadoParaLembretes): Lembrete[] {
     ...lembretesDeConsultas(e),
     ...lembretesDaBarriga(e, prefs),
     ...lembretesDoDiario(e, prefs),
+    ...lembretesDeEventos(e.eventos ?? [], e.tz),
   ];
 }
 

@@ -3,6 +3,7 @@ import {
   appointmentMeasures,
   appointmentQuestions,
   avisos,
+  calendarEvents,
   appointments,
   bebes,
   bellyPhotos,
@@ -74,6 +75,7 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: conteudosLidos as Colecao<Registro>, tabela: "conteudos_lidos", conflito: "id" },
   // Funcionalidade 12: só o "lido" sai daqui; os avisos nascem no servidor.
   { colecao: avisos as Colecao<Registro>, tabela: "avisos", conflito: "id" },
+  { colecao: calendarEvents as Colecao<Registro>, tabela: "calendar_events", conflito: "id" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {
