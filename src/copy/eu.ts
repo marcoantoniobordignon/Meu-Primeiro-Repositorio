@@ -18,6 +18,7 @@ export const euCopy = {
   parceiro: "Parceiro",
   calendario: "Calendário",
   faq: "Posso comer?",
+  artigos: "Artigos da gravidez",
   planoParto: "Plano de parto, malas e enxoval",
   avisos: "Avisos",
   novos: (n: number) => (n === 1 ? "1 novo" : `${n} novos`),

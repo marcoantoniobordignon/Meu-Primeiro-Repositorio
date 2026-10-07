@@ -49,8 +49,24 @@
   --anim-toast: 180ms;
   --anim-anel: 600ms;
   --anim-tela: 260ms;
+  /* Funcionalidade 11 RN-07: a troca de tema na virada de trimestre. */
+  --anim-tema: 400ms;
+
+  /* Funcionalidade 11: anel por trimestre (provisório, a validar com o design system). 1º: teal claro → teal. */
+  --anel-inicio: #7fd6e4;
+  --anel-fim: #31bcd3;
 
   color-scheme: light;
+}
+
+/* 2º: teal → teal escuro. 3º: teal escuro → coral. O atributo vem do app (`data-trimestre` no <html>). */
+[data-trimestre="2"] {
+  --anel-inicio: #31bcd3;
+  --anel-fim: #158fa3;
+}
+[data-trimestre="3"] {
+  --anel-inicio: #158fa3;
+  --anel-fim: #f0707d;
 }
 
 [data-tema="escuro"] {
@@ -62,8 +78,19 @@
   --cor-primaria-texto: #6fd0e0;
   --cor-primaria-suave: #153840;
   --cor-acento-suave: #3a2427;
+  /* RN-07: no escuro o anel clareia para manter contraste ≥ 3:1 com o fundo nos três trimestres. */
+  --anel-inicio: #9be3ee;
+  --anel-fim: #4cc9dd;
 
   color-scheme: dark;
+}
+[data-tema="escuro"][data-trimestre="2"] {
+  --anel-inicio: #4cc9dd;
+  --anel-fim: #2fa9be;
+}
+[data-tema="escuro"][data-trimestre="3"] {
+  --anel-inicio: #3fb5c9;
+  --anel-fim: #f0707d;
 }
 
 /* DS-02: 'auto' segue o sistema, sem recarregar a página. */
@@ -77,8 +104,18 @@
     --cor-primaria-texto: #6fd0e0;
     --cor-primaria-suave: #153840;
     --cor-acento-suave: #3a2427;
+    --anel-inicio: #9be3ee;
+    --anel-fim: #4cc9dd;
 
     color-scheme: dark;
+  }
+  [data-tema="auto"][data-trimestre="2"] {
+    --anel-inicio: #4cc9dd;
+    --anel-fim: #2fa9be;
+  }
+  [data-tema="auto"][data-trimestre="3"] {
+    --anel-inicio: #3fb5c9;
+    --anel-fim: #f0707d;
   }
 }
 
@@ -89,5 +126,6 @@
     --anim-toast: 0ms;
     --anim-anel: 0ms;
     --anim-tela: 0ms;
+    --anim-tema: 0ms;
   }
 }

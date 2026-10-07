@@ -1,6 +1,6 @@
 /**
  * `pnpm conteudo:sync`: faz upsert do banco de conteúdo (src/conteudo/banco.json), das dicas do parceiro e do
- * catálogo de sintomas (supabase/seed/sintomas.json) no Supabase, com a service role.
+ * catálogo de sintomas (supabase/seed/sintomas.json), os verbetes do FAQ e os artigos (rascunhos) no Supabase, com a service role.
  * Variáveis: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
  */
 import { readFile } from "node:fs/promises";
@@ -61,3 +61,16 @@ const { error: e4 } = await sb.from("faq_foods").upsert(
 );
 if (e4) throw e4;
 console.log(`faq_foods: ${verbetes.length} rascunhos (os que já existiam ficaram como estavam)`);
+
+// Funcionalidade 11: artigos entram como RASCUNHO (RN-09: publicar exige revisor e data, no banco).
+// Só insere o que ainda não existe: nunca sobrescreve um artigo revisado ou publicado.
+const artigos = [
+  ...JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "artigos-a.json"), "utf8")),
+  ...JSON.parse(await readFile(path.join(raiz, "supabase", "seed", "artigos-b.json"), "utf8")),
+];
+const { error: e5 } = await sb.from("articles").upsert(
+  artigos.map((a) => ({ ...a, id: idDeterministico(`article:${a.slug}`), status: "draft", reviewed_by: null, reviewed_on: null })),
+  { onConflict: "slug", ignoreDuplicates: true },
+);
+if (e5) throw e5;
+console.log(`articles: ${artigos.length} rascunhos (os que já existiam ficaram como estavam)`);

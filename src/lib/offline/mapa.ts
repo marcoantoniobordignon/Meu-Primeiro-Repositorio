@@ -8,6 +8,7 @@ import {
   birthPlans,
   calendarEvents,
   faqFavoritos,
+  articleReads,
   appointments,
   bebes,
   bellyPhotos,
@@ -41,6 +42,8 @@ export interface Mapeamento {
   conflito: string;
   /** Ajuste do que vem do Postgres para o formato local (ex.: `time` volta como "08:00:00"). */
   doServidor?: (linha: Record<string, unknown>) => Record<string, unknown>;
+  /** Campos que só existem no aparelho (ex.: `criado_por` em tabelas pessoais, que usam `user_id`). */
+  soLocal?: string[];
 }
 
 /** `time` e `time[]` do Postgres voltam com segundos; o app usa "HH:MM". */
@@ -84,7 +87,8 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: birthPlans as Colecao<Registro>, tabela: "birth_plans", conflito: "id" },
   { colecao: birthChecklistItems as Colecao<Registro>, tabela: "birth_checklist_items", conflito: "id" },
   { colecao: birthItemAttachments as Colecao<Registro>, tabela: "birth_item_attachments", conflito: "id" },
-  { colecao: faqFavoritos as Colecao<Registro>, tabela: "faq_favorites", conflito: "id" },
+  { colecao: faqFavoritos as Colecao<Registro>, tabela: "faq_favorites", conflito: "id", soLocal: ["criado_por"] },
+  { colecao: articleReads as Colecao<Registro>, tabela: "article_reads", conflito: "id", soLocal: ["criado_por"] },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {
@@ -94,10 +98,10 @@ export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {
 /** Colunas que só existem no servidor e não devem ir no upsert. */
 const SO_SERVIDOR = new Set(["familia_id", "criado_em"]);
 
-export function paraServidor(registro: Registro): Record<string, unknown> {
+export function paraServidor(registro: Registro, soLocal: string[] = []): Record<string, unknown> {
   const saida: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(registro)) {
-    if (!SO_SERVIDOR.has(k)) saida[k] = v;
+    if (!SO_SERVIDOR.has(k) && !soLocal.includes(k)) saida[k] = v;
   }
   return saida;
 }

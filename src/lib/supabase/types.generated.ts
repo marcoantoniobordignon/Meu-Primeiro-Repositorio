@@ -38,6 +38,9 @@ export interface Database {
         tz: string;
         prefs: Json;
         consents: Json;
+        is_reviewer: boolean;
+        t2_seen_at: string | null;
+        t3_seen_at: string | null;
         criado_em: string;
         atualizado_em: string;
       }>;
@@ -153,7 +156,7 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq" | "trimester"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
       avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null; push_pendente: boolean }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
@@ -222,6 +225,29 @@ export interface Database {
       faq_favorites: Tabela<{ id: string; user_id: string; food_id: string; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
       faq_bloqueio: Tabela<{ palavra: string }>;
       calendar_feed_tokens: Tabela<{ id: string; familia_id: string; token: string; criado_em: string; revoked_at: string | null }>;
+      // Funcionalidade 11 (0009_trimestre.sql)
+      articles: Tabela<{
+        id: string;
+        slug: string;
+        title: string;
+        summary: string;
+        body_md: string;
+        hero_image_path: string | null;
+        week_from: number;
+        week_to: number;
+        trimester: 1 | 2 | 3;
+        reading_minutes: number;
+        featured: boolean;
+        position: number;
+        is_premium: boolean;
+        reviewed_by: string | null;
+        reviewed_on: string | null;
+        status: "draft" | "published" | "archived";
+        published_at: string | null;
+        criado_em: string;
+        atualizado_em: string;
+      }>;
+      article_reads: Tabela<{ id: string; user_id: string; article_id: string; first_opened_at: string; read_at: string | null; is_favorite: boolean; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
     };
     Views: {
       v_modo: { Row: { familia_id: string; modo: "gestacao" | "bebe" }; Relationships: [] };

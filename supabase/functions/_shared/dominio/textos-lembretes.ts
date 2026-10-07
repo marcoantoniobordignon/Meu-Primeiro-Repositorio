@@ -3,6 +3,11 @@
  * monta os textos; `src/copy/lembretes.ts` re-exporta para o app. Frases curtas, tom "a gente".
  */
 export const textosLembretes = {
+  // Funcionalidade 11 RN-06: virada de trimestre (uma vez, às 09:00 do dia).
+  trimestre: {
+    titulo: (t: 2 | 3) => (t === 2 ? "Bem-vinda ao 2º trimestre" : "Bem-vinda ao 3º trimestre"),
+    corpo: (t: 2 | 3) => (t === 2 ? "Uma fase nova começa hoje. Veja o que vem por aí." : "A reta final começou. A gente te mostra o que esperar."),
+  },
   med: {
     principal: (nome: string) => `Hora do ${nome}`,
     reforco: (nome: string) => `Ainda dá tempo: ${nome}`,

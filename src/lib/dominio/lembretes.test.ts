@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { gerarExamesPadrao, type ExameBase } from "@dominio/exames.ts";
-import { planejar, selecionarParaEnvio, TOLERANCIA_MS, type EstadoParaLembretes, type Lembrete } from "@dominio/lembretes.ts";
+import { planejar as planejarTudo, selecionarParaEnvio, TOLERANCIA_MS, type EstadoParaLembretes, type Lembrete } from "@dominio/lembretes.ts";
 import type { DoseBase } from "@dominio/medicamentos.ts";
 import { dumDaDpp, horaNoFuso, dataNoFuso, instanteLocal, MS_HORA, MS_MIN, somarDiasISO } from "@dominio/tempo.ts";
+
+// A virada de trimestre (funcionalidade 11) tem os testes dela em trimestre.test.ts; aqui, as outras categorias.
+const planejar = (e: EstadoParaLembretes) => planejarTudo(e).filter((l) => l.categoria !== "trimester");
 
 const SP = "America/Sao_Paulo";
 const DPP = "2027-03-08";

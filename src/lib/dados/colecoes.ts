@@ -2,6 +2,7 @@ import type { DataISO } from "@/lib/dates";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
 import type { EventoCalendario } from "@dominio/calendario.ts";
 import type { Verbete } from "@dominio/faq.ts";
+import type { Artigo } from "@dominio/trimestre.ts";
 import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
@@ -301,6 +302,18 @@ export interface FaqFavorito extends Registro {
   food_id: string;
 }
 
+/** Funcionalidade 11 · artigo publicado (cópia do servidor, para ler sem rede) e a leitura de cada pessoa. */
+export interface ArtigoRemoto extends Registro, Artigo {
+  id: string;
+}
+export interface ArticleRead extends Registro {
+  /** Id determinístico pelo slug (`idDoArtigo`): o mesmo no bundle e no banco. */
+  article_id: string;
+  first_opened_at: string;
+  read_at: string | null;
+  is_favorite: boolean;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -348,6 +361,9 @@ export const birthItemAttachments = criarColecao<BirthItemAttachment>("ninho.bir
 /** Só leitura, mesclada do servidor (RN-10: tudo o que é publicado fica para uso offline). */
 export const faqVerbetes = criarColecao<FaqVerbete>("ninho.faq_foods");
 export const faqFavoritos = criarColecao<FaqFavorito>("ninho.faq_favorites");
+/** Só leitura, mesclada do servidor (funcionalidade 11: o publicado fica no aparelho para ler offline). */
+export const artigosRemotos = criarColecao<ArtigoRemoto>("ninho.articles");
+export const articleReads = criarColecao<ArticleRead>("ninho.article_reads");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -381,4 +397,5 @@ export const todasColecoes = [
   birthChecklistItems,
   birthItemAttachments,
   faqFavoritos,
+  articleReads,
 ];

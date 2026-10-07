@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { FaixaRede } from "@/components/ui/FaixaRede";
 import { TabBar } from "@/components/ui/TabBar";
 import { track } from "@/lib/analytics";
+import { useTemaDoTrimestre } from "@/lib/artigos/useTemaDoTrimestre";
 import { useManutencaoExames } from "@/lib/exames/acoes";
 import { useContextoExames } from "@/lib/exames/useExames";
 import { meuId } from "@/lib/familia/useFamilia";
@@ -44,6 +45,8 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (gestante) void garantirInscricao();
   }, [gestante]);
+  // Funcionalidade 11 RN-07: o tema do anel acompanha o trimestre (quem acompanha vê o da gestação).
+  useTemaDoTrimestre(perfil);
 
   if (!perfil) return <div className="min-h-dvh bg-fundo" aria-busy="true" />;
 

@@ -8,6 +8,7 @@
  */
 import { lembretesDeEventos, type EventoCalendario } from "./calendario.ts";
 import { lembretesDoPlano, type ItemLista, type PlanoParto } from "./plano-parto.ts";
+import { lembretesDeVirada } from "./trimestre.ts";
 import { pautaDaConsulta, proximaConsulta, type ConsultaBase, type PerguntaBase } from "./consultas.ts";
 import { lembretesDaSemana } from "./barriga.ts";
 import { CATALOGO_MARCOS, DIAS_PUSH_DESCOBERTA, estadoDoMarco, marcoVisivel, perguntaDoMarco, type SituacaoMarco } from "./diario.ts";
@@ -17,7 +18,7 @@ import { prefsCompletas, type Prefs } from "./prefs.ts";
 import { dataNoFuso, horaNoFuso, idadeGestacional, inicioDaSemana, instanteLocal, MS_HORA, MS_MIN, somarDiasISO, type DataISO } from "./tempo.ts";
 import { textosLembretes as t } from "./textos-lembretes.ts";
 
-export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan";
+export type Categoria = "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "trimester";
 export type Acao = "tomei" | "adiar" | "ja_fiz" | "remarquei";
 
 export interface Lembrete {
@@ -207,6 +208,8 @@ export function planejar(e: EstadoParaLembretes): Lembrete[] {
     ...lembretesDoDiario(e, prefs),
     ...lembretesDeEventos(e.eventos ?? [], e.tz),
     ...(e.plano ? lembretesDoPlano({ dpp: e.dpp, tz: e.tz, plano: e.plano.plano, itens: e.plano.itens }) : []),
+    // Funcionalidade 11 RN-06: a virada de trimestre, no dia, às 09:00.
+    ...lembretesDeVirada({ dpp: e.dpp, tz: e.tz, criadaEm: e.criadaEm }),
   ];
 }
 

@@ -62,7 +62,7 @@ export function TelaValor({ estado, avancar }: PropsTela) {
         <Anel
           total={SEMANAS_GESTACAO}
           atual={gest.semana + gest.dia / 7}
-          segmentos={[13, 27]}
+          segmentos={[14, 28]}
           tamanho={200}
           rotulo={`${gest.semana} ${copy.valor.semanas} ${copy.valor.eDias(gest.dia)}`}
         >

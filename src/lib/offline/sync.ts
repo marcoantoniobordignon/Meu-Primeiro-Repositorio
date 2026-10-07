@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 
 import { aoEscrever } from "@/lib/dados/colecao";
-import { conteudosRemotos, faqVerbetes, membros, userExams, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
+import { artigosRemotos, conteudosRemotos, faqVerbetes, membros, userExams, type ArtigoRemoto, type FaqVerbete, type Membro, type Papel } from "@/lib/dados/colecoes";
 import type { PermissoesParceiro } from "@/lib/familia/regras";
-import { aoMudarPerfil, atualizarPerfil, type Perfil } from "@/lib/perfil";
+import { aoMudarPerfil, atualizarPerfil, perfilAtual, type Perfil } from "@/lib/perfil";
 import { sincronizarArquivos } from "@/lib/arquivos/arquivos";
 import { migrarConsultasAntigas } from "@/lib/consultas-acoes";
 import { garantirSessaoAnonima, sessaoAtual, sincronizarSessao } from "@/lib/sessao";
@@ -94,7 +94,9 @@ export async function puxar(sb: Cliente): Promise<void> {
   }
   await puxarConteudos(sb, ultima);
   await puxarFaq(sb, ultima);
+  await puxarArtigos(sb, ultima);
   guardarUltima(ultima);
+  await puxarViradas(sb);
   await puxarFamilia(sb);
 }
 
@@ -121,6 +123,31 @@ async function puxarFaq(sb: Cliente, ultima: Record<string, string>): Promise<vo
   faqVerbetes.mesclar(linhas.map((v) => ({ ...v, apagado_em: v.status === "published" ? null : v.atualizado_em })));
   const maior = linhas[linhas.length - 1]?.atualizado_em;
   if (maior) ultima.faq_foods = maior;
+}
+
+/** Funcionalidade 11: artigos publicados ficam no aparelho (leitura offline); o arquivado sai da lista. */
+async function puxarArtigos(sb: Cliente, ultima: Record<string, string>): Promise<void> {
+  const desde = ultima.articles ?? "1970-01-01T00:00:00Z";
+  const { data, error } = await tabela(sb, "articles").select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+  if (error || !data) return;
+  const linhas = data as unknown as ArtigoRemoto[];
+  artigosRemotos.mesclar(linhas.map((a) => ({ ...a, apagado_em: a.status === "published" ? null : a.atualizado_em })));
+  const maior = linhas[linhas.length - 1]?.atualizado_em;
+  if (maior) ultima.articles = maior;
+}
+
+/** Funcionalidade 11 RN-06: a virada vista em outro aparelho não aparece de novo neste. */
+async function puxarViradas(sb: Cliente): Promise<void> {
+  const s = sessaoAtual();
+  if (!s?.remota) return;
+  const { data } = await tabela(sb, "profiles").select("t2_seen_at, t3_seen_at").eq("id", s.uid).limit(1);
+  const v = (data?.[0] ?? null) as { t2_seen_at: string | null; t3_seen_at: string | null } | null;
+  const p = perfilAtual();
+  if (!v || !p) return;
+  const mudar: Partial<Perfil> = {};
+  if (v.t2_seen_at && !p.t2VistoEm) mudar.t2VistoEm = v.t2_seen_at;
+  if (v.t3_seen_at && !p.t3VistoEm) mudar.t3VistoEm = v.t3_seen_at;
+  if (Object.keys(mudar).length) atualizarPerfil(mudar);
 }
 
 /** Plano, cortesia e papel são da família (CUI-06); membros vêm com nome pela RPC. */
@@ -255,6 +282,9 @@ export function enfileirarPerfil(p: Perfil) {
     ...(p.tz ? { tz: p.tz } : {}),
     prefs: p.prefs ?? {},
     consents: p.consents ?? {},
+    // Só manda o que já foi visto: nunca apaga a virada vista em outro aparelho.
+    ...(p.t2VistoEm ? { t2_seen_at: p.t2VistoEm } : {}),
+    ...(p.t3VistoEm ? { t3_seen_at: p.t3VistoEm } : {}),
     ultimo_acesso_em: new Date().toISOString(),
     atualizado_em: new Date().toISOString(),
   });
@@ -279,7 +309,7 @@ export function iniciarSincronizacao() {
   // Toda escrita local vai para a outbox com o nome da tabela.
   aoEscrever((chave, registro) => {
     const m = mapeamentoDaColecao(chave);
-    if (m) void enfileirar(m.tabela as NomeTabela, paraServidor(registro));
+    if (m) void enfileirar(m.tabela as NomeTabela, paraServidor(registro, m.soLocal));
   });
   aoMudarPerfil(enfileirarPerfil);
 

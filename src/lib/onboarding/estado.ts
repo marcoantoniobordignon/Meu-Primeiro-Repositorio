@@ -51,6 +51,9 @@ export interface Perfil {
   /** `profiles.consents` (galeria RN-05: leitura de laudo por IA). */
   consents?: { ai_document_reading?: { given_at: string } | null };
   onboardingConcluidoEm: string;
+  /** Funcionalidade 11 RN-06: `profiles.t2_seen_at`/`t3_seen_at` (a tela de virada aparece uma vez). */
+  t2VistoEm?: string | null;
+  t3VistoEm?: string | null;
 }
 
 export function estadoInicial(agora = Date.now()): EstadoOnboarding {

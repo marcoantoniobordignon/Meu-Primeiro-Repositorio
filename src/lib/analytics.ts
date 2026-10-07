@@ -67,7 +67,7 @@ export type Eventos = {
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
-  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" };
+  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan" | "articles"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" | "premium_article" };
   // funcionalidade 08 · calendário
   cal_viewed: { mode: "month" | "agenda" };
   cal_event_created: { category: string };
@@ -82,6 +82,13 @@ export type Eventos = {
   faq_question_submitted: Record<string, never>;
   faq_question_voted: Record<string, never>;
   faq_answer_push_opened: Record<string, never>;
+  // funcionalidade 11 · adaptação por trimestre
+  home_card_tapped: { card: string; position: number };
+  article_opened: { slug: string; source: "home" | "para_esta_semana" | "biblioteca" | "busca" | "favoritos" | "virada" | "link" };
+  article_read: { slug: string };
+  article_favorited: Record<string, never>;
+  trimester_transition_viewed: { to: 2 | 3 };
+  trimester_transition_cta: { target: string };
   // funcionalidade 10 · plano de parto
   bp_started: Record<string, never>;
   bp_step_completed: { step: number };

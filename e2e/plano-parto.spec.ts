@@ -185,7 +185,7 @@ test("volto na semana 39 sem maternidade e a home mostra 'Qual maternidade?'; a 
   await page.waitForTimeout(1000);
   await page.goto("/hoje");
   await expect(page.getByText("Qual maternidade?")).toHaveCount(0);
-  await page.getByRole("link", { name: "Enxoval" }).click();
+  await page.getByRole("link", { name: "Enxoval", exact: true }).click();
   await expect(page).toHaveURL(/\/plano-parto\/listas$/);
 });
 

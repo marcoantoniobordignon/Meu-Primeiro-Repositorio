@@ -27,6 +27,11 @@ export function usePerfil(): Perfil | null | undefined {
   return useSyncExternalStore(assinar, ler, () => undefined);
 }
 
+/** O perfil agora, fora de componente (sincronização). */
+export function perfilAtual(): Perfil | null {
+  return ler();
+}
+
 /** A sincronização se registra aqui para mandar o perfil ao servidor. */
 export function aoMudarPerfil(cb: (p: Perfil) => void): () => void {
   ganchos.add(cb);

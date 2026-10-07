@@ -2,6 +2,7 @@
 
 import { ChevronRight, Mic, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { AnelPrimeiroAno } from "@/components/features/bebe/AnelPrimeiroAno";
@@ -11,10 +12,9 @@ import { SheetsRegistro, type EstadoSheet } from "@/components/features/bebe/She
 import { TilesBebe } from "@/components/features/bebe/TilesBebe";
 import { CardHero3D } from "@/components/features/bebe3d/CardHero3D";
 import { StoriesDoDia } from "@/components/features/conteudo/StoriesDoDia";
-import { AnelSemana } from "@/components/features/home/AnelSemana";
-import { CardConsulta } from "@/components/features/home/CardConsulta";
 import { CardExameOntem } from "@/components/features/exames/CardExameOntem";
 import { CardsAtivos } from "@/components/features/home/CardsAtivos";
+import { CardsDoTrimestre } from "@/components/features/home/CardsDoTrimestre";
 import { CardCheckin } from "@/components/features/nascimento/CardCheckin";
 import { SheetNascimento } from "@/components/features/nascimento/SheetNascimento";
 import { HomeParceiro } from "@/components/features/parceiro/HomeParceiro";
@@ -34,6 +34,8 @@ import { registrosBebe } from "@/lib/dados/colecoes";
 import { idadeDetalhada, paraISO, saudacaoPorHora, semanaGestacional } from "@/lib/dates";
 import { useFamilia } from "@/lib/familia/useFamilia";
 import { usePerfil } from "@/lib/perfil";
+import { idadeGestacional } from "@dominio/tempo.ts";
+import { viradaPendente } from "@dominio/trimestre.ts";
 import type { Especial } from "@/lib/sintomas/catalogo";
 
 const CHAVE_FAIXA = "ninho.faixa-guardar-dispensada";
@@ -49,6 +51,21 @@ export default function PaginaHoje() {
   const [faixa, setFaixa] = useState(false);
   const hoje = paraISO(new Date());
   const g = perfil?.dpp && modo === "gestacao" ? semanaGestacional(perfil.dpp, hoje) : null;
+  const router = useRouter();
+
+  // Funcionalidade 11 RN-06: no primeiro acesso depois da virada, a tela de celebração (uma vez).
+  const virada =
+    g && perfil && papel === "mae" && g.diasParaDpp >= 0
+      ? viradaPendente({
+          semana: g.semana,
+          t2Visto: Boolean(perfil.t2VistoEm),
+          t3Visto: Boolean(perfil.t3VistoEm),
+          semanaNaCriacao: perfil.dpp ? idadeGestacional(perfil.dpp, paraISO(new Date(perfil.onboardingConcluidoEm))).semana : null,
+        })
+      : null;
+  useEffect(() => {
+    if (virada) router.replace(`/virada?t=${virada}`);
+  }, [virada, router]);
 
   useEffect(() => {
     if (!perfil) return;
@@ -135,8 +152,9 @@ export default function PaginaHoje() {
             </div>
           )}
           <CardsAtivos onAbrirChutes={() => setSheet("chutes")} onAbrirContracoes={() => setSheet("contracoes")} />
-          {g && <AnelSemana g={g} />}
           {papel === "mae" && <CardQualMaternidade semana={g?.semana ?? null} />}
+          {/* Funcionalidade 11 RN-02: anel e até 6 cards na ordem do trimestre (consulta, exames, plano...). */}
+          {g && <CardsDoTrimestre perfil={perfil} g={g} />}
           {g && <CardHero3D semana={g.semana} />}
 
           {permissoes.verSintomas && (
@@ -160,7 +178,6 @@ export default function PaginaHoje() {
           <StoriesDoDia semana={g?.semana} />
           {/* Exames RN-11: marcado com a data de ontem sem ação. */}
           {permissoes.verExames && <CardExameOntem />}
-          <CardConsulta />
 
           <SheetSintomas aberto={sheet === "sintomas"} onFechar={() => setSheet(null)} onEspecial={abrirEspecial} />
           <SheetChutes aberto={sheet === "chutes"} onFechar={() => setSheet(null)} />
