@@ -1,0 +1,2894 @@
+[
+  {
+    "slug": "carne-mal-passada",
+    "name": "Carne mal passada",
+    "aliases": [
+      "carne malpassada",
+      "carne ao ponto",
+      "carne rosada",
+      "carne crua",
+      "bife mal passado"
+    ],
+    "category": "meat",
+    "verdict": "avoid",
+    "short_answer": "Não. Na gravidez, a gente come carne só bem passada, sem parte rosada e sem caldo vermelho.",
+    "details": "Carne crua ou mal passada pode ter o parasita da toxoplasmose, que pode passar para o bebê. O calor mata o parasita. Corte o pedaço no meio: tem que estar cinza ou marrom por dentro, sem sangue. Vale para boi, porco, cordeiro e carne moída.",
+    "condition_note": "Só bem passada, sem parte rosada por dentro.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "carne-bem-passada",
+    "name": "Carne bem passada",
+    "aliases": [
+      "carne de boi",
+      "bife",
+      "carne vermelha",
+      "carne cozida",
+      "carne assada"
+    ],
+    "category": "meat",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Carne bem passada é boa fonte de ferro e proteína na gravidez.",
+    "details": "O ferro da carne ajuda a prevenir anemia, que é comum na gestação. Cozinhe até não ter parte rosada. Lave as mãos, a faca e a tábua depois de mexer em carne crua.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "carne-moida",
+    "name": "Carne moída",
+    "aliases": [
+      "carne moida",
+      "hamburguer caseiro",
+      "almondega",
+      "bolinho de carne"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, desde que bem cozida por inteiro. Carne moída precisa de mais cuidado que um bife.",
+    "details": "Na carne moída, a contaminação da superfície se mistura por todo o pedaço. Por isso ela tem que ficar cozida até o meio, sem nada rosado. Evite hambúrguer ao ponto e quibe cru.",
+    "condition_note": "Só bem cozida até o centro, sem parte rosada.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "hamburguer",
+    "name": "Hambúrguer",
+    "aliases": [
+      "hamburguer",
+      "hamburger",
+      "x-burguer",
+      "xis",
+      "lanche"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se a carne estiver bem passada. Peça sempre \"bem passado\" na lanchonete.",
+    "details": "Hambúrguer artesanal costuma vir ao ponto, rosado por dentro. Isso não é seguro na gravidez. Peça bem passado e evite molhos caseiros feitos com ovo cru, como maionese da casa.",
+    "condition_note": "Só com a carne bem passada e sem maionese caseira.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "quibe-cru",
+    "name": "Quibe cru",
+    "aliases": [
+      "kibe cru",
+      "kibe",
+      "quibe",
+      "carne crua temperada"
+    ],
+    "category": "meat",
+    "verdict": "avoid",
+    "short_answer": "Não. Quibe cru é carne crua, e carne crua fica fora da gravidez.",
+    "details": "Carne crua pode transmitir toxoplasmose e bactérias que fazem mal para o bebê. O quibe assado ou frito, bem cozido por dentro, pode.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "carpaccio",
+    "name": "Carpaccio",
+    "aliases": [
+      "carpacio",
+      "steak tartare",
+      "tartar de carne",
+      "carne crua fatiada"
+    ],
+    "category": "meat",
+    "verdict": "avoid",
+    "short_answer": "Não. Carpaccio e tartare são carne crua. A gente deixa para depois do parto.",
+    "details": "Carne crua pode ter o parasita da toxoplasmose. O tempero com limão ou mostarda não deixa a carne segura.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "frango",
+    "name": "Frango",
+    "aliases": [
+      "galinha",
+      "peito de frango",
+      "coxa de frango",
+      "frango assado",
+      "frango grelhado"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, sim, desde que bem cozido. Frango nunca pode ficar rosado por dentro.",
+    "details": "Frango cru pode ter salmonela, que causa diarreia e febre. Cozinhe até o suco sair claro e a carne ficar branca junto do osso. Não lave o frango cru na pia: espalha bactéria. Lave tábua e mãos depois.",
+    "condition_note": "Só bem cozido, sem parte rosada junto do osso.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "carne-de-porco",
+    "name": "Carne de porco",
+    "aliases": [
+      "porco",
+      "lombo",
+      "pernil",
+      "bisteca",
+      "costelinha de porco",
+      "suino"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se estiver bem cozida. Carne de porco na gravidez é sempre bem passada.",
+    "details": "A carne de porco crua ou mal passada pode transmitir toxoplasmose e outros parasitas. Cozinhe até a carne ficar clara por dentro, sem caldo rosado.",
+    "condition_note": "Só bem cozida, sem parte rosada.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "figado",
+    "name": "Fígado",
+    "aliases": [
+      "figado",
+      "bife de figado",
+      "figado de boi",
+      "figado de galinha",
+      "miudos"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Fígado tem muita vitamina A, e excesso dela pode fazer mal ao bebê. Fale com o médico antes.",
+    "details": "O fígado é rico em ferro, mas tem vitamina A em quantidade muito alta. Em excesso, essa vitamina pode causar problemas no bebê. Algumas diretrizes, como a do NHS, orientam evitar fígado e patês de fígado na gestação. Se o médico liberar, que seja raro, porção pequena e bem cozido. Não some com suplemento de vitamina A.",
+    "condition_note": "Só raramente, porção pequena, bem cozido e com aval do médico.",
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "miudos",
+    "name": "Coração de galinha e moela",
+    "aliases": [
+      "coracao de galinha",
+      "moela",
+      "miudos de frango",
+      "coraçãozinho"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem cozido. Coração e moela não têm o excesso de vitamina A do fígado.",
+    "details": "No churrasco, o coração costuma sair rosado por dentro. Peça bem passado e corte um para conferir.",
+    "condition_note": "Só bem cozido por dentro.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "linguica",
+    "name": "Linguiça",
+    "aliases": [
+      "linguica",
+      "linguiça calabresa",
+      "linguiça toscana",
+      "linguica de churrasco",
+      "calabresa"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se estiver bem cozida até o meio. Linguiça fresca nunca pode ficar crua por dentro.",
+    "details": "A linguiça toscana é carne crua temperada. Precisa assar ou fritar até não ter parte rosada. A calabresa já vem defumada, mas também vale aquecer bem. É salgada e gordurosa: melhor de vez em quando.",
+    "condition_note": "Só bem cozida até o centro e com moderação.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "carne-de-sol",
+    "name": "Carne de sol",
+    "aliases": [
+      "carne do sol",
+      "carne de sertao",
+      "carne serenada",
+      "carne seca de sol"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, bem cozida e com moderação. É salgada e vem de cura caseira, então capriche no preparo.",
+    "details": "A carne de sol tem pouco sal e cura curta, então não fica \"conservada\" como o charque. Compre de lugar com boa higiene, guarde na geladeira e cozinhe bem. Por causa do sal, quem tem pressão alta deve conversar com o médico.",
+    "condition_note": "Só bem cozida, de procedência confiável e com pouco sal no resto do prato.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "charque",
+    "name": "Charque",
+    "aliases": [
+      "carne seca",
+      "jabá",
+      "jaba",
+      "jerked beef"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, dessalgado e bem cozido. O problema maior é o sal.",
+    "details": "Deixe de molho trocando a água várias vezes e cozinhe bem. Mesmo dessalgado, ainda tem bastante sódio. Se a pressão estiver alta ou o pé inchado, fale com o médico antes.",
+    "condition_note": "Só dessalgado, bem cozido e com moderação.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "embutidos-frios",
+    "name": "Embutidos e frios",
+    "aliases": [
+      "frios",
+      "embutidos",
+      "frios fatiados",
+      "peito de peru",
+      "blanquet",
+      "rosbife fatiado"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Frios fatiados podem ter listéria. O mais seguro é aquecer até soltar vapor.",
+    "details": "A listéria é uma bactéria que cresce mesmo na geladeira e pode causar aborto ou infecção no bebê. Frios fatiados no balcão têm mais risco. Aqueça até soltar vapor (no misto-quente, por exemplo) e consuma logo. São ultraprocessados, então melhor de vez em quando.",
+    "condition_note": "Só aquecidos até soltar vapor e consumidos logo.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "presunto",
+    "name": "Presunto",
+    "aliases": [
+      "presunto cozido",
+      "apresuntado",
+      "misto quente",
+      "fiambre"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se aquecido até ficar bem quente, como no misto-quente. Frio, direto do pacote, a gente evita.",
+    "details": "Presunto fatiado pode ter listéria. Esquentar até soltar vapor mata a bactéria. Prefira pacote fechado e use em poucos dias depois de aberto.",
+    "condition_note": "Só aquecido até soltar vapor.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "salame",
+    "name": "Salame",
+    "aliases": [
+      "salame italiano",
+      "copa",
+      "presunto cru",
+      "parma",
+      "pepperoni cru",
+      "jamon"
+    ],
+    "category": "meat",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar. Salame, copa e presunto cru são carnes curadas que não passaram por cozimento.",
+    "details": "Carnes curadas cruas podem ter toxoplasmose e listéria. Na pizza assada, bem quente, o risco cai bastante. Fria, na tábua de frios, fica para depois.",
+    "condition_note": null,
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "mortadela",
+    "name": "Mortadela",
+    "aliases": [
+      "mortadella",
+      "sanduiche de mortadela"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se aquecida até soltar vapor. Fria, fatiada no balcão, a gente evita.",
+    "details": "Mortadela é cozida na fábrica, mas pode pegar listéria no fatiamento e na geladeira. Esquente na chapa até ficar bem quente. É rica em sal e gordura: de vez em quando.",
+    "condition_note": "Só aquecida até soltar vapor e com moderação.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "salsicha",
+    "name": "Salsicha",
+    "aliases": [
+      "salsicha hot dog",
+      "cachorro quente",
+      "hot dog",
+      "vina"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem cozida e quente. Nunca coma salsicha fria, direto do pacote.",
+    "details": "Salsicha pode ter listéria. Ferva ou asse até ficar quente por inteiro. No cachorro-quente de rua, veja se a salsicha está fervendo. É ultraprocessada, então que seja exceção.",
+    "condition_note": "Só bem quente, fervida ou assada.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "pate",
+    "name": "Patê",
+    "aliases": [
+      "pate",
+      "pate de figado",
+      "pate de frango",
+      "terrine",
+      "foie gras"
+    ],
+    "category": "meat",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar. Patês refrigerados podem ter listéria, e os de fígado ainda têm muita vitamina A.",
+    "details": "A listéria cresce na geladeira. Patê de fígado soma o risco do excesso de vitamina A. Patê de atum ou frango feito em casa na hora, com ingredientes cozidos e sem maionese caseira, é outra história.",
+    "condition_note": null,
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "bacon",
+    "name": "Bacon",
+    "aliases": [
+      "toucinho",
+      "toucinho defumado",
+      "panceta"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, bem frito e com moderação. É gorduroso e salgado.",
+    "details": "Bacon cru ou mole pode ter parasitas. Frite até ficar crocante. Como é muito salgado, use pouco.",
+    "condition_note": "Só bem frito e em pouca quantidade.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "churrasco",
+    "name": "Churrasco",
+    "aliases": [
+      "churrascaria",
+      "picanha",
+      "espetinho",
+      "carne na brasa",
+      "rodizio"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, escolhendo os cortes bem passados. Na churrascaria, peça sempre a parte de fora ou bem passada.",
+    "details": "Muitas carnes saem ao ponto ou mal passadas. Corte e confira. Linguiça e coração precisam estar cozidos até o meio. Cuidado com vinagrete feito com verdura mal lavada e farofa de ovo mole.",
+    "condition_note": "Só carnes bem passadas, sem parte rosada.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "peru-chester",
+    "name": "Peru e chester",
+    "aliases": [
+      "peru assado",
+      "chester",
+      "tender",
+      "ave de natal"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, bem assado e quente. Sobra fatiada fria fica melhor reaquecida.",
+    "details": "Asse até a carne ficar branca e o suco sair claro. Sobras: geladeira em até 2 horas e reaquecer bem até soltar vapor.",
+    "condition_note": "Só bem assado e servido quente.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "dobradinha",
+    "name": "Dobradinha e bucho",
+    "aliases": [
+      "dobradinha",
+      "bucho",
+      "tripa",
+      "mocoto",
+      "panelada"
+    ],
+    "category": "meat",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem limpa e bem cozida. Prefira feita em casa ou em lugar de confiança.",
+    "details": "Miúdos estragam rápido. Precisam de limpeza caprichada e cozimento longo. São pratos gordurosos e pesados, que podem piorar a azia.",
+    "condition_note": "Só bem limpa, bem cozida e de procedência confiável.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "peixe-cru",
+    "name": "Peixe cru",
+    "aliases": [
+      "sushi",
+      "sashimi",
+      "ceviche",
+      "temaki cru",
+      "poke",
+      "carpaccio de peixe",
+      "tartar de salmao"
+    ],
+    "category": "fish",
+    "verdict": "avoid",
+    "short_answer": "Não. Sushi, sashimi e ceviche com peixe cru ficam para depois do parto.",
+    "details": "Peixe cru pode ter parasitas, listéria e outras bactérias. O limão do ceviche não cozinha o peixe de verdade. A boa notícia: sushi com peixe cozido, hot roll e opções vegetarianas podem.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "sushi-cozido",
+    "name": "Sushi cozido e hot roll",
+    "aliases": [
+      "hot roll",
+      "hot filadelfia",
+      "sushi cozido",
+      "sushi skin",
+      "uramaki de kani",
+      "sushi vegetariano"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, se o recheio for cozido, empanado e frito ou vegetariano. Peça para não ter peixe cru no meio.",
+    "details": "O hot roll costuma ser frito por fora e ter peixe cru por dentro. Pergunte. Prefira skin (pele assada), kani, camarão empanado, legumes. Restaurante com boa higiene faz diferença. Cream cheese tem que ser pasteurizado (os de mercado são).",
+    "condition_note": "Só com recheio todo cozido ou vegetariano.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "peixes-grandes-mercurio",
+    "name": "Peixes grandes com mercúrio",
+    "aliases": [
+      "peixe com mercurio",
+      "mercurio",
+      "tubarao",
+      "cacao",
+      "espadarte",
+      "marlim",
+      "cavala rei",
+      "peixe predador"
+    ],
+    "category": "fish",
+    "verdict": "avoid",
+    "short_answer": "Evite. Cação (tubarão), espadarte e marlim acumulam muito mercúrio, que pode prejudicar o cérebro do bebê.",
+    "details": "Peixes grandes e predadores vivem muito e comem outros peixes, então juntam mercúrio. As agências FDA/EPA colocam tubarão, espadarte, marlim, cavala-rei e atum-patudo na lista \"evitar\". Troque por sardinha, tilápia, salmão cozido, pescada, merluza.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "cacao",
+    "name": "Cação",
+    "aliases": [
+      "cacao",
+      "moqueca de cacao",
+      "tubarao",
+      "cacao frito"
+    ],
+    "category": "fish",
+    "verdict": "avoid",
+    "short_answer": "Evite. Cação é tubarão, um peixe que acumula muito mercúrio.",
+    "details": "O mercúrio passa para o bebê e pode afetar o desenvolvimento do sistema nervoso. Para a moqueca, troque por pescada, robalo pequeno, tilápia ou camarão bem cozido.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "espadarte",
+    "name": "Espadarte",
+    "aliases": [
+      "meca",
+      "swordfish",
+      "peixe espadarte",
+      "agulhão"
+    ],
+    "category": "fish",
+    "verdict": "avoid",
+    "short_answer": "Evite. Espadarte (meca) está na lista dos peixes com mais mercúrio.",
+    "details": "Mesmo bem cozido, o mercúrio não sai. Escolha peixes pequenos ou de cultivo, como sardinha, tilápia e salmão cozido.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "atum-fresco",
+    "name": "Atum fresco",
+    "aliases": [
+      "atum",
+      "atum grelhado",
+      "steak de atum",
+      "atum selado"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Com moderação e bem cozido. Atum fresco tem mais mercúrio que peixes pequenos.",
+    "details": "O atum-patudo (bigeye) está na lista \"evitar\" da FDA/EPA. Outros atuns ficam no grupo \"boa escolha\", até uma porção por semana. Atum selado (cru por dentro) não pode.",
+    "condition_note": "Só bem cozido e no máximo uma porção por semana.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "atum-em-lata",
+    "name": "Atum em lata",
+    "aliases": [
+      "atum enlatado",
+      "atum ralado",
+      "atum solido",
+      "atum de lata"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. O atum em lata tem menos mercúrio que o fresco, mas não é para todo dia.",
+    "details": "Pela FDA/EPA, o atum light em lata é \"melhor escolha\" (2 a 3 porções de peixe por semana, somando tudo). O albacora (atum branco) fica em \"boa escolha\", até 1 por semana. Varie com sardinha. Lata amassada ou estufada vai para o lixo.",
+    "condition_note": "Com moderação, alternando com outros peixes da semana.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "sardinha",
+    "name": "Sardinha",
+    "aliases": [
+      "sardinha em lata",
+      "sardinha frita",
+      "sardinha assada",
+      "manjuba"
+    ],
+    "category": "fish",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Sardinha tem pouco mercúrio e é rica em ômega-3, bom para o cérebro do bebê.",
+    "details": "Está entre as \"melhores escolhas\" da FDA/EPA. Fresca, asse ou frite bem. Em lata, é prática, mas a versão em óleo ou molho pode ter bastante sal.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "tilapia",
+    "name": "Tilápia",
+    "aliases": [
+      "tilapia",
+      "file de tilapia",
+      "saint peter",
+      "st peter"
+    ],
+    "category": "fish",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, bem cozida. Tilápia tem pouco mercúrio.",
+    "details": "É um peixe de cultivo, pequeno e com baixo mercúrio. Asse, grelhe ou cozinhe até a carne ficar branca e soltar em lascas.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "salmao",
+    "name": "Salmão",
+    "aliases": [
+      "salmao",
+      "salmao grelhado",
+      "salmao assado",
+      "file de salmao"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, bem cozido. Salmão tem pouco mercúrio e muito ômega-3. Cru, no sushi, não.",
+    "details": "Está na lista de \"melhores escolhas\" da FDA/EPA. Cozinhe até ficar opaco e soltar em lascas. Salmão defumado frio, de pacote, só se aquecido.",
+    "condition_note": "Só bem cozido, nunca cru ou selado.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "salmao-defumado",
+    "name": "Peixe defumado",
+    "aliases": [
+      "salmao defumado",
+      "truta defumada",
+      "peixe defumado frio",
+      "lox"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Só aquecido. Peixe defumado refrigerado pode ter listéria quando comido frio.",
+    "details": "A FDA orienta que gestantes evitem peixe defumado refrigerado, a não ser que esteja em um prato cozido, como uma massa ou torta que vai ao forno. Enlatado e estável fora da geladeira tem menos risco.",
+    "condition_note": "Só se aquecido até soltar vapor, dentro de um prato cozido.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "bacalhau",
+    "name": "Bacalhau",
+    "aliases": [
+      "bacalhoada",
+      "bolinho de bacalhau",
+      "bacalhau gadus"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, dessalgado e bem cozido. Bacalhau tem pouco mercúrio, mas bastante sal.",
+    "details": "O bacalhau está entre as \"melhores escolhas\" da FDA/EPA. Deixe de molho trocando a água, e cozinhe ou asse bem. O bolinho frito vale de vez em quando.",
+    "condition_note": "Só bem dessalgado e bem cozido.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "pescada-merluza",
+    "name": "Pescada e merluza",
+    "aliases": [
+      "pescada",
+      "merluza",
+      "pescadinha",
+      "peixe branco",
+      "linguado"
+    ],
+    "category": "fish",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, bem cozidas. São peixes de baixo mercúrio.",
+    "details": "Ótimas para variar o cardápio. Cozinhe até a carne ficar branca e soltar em lascas.",
+    "condition_note": null,
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "camarao",
+    "name": "Camarão",
+    "aliases": [
+      "camarao",
+      "camarao frito",
+      "bobó de camarão",
+      "camarao no alho",
+      "moqueca de camarao"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem cozido e fresco. Camarão tem pouco mercúrio.",
+    "details": "Camarão cru ou malcozido pode ter bactérias. Cozinhe até ficar rosado e firme (uns poucos minutos na fervura). Compre de lugar confiável, gelado, sem cheiro forte. Em barraca de praia, desconfie se ficou no sol.",
+    "condition_note": "Só bem cozido, fresco e de procedência confiável.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "ostra-crua",
+    "name": "Ostra crua",
+    "aliases": [
+      "ostra",
+      "ostras",
+      "ostra in natura",
+      "marisco cru",
+      "vieira crua"
+    ],
+    "category": "fish",
+    "verdict": "avoid",
+    "short_answer": "Não. Ostra crua e outros frutos do mar crus ficam fora da gravidez.",
+    "details": "Frutos do mar crus podem ter vírus e bactérias, como o vibrião, que causam infecções sérias. Ostra gratinada ou cozida até a concha abrir e a carne firmar tem bem menos risco.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "mariscos-cozidos",
+    "name": "Mexilhão, lula e polvo cozidos",
+    "aliases": [
+      "mexilhao",
+      "marisco",
+      "lula",
+      "polvo",
+      "sururu",
+      "vongole"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem cozidos e frescos.",
+    "details": "Mexilhão e marisco: cozinhe até a concha abrir e jogue fora os que não abriram. Lula e polvo devem ficar firmes e brancos. Compre de lugar confiável e consuma no mesmo dia.",
+    "condition_note": "Só bem cozidos e de procedência confiável.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "caranguejo-siri",
+    "name": "Caranguejo e siri",
+    "aliases": [
+      "caranguejo",
+      "siri",
+      "casquinha de siri",
+      "carne de siri",
+      "kani"
+    ],
+    "category": "fish",
+    "verdict": "caution",
+    "short_answer": "Pode, bem cozido e fresco.",
+    "details": "Caranguejo e siri têm pouco mercúrio. O cuidado é com a conservação: estragam rápido no calor. Casquinha de siri de quiosque só se estiver quente e o lugar tiver boa higiene.",
+    "condition_note": "Só bem cozido e servido quente.",
+    "source_label": "FDA/EPA · Advice about Eating Fish (2021)",
+    "source_url": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  {
+    "slug": "leite-cru",
+    "name": "Leite cru",
+    "aliases": [
+      "leite de vaca direto",
+      "leite da fazenda",
+      "leite nao pasteurizado",
+      "leite in natura",
+      "leite tirado na hora"
+    ],
+    "category": "dairy",
+    "verdict": "avoid",
+    "short_answer": "Não. Leite cru, sem pasteurização, pode ter listéria e brucelose. Só leite pasteurizado ou de caixinha.",
+    "details": "Leite direto da vaca, mesmo de fazenda conhecida, pode carregar bactérias perigosas para o bebê. Ferver bem resolve, mas o mais simples é comprar leite pasteurizado ou longa vida.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "leite-pasteurizado",
+    "name": "Leite pasteurizado",
+    "aliases": [
+      "leite",
+      "leite de caixinha",
+      "leite longa vida",
+      "leite uht",
+      "leite de saquinho"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Leite pasteurizado ou longa vida é seguro e ajuda no cálcio.",
+    "details": "A pasteurização mata as bactérias perigosas. Depois de aberto, guarde na geladeira e use dentro do prazo da embalagem.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "queijo-leite-cru",
+    "name": "Queijo de leite cru",
+    "aliases": [
+      "queijo artesanal",
+      "queijo canastra",
+      "queijo do serro",
+      "queijo colonial",
+      "queijo da roca",
+      "queijo nao pasteurizado"
+    ],
+    "category": "dairy",
+    "verdict": "avoid",
+    "short_answer": "Evite. Queijo de leite cru pode ter listéria. Na gravidez, só queijo de leite pasteurizado.",
+    "details": "Muitos queijos artesanais brasileiros, como canastra e serro, são feitos com leite cru. A listéria pode causar aborto e infecção no bebê, mesmo sem a mãe se sentir muito mal. Leia o rótulo: tem que dizer \"leite pasteurizado\".",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "queijo-minas-frescal",
+    "name": "Queijo minas frescal",
+    "aliases": [
+      "minas frescal",
+      "queijo branco",
+      "queijo fresco",
+      "queijo minas"
+    ],
+    "category": "dairy",
+    "verdict": "caution",
+    "short_answer": "Pode, se for de leite pasteurizado e de marca conhecida. Queijo fresco de feira, sem rótulo, não.",
+    "details": "Queijos frescos e úmidos favorecem a listéria. Prefira embalagem fechada, com selo de inspeção (SIF, SIE ou SIM) e \"leite pasteurizado\" no rótulo. Guarde na geladeira e consuma em poucos dias. Na dúvida, grelhado ou derretido é mais seguro.",
+    "condition_note": "Só de leite pasteurizado, com selo de inspeção e de procedência conhecida.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "queijo-coalho",
+    "name": "Queijo coalho",
+    "aliases": [
+      "coalho",
+      "queijo de coalho",
+      "queijo no espeto",
+      "queijo coalho assado"
+    ],
+    "category": "dairy",
+    "verdict": "caution",
+    "short_answer": "Pode, se for de leite pasteurizado e bem assado. Muito coalho artesanal é de leite cru.",
+    "details": "Na praia ou no churrasco, pergunte a origem ou prefira marca com selo de inspeção. Assar até ficar bem quente e dourado ajuda. Coalho de leite cru, frio, fica para depois.",
+    "condition_note": "Só de leite pasteurizado, com selo, e assado até ficar quente.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "mucarela",
+    "name": "Muçarela",
+    "aliases": [
+      "mussarela",
+      "mozarela",
+      "muçarela de bufala",
+      "queijo prato"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, se for pasteurizada, o que é o normal no mercado.",
+    "details": "Muçarela e prato de marca são feitos com leite pasteurizado. Confira o rótulo nas de búfala artesanais. Derretida na pizza, melhor ainda.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "parmesao",
+    "name": "Parmesão",
+    "aliases": [
+      "parmesao",
+      "queijo ralado",
+      "grana padano",
+      "queijo duro",
+      "provolone"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Queijos duros e curados, como parmesão, têm pouca umidade e baixo risco de listéria.",
+    "details": "O NHS considera queijos duros seguros na gravidez, mesmo alguns de leite cru. Aqui a gente fica no mais simples: prefira de marca com rótulo. É salgado, então use com moderação.",
+    "condition_note": null,
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "brie-camembert",
+    "name": "Queijo brie e camembert",
+    "aliases": [
+      "brie",
+      "camembert",
+      "queijo de casca branca",
+      "queijo mofado branco"
+    ],
+    "category": "dairy",
+    "verdict": "caution",
+    "short_answer": "Frio, não. Só se for assado ou aquecido até ficar bem quente.",
+    "details": "Queijos moles de casca branca podem ter listéria, mesmo pasteurizados. O NHS orienta evitar, a não ser que sejam cozidos até soltar vapor. Brie assado no forno, borbulhando, pode.",
+    "condition_note": "Só cozido até soltar vapor.",
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "gorgonzola",
+    "name": "Gorgonzola",
+    "aliases": [
+      "queijo azul",
+      "roquefort",
+      "queijo mofado",
+      "molho gorgonzola"
+    ],
+    "category": "dairy",
+    "verdict": "caution",
+    "short_answer": "Frio, não. Queijos azuis moles podem ter listéria. Só no molho quente, fervido.",
+    "details": "O NHS orienta evitar queijos azuis moles, a não ser que sejam bem cozidos. Molho de gorgonzola que ferveu e está quente pode.",
+    "condition_note": "Só cozido em molho quente, que ferveu.",
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "iogurte",
+    "name": "Iogurte",
+    "aliases": [
+      "iogurte natural",
+      "iogurte grego",
+      "coalhada",
+      "danone",
+      "iogurte de garrafinha"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Iogurte de leite pasteurizado é seguro e tem cálcio.",
+    "details": "Prefira o natural, sem açúcar, e adoce com fruta. Iogurte caseiro: só com leite pasteurizado ou fervido.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "kefir",
+    "name": "Kefir",
+    "aliases": [
+      "kefir de leite",
+      "quefir",
+      "kefir caseiro",
+      "grãos de kefir"
+    ],
+    "category": "dairy",
+    "verdict": "caution",
+    "short_answer": "Pode, se feito com leite pasteurizado e com boa higiene.",
+    "details": "O kefir caseiro fermenta fora da geladeira. Use leite pasteurizado ou fervido, pote limpo, e descarte se tiver cheiro ou cor estranhos. Kefir de água pode fermentar e ganhar um pouco de álcool.",
+    "condition_note": "Só com leite pasteurizado e preparo limpo.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "requeijao",
+    "name": "Requeijão",
+    "aliases": [
+      "requeijao",
+      "requeijao cremoso",
+      "catupiry",
+      "cream cheese",
+      "cheddar cremoso"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Requeijão e cream cheese de mercado são feitos com leite pasteurizado.",
+    "details": "Depois de aberto, guarde na geladeira e use no prazo do rótulo. Requeijão de corte artesanal: confira se o leite é pasteurizado.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "ricota",
+    "name": "Ricota",
+    "aliases": [
+      "ricota fresca",
+      "ricotta",
+      "cottage",
+      "queijo cottage"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, se pasteurizada e bem conservada.",
+    "details": "Ricota e cottage de mercado são pasteurizados. São frescos e estragam rápido: geladeira e poucos dias depois de abertos.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "manteiga",
+    "name": "Manteiga",
+    "aliases": [
+      "manteiga",
+      "manteiga de garrafa",
+      "margarina"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, com moderação. Manteiga comum é feita de creme pasteurizado.",
+    "details": "É gordura, então use pouco. A manteiga de garrafa caseira é cozida e costuma ser segura; compre de lugar confiável.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "creme-de-leite",
+    "name": "Creme de leite",
+    "aliases": [
+      "creme de leite",
+      "nata",
+      "chantilly",
+      "creme fresco"
+    ],
+    "category": "dairy",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, se for pasteurizado ou de caixinha.",
+    "details": "Nata tirada de leite cru não é segura. Chantilly de spray ou feito com creme de leite pasteurizado pode.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "acai",
+    "name": "Açaí",
+    "aliases": [
+      "acai",
+      "açai",
+      "acai na tigela",
+      "polpa de acai",
+      "vinho de acai"
+    ],
+    "category": "fruit_veg",
+    "verdict": "caution",
+    "short_answer": "Pode, se a polpa for pasteurizada e de procedência confiável. Açaí batido sem controle pode transmitir doença de Chagas.",
+    "details": "O açaí artesanal já foi ligado a surtos de doença de Chagas, quando o barbeiro é moído junto com o fruto. A pasteurização ou o branqueamento (choque de calor) elimina o risco. Prefira polpa com rótulo e registro. Cuidado com xarope de guaraná e açúcar no açaí da tigela.",
+    "condition_note": "Só polpa pasteurizada ou branqueada, de procedência confiável.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "pequi",
+    "name": "Pequi",
+    "aliases": [
+      "piqui",
+      "arroz com pequi",
+      "frango com pequi",
+      "pequi em conserva"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. O cuidado é não morder o caroço: ele tem espinhos.",
+    "details": "O pequi se come raspando com os dentes, sem morder. Se comprar em conserva, veja se a tampa não está estufada.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "cupuacu",
+    "name": "Cupuaçu",
+    "aliases": [
+      "cupuacu",
+      "suco de cupuacu",
+      "creme de cupuacu",
+      "polpa de cupuacu"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Prefira polpa com rótulo ou a fruta fresca.",
+    "details": "A polpa congelada deve ter registro e vir de lugar confiável. O creme de cupuaçu costuma ter bastante açúcar.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "jabuticaba",
+    "name": "Jabuticaba",
+    "aliases": [
+      "jaboticaba",
+      "jabuticabeira",
+      "geleia de jabuticaba"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, bem lavada.",
+    "details": "Lave as frutas antes de comer, mesmo as do pé. Licor de jabuticaba tem álcool e fica de fora.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "caju",
+    "name": "Caju",
+    "aliases": [
+      "caju",
+      "suco de caju",
+      "cajuina",
+      "castanha de caju"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Caju tem muita vitamina C.",
+    "details": "Lave a fruta. A castanha precisa ser torrada, como vem no mercado; nunca coma castanha crua da fruta. Cajuína é suco clarificado e não tem álcool.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "maracuja",
+    "name": "Maracujá",
+    "aliases": [
+      "maracuja",
+      "suco de maracuja",
+      "mousse de maracuja"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. O suco da fruta é seguro.",
+    "details": "O suco é seguro. Mousse caseira feita com clara crua, não. Chá da folha do maracujá é outra coisa: só com orientação.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "mandioca",
+    "name": "Mandioca",
+    "aliases": [
+      "aipim",
+      "macaxeira",
+      "mandioca frita",
+      "mandioca cozida",
+      "mandioca brava"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, sempre cozida. Mandioca nunca se come crua.",
+    "details": "A mandioca de mesa (aipim, macaxeira) cozida, frita ou assada é segura. A mandioca brava só pode ser consumida depois de processada, como em farinha ou tucupi bem cozido.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "mamao",
+    "name": "Mamão",
+    "aliases": [
+      "mamao",
+      "papaia",
+      "mamao formosa",
+      "mamao papaya"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, maduro. Ajuda o intestino, que costuma ficar preso na gravidez.",
+    "details": "O mamão maduro é seguro e nutritivo. O mamão verde é diferente: tem um leite (látex) que pode estimular contrações, então fica de fora.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "mamao-verde",
+    "name": "Mamão verde",
+    "aliases": [
+      "mamao verde",
+      "doce de mamao verde",
+      "mamao verdolengo",
+      "papaia verde"
+    ],
+    "category": "fruit_veg",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar mamão verde ou \"de vez\". O leite da casca pode estimular contrações.",
+    "details": "O látex do mamão verde tem uma substância (papaína) que, em estudos, mexeu com a contração do útero. O doce de mamão verde é bem cozido e o risco é menor, mas a gente prefere ser cuidadosa. O mamão maduro pode.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "abacaxi",
+    "name": "Abacaxi",
+    "aliases": [
+      "abacaxi",
+      "ananas",
+      "suco de abacaxi"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Abacaxi em quantidade normal não provoca aborto. Isso é mito.",
+    "details": "A bromelina do abacaxi existe em quantidade pequena na fruta. Se der azia, que é comum na gravidez, diminua.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "uva",
+    "name": "Uva",
+    "aliases": [
+      "uvas",
+      "uva passa",
+      "suco de uva"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, bem lavada.",
+    "details": "Lave bem as uvas. Suco de uva integral pode, mas tem muito açúcar natural. Vinho não.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "melancia",
+    "name": "Melancia",
+    "aliases": [
+      "melancia",
+      "suco de melancia",
+      "melao"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Ajuda na hidratação.",
+    "details": "Lave a casca antes de cortar, para a faca não levar sujeira para dentro. Fruta cortada vai para a geladeira e se come no mesmo dia.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "banana",
+    "name": "Banana",
+    "aliases": [
+      "banana",
+      "banana prata",
+      "banana nanica",
+      "banana da terra"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Banana é prática e ajuda em cãibras e enjoo.",
+    "details": "Boa opção de lanche. A banana-da-terra pode ser cozida ou assada.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "manga",
+    "name": "Manga",
+    "aliases": [
+      "manga",
+      "manga palmer",
+      "manga espada",
+      "suco de manga"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Manga com leite também pode. Isso de \"faz mal\" é mito.",
+    "details": "Lave a casca antes de cortar. Rica em vitamina A na forma segura (de origem vegetal).",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "abacate",
+    "name": "Abacate",
+    "aliases": [
+      "abacate",
+      "avocado",
+      "vitamina de abacate",
+      "guacamole"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Abacate tem gordura boa e ácido fólico.",
+    "details": "Guacamole pronto de restaurante: só se for feito na hora.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "laranja-citricos",
+    "name": "Laranja e frutas cítricas",
+    "aliases": [
+      "laranja",
+      "limao",
+      "tangerina",
+      "mexerica",
+      "bergamota",
+      "suco de laranja"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Ajudam a absorver ferro.",
+    "details": "Se a azia apertar, diminua. Suco feito na hora é melhor que o de caixinha.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "acerola-goiaba",
+    "name": "Acerola e goiaba",
+    "aliases": [
+      "acerola",
+      "goiaba",
+      "pitanga",
+      "suco de acerola"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. São ricas em vitamina C.",
+    "details": "Lave bem. Polpa congelada de mercado deve ter rótulo e registro.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "morango",
+    "name": "Morango",
+    "aliases": [
+      "morangos",
+      "moranguinho",
+      "frutas vermelhas"
+    ],
+    "category": "fruit_veg",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem higienizado. Morango cresce perto do chão e precisa de lavagem caprichada.",
+    "details": "Frutas e verduras sujas de terra podem transmitir toxoplasmose. Lave em água corrente, deixe de molho em solução com água sanitária própria para alimentos (siga o rótulo) e enxágue.",
+    "condition_note": "Só bem lavado e higienizado.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "frutas-sem-lavar",
+    "name": "Frutas e verduras sem lavar",
+    "aliases": [
+      "fruta sem lavar",
+      "verdura sem lavar",
+      "comer fruta do pe",
+      "fruta suja"
+    ],
+    "category": "fruit_veg",
+    "verdict": "avoid",
+    "short_answer": "Não. Fruta e verdura sem lavar podem passar toxoplasmose. Lave sempre, até a fruta do pé.",
+    "details": "A terra pode ter o parasita da toxoplasmose, vindo das fezes de gatos. Lave em água corrente, deixe de molho em solução de água sanitária para alimentos (siga o rótulo) e enxágue. Lave as mãos depois de mexer com terra.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "salada-crua",
+    "name": "Salada crua e verduras",
+    "aliases": [
+      "alface",
+      "salada",
+      "rucula",
+      "agriao",
+      "tomate",
+      "verdura crua"
+    ],
+    "category": "fruit_veg",
+    "verdict": "caution",
+    "short_answer": "Pode, se bem higienizada. Em restaurante, escolha lugares de confiança.",
+    "details": "Folhas cruas podem ter terra com toxoplasmose ou bactérias. Em casa: lave folha por folha, deixe de molho em solução de água sanitária para alimentos e enxágue. Fora de casa, se não confia na limpeza, prefira legumes cozidos.",
+    "condition_note": "Só bem lavada e higienizada.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "salada-pronta",
+    "name": "Salada pronta de supermercado",
+    "aliases": [
+      "salada de saquinho",
+      "salada embalada",
+      "mix de folhas",
+      "salada pronta"
+    ],
+    "category": "fruit_veg",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Salada embalada pode ter listéria. Veja validade, refrigeração e, se puder, lave de novo.",
+    "details": "Folhas embaladas já foram ligadas a surtos de listéria. Compre só se estiver bem gelada e no prazo. Consuma logo depois de aberta. Saladas prontas com maionese, frango ou frios têm mais risco.",
+    "condition_note": "Só refrigerada, dentro da validade e consumida logo.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "brotos-crus",
+    "name": "Brotos crus",
+    "aliases": [
+      "broto de feijao",
+      "moyashi",
+      "broto de alfafa",
+      "brotos",
+      "germinados"
+    ],
+    "category": "fruit_veg",
+    "verdict": "avoid",
+    "short_answer": "Não. Brotos crus, como de feijão e alfafa, podem ter salmonela e E. coli. Só cozidos.",
+    "details": "Os brotos crescem em lugar quente e úmido, ótimo para bactérias, e lavar não resolve. A FDA orienta gestantes a só comer brotos bem cozidos, como no yakisoba quente.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "batata-doce-legumes",
+    "name": "Legumes cozidos",
+    "aliases": [
+      "batata doce",
+      "abobora",
+      "cenoura",
+      "chuchu",
+      "beterraba",
+      "inhame",
+      "cara"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Legumes cozidos são base de um prato saudável na gravidez.",
+    "details": "Variar as cores do prato ajuda a ter vitaminas e fibras.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "feijao",
+    "name": "Feijão",
+    "aliases": [
+      "feijao",
+      "feijao preto",
+      "feijao carioca",
+      "lentilha",
+      "grao de bico"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode e deve. Feijão com arroz é ótima fonte de ferro e fibra.",
+    "details": "Deixe de molho e cozinhe bem. Se dá gases, tente trocar a água do molho. Com uma fruta cítrica junto, o ferro é melhor absorvido.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "milho",
+    "name": "Milho",
+    "aliases": [
+      "milho verde",
+      "pamonha",
+      "curau",
+      "canjica",
+      "espiga de milho"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Milho cozido, pamonha e curau podem.",
+    "details": "Pamonha e curau costumam ter bastante açúcar. Na festa junina, cuidado com quentão (tem álcool).",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "cogumelo",
+    "name": "Cogumelos",
+    "aliases": [
+      "cogumelo",
+      "champignon",
+      "shimeji",
+      "shiitake",
+      "cogumelo do mato"
+    ],
+    "category": "fruit_veg",
+    "verdict": "caution",
+    "short_answer": "Pode, cozidos e comprados no mercado. Nunca coma cogumelo colhido no mato.",
+    "details": "Cogumelos de cultivo, bem cozidos, são seguros. Os silvestres podem ser venenosos e confundem até quem conhece.",
+    "condition_note": "Só cozidos e de cultivo comercial.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "graos-castanhas",
+    "name": "Castanhas e amendoim",
+    "aliases": [
+      "amendoim",
+      "castanha do para",
+      "castanha de caju",
+      "nozes",
+      "amendoas"
+    ],
+    "category": "fruit_veg",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, se não tiver alergia. Ótimo lanche, com moderação.",
+    "details": "Não precisa cortar amendoim na gravidez para prevenir alergia no bebê. Guarde em lugar seco: castanha com mofo pode ter toxina. Castanha-do-pará: poucas por dia já bastam.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "bebida-alcoolica",
+    "name": "Bebida alcoólica",
+    "aliases": [
+      "alcool",
+      "cerveja",
+      "vinho",
+      "cachaca",
+      "caipirinha",
+      "drink",
+      "chope",
+      "quentao"
+    ],
+    "category": "drink",
+    "verdict": "avoid",
+    "short_answer": "Não. Não existe quantidade segura de álcool na gravidez. Nem uma tacinha.",
+    "details": "O álcool passa pela placenta e pode causar problemas no crescimento e no cérebro do bebê (síndrome alcoólica fetal). Vale para cerveja, vinho, destilados, quentão e drinks. Se você bebeu antes de saber da gravidez, conte ao médico, sem culpa.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cerveja-sem-alcool",
+    "name": "Cerveja sem álcool",
+    "aliases": [
+      "cerveja zero",
+      "cerveja 0.0",
+      "cerveja sem alcool",
+      "chope sem alcool"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Muitas \"sem álcool\" podem ter até 0,5% de álcool. Prefira as 0,0% e confirme com o médico.",
+    "details": "No Brasil, a bebida pode ser vendida como \"sem álcool\" com até 0,5% de teor alcoólico. Como não há quantidade segura de álcool na gravidez, a gente prefere as que dizem 0,0% no rótulo, e de vez em quando.",
+    "condition_note": "Só as com 0,0% no rótulo e com aval do médico.",
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cafe",
+    "name": "Café",
+    "aliases": [
+      "cafe",
+      "cafezinho",
+      "expresso",
+      "cappuccino",
+      "cafe com leite",
+      "cafe coado"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. Fale com o médico sobre o seu limite de cafeína no dia.",
+    "details": "Cafeína em excesso foi ligada a baixo peso ao nascer e aborto. O ACOG cita até cerca de 200 mg de cafeína por dia como referência (mais ou menos uma xícara média de café coado, mas varia muito). Some tudo: chá preto, mate, refrigerante de cola, chocolate e energético também têm cafeína.",
+    "condition_note": "Com moderação, dentro do limite de cafeína orientado pelo médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "cafe-descafeinado",
+    "name": "Café descafeinado",
+    "aliases": [
+      "descafeinado",
+      "cafe descafeinado",
+      "decaf"
+    ],
+    "category": "drink",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. É uma boa troca para quem ama café.",
+    "details": "Ainda tem um pouquinho de cafeína, mas bem pouco. Lembre de contar se tomar muitas xícaras.",
+    "condition_note": null,
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "refrigerante",
+    "name": "Refrigerante",
+    "aliases": [
+      "refri",
+      "coca cola",
+      "refrigerante de cola",
+      "soda",
+      "refrigerante zero"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Melhor pouco e de vez em quando. Tem muito açúcar, e os de cola têm cafeína.",
+    "details": "Refrigerante é ultraprocessado e o Guia Alimentar orienta evitar. Os de cola e alguns de guaraná somam cafeína. Os zero trocam açúcar por adoçante. Água, água de coco e suco natural são melhores.",
+    "condition_note": "Só de vez em quando, contando a cafeína dos de cola.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "guarana",
+    "name": "Guaraná (refrigerante)",
+    "aliases": [
+      "guarana",
+      "guarana antarctica",
+      "refrigerante de guarana",
+      "guarana natural"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, de vez em quando. Tem açúcar e um pouco de cafeína.",
+    "details": "O refrigerante de guaraná tem pouca cafeína, mas soma no dia. O xarope e o guaraná em pó são bem mais fortes e ficam de fora.",
+    "condition_note": "Só de vez em quando e com pouca quantidade.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "guarana-em-po",
+    "name": "Guaraná em pó",
+    "aliases": [
+      "guarana em po",
+      "xarope de guarana",
+      "guarana natural em po",
+      "suco de guarana da amazonia"
+    ],
+    "category": "drink",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar. Guaraná em pó tem muita cafeína e a quantidade varia.",
+    "details": "A semente do guaraná tem mais cafeína que o café. Em pó ou em xarope concentrado, fica difícil saber quanto está tomando.",
+    "condition_note": null,
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "energetico",
+    "name": "Energético",
+    "aliases": [
+      "energetico",
+      "red bull",
+      "monster",
+      "bebida energetica",
+      "taurina"
+    ],
+    "category": "drink",
+    "verdict": "avoid",
+    "short_answer": "Não. Energético tem muita cafeína e outros estimulantes. Fica fora da gravidez.",
+    "details": "Além da cafeína alta, tem taurina, guaraná e outros ingredientes sem segurança comprovada na gestação. Para cansaço, fale com o médico: pode ser anemia ou sono ruim.",
+    "condition_note": null,
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "caldo-de-cana",
+    "name": "Caldo de cana",
+    "aliases": [
+      "caldo de cana",
+      "garapa",
+      "suco de cana",
+      "cana moida"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, se for de lugar limpo, moído na hora. Tem muito açúcar.",
+    "details": "A cana moída sem higiene pode levar sujeira e até o barbeiro (doença de Chagas). Veja se a cana está limpa e sem casca, se a moenda é lavada e se o gelo é de água filtrada. Tem muito açúcar: quem tem diabetes gestacional deve evitar.",
+    "condition_note": "Só de lugar limpo, cana sem casca, e sem diabetes gestacional.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "kombucha",
+    "name": "Kombucha",
+    "aliases": [
+      "kombucha",
+      "kombuchá",
+      "cha fermentado",
+      "kombucha caseira",
+      "scoby"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Kombucha pode ter um pouco de álcool e, se caseira, não é pasteurizada. Fale com o médico antes.",
+    "details": "A fermentação gera álcool, e a quantidade varia, principalmente na caseira. Pelas regras do MAPA, a kombucha \"sem álcool\" pode ter até 0,5%. A caseira também pode crescer fungos e bactérias. Se o médico liberar, prefira industrializada, com registro, rótulo sem álcool e pasteurizada.",
+    "condition_note": "Só industrializada, pasteurizada, sem álcool no rótulo e com aval do médico.",
+    "source_label": "MAPA · Instrução Normativa nº 41/2019 (padrão da kombucha)",
+    "source_url": null
+  },
+  {
+    "slug": "agua-de-coco",
+    "name": "Água de coco",
+    "aliases": [
+      "agua de coco",
+      "coco verde",
+      "agua de coco de caixinha"
+    ],
+    "category": "drink",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Hidrata e é ótima no calor.",
+    "details": "Direto do coco, aberto na hora, ou de caixinha pasteurizada. Água de coco de garrafinha sem rótulo, que ficou fora da geladeira, não.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "suco-natural",
+    "name": "Suco natural",
+    "aliases": [
+      "suco",
+      "suco de fruta",
+      "suco feito na hora",
+      "vitamina de fruta"
+    ],
+    "category": "drink",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, feito na hora com fruta lavada.",
+    "details": "Se for de rua, veja a higiene e se o gelo é de água filtrada. Comer a fruta inteira ainda é melhor, por causa das fibras.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "suco-de-caixinha",
+    "name": "Suco de caixinha",
+    "aliases": [
+      "suco de caixinha",
+      "nectar",
+      "suco em po",
+      "refresco"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "De vez em quando. Néctar e suco em pó têm muito açúcar e aditivos.",
+    "details": "O suco integral pasteurizado é a melhor opção de caixinha. Néctar e refresco em pó são ultraprocessados.",
+    "condition_note": "Só de vez em quando; prefira o integral.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "chimarrao",
+    "name": "Chimarrão",
+    "aliases": [
+      "chimarrao",
+      "mate amargo",
+      "cuia",
+      "erva mate quente"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. A erva-mate tem cafeína, então conta no limite do dia.",
+    "details": "Quem toma muitas cuias por dia pode passar do limite de cafeína. Combine a quantidade com o médico. Evite água muito quente: bebida muito quente agride o esôfago.",
+    "condition_note": "Com moderação, dentro do limite de cafeína orientado pelo médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "terere",
+    "name": "Tereré",
+    "aliases": [
+      "terere",
+      "mate gelado",
+      "erva mate gelada"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. Tem cafeína, como o chimarrão.",
+    "details": "A água gelada tem que ser filtrada. Soma a cafeína com café, chá e refrigerante do dia.",
+    "condition_note": "Com moderação, dentro do limite de cafeína orientado pelo médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "agua-tonica",
+    "name": "Água tônica",
+    "aliases": [
+      "agua tonica",
+      "tonica",
+      "schweppes"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pouco e de vez em quando. Tem quinino e açúcar.",
+    "details": "O quinino dá o amargo da tônica. Em pouca quantidade não costuma ser problema, mas não é bebida para o dia a dia na gravidez.",
+    "condition_note": "Só de vez em quando e em pouca quantidade.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "cha-gelado-pronto",
+    "name": "Chá gelado pronto",
+    "aliases": [
+      "ice tea",
+      "cha gelado",
+      "cha de garrafinha",
+      "mate pronto",
+      "leao ice tea"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "De vez em quando. Tem cafeína e bastante açúcar.",
+    "details": "Chá preto e mate prontos somam cafeína. Muitos têm açúcar ou adoçante. Uma água saborizada com fruta é boa troca.",
+    "condition_note": "Só de vez em quando, contando a cafeína do dia.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "agua",
+    "name": "Água",
+    "aliases": [
+      "agua da torneira",
+      "agua filtrada",
+      "agua mineral",
+      "agua com gas"
+    ],
+    "category": "drink",
+    "verdict": "safe",
+    "short_answer": "Pode e deve. Beba água várias vezes ao dia.",
+    "details": "Use água filtrada, fervida ou mineral. Água com gás também pode. Ajuda no intestino, no inchaço e na prevenção de infecção urinária.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "achocolatado",
+    "name": "Achocolatado",
+    "aliases": [
+      "nescau",
+      "toddy",
+      "leite com chocolate",
+      "achocolatado de caixinha"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, de vez em quando. Tem açúcar e um pouco de cafeína.",
+    "details": "O chocolate tem cafeína e teobromina em pouca quantidade. O problema maior é o açúcar. Cacau em pó puro no leite é uma troca melhor.",
+    "condition_note": "Só de vez em quando e com pouco açúcar.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "isotonico",
+    "name": "Isotônico",
+    "aliases": [
+      "isotonico",
+      "gatorade",
+      "powerade",
+      "bebida esportiva"
+    ],
+    "category": "drink",
+    "verdict": "caution",
+    "short_answer": "Pode, de vez em quando. Para hidratar no dia a dia, água e água de coco bastam.",
+    "details": "Tem açúcar e sal. Em caso de vômito ou diarreia forte, procure atendimento e pergunte sobre soro de reidratação.",
+    "condition_note": "Só de vez em quando, sem trocar a água.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "chocolate",
+    "name": "Chocolate",
+    "aliases": [
+      "chocolate",
+      "chocolate amargo",
+      "chocolate ao leite",
+      "bombom",
+      "barra de chocolate"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. Tem açúcar e um pouco de cafeína.",
+    "details": "Um pedaço por dia, sem exagero, cabe. Chocolate amargo tem mais cafeína que o ao leite. Some na conta da cafeína do dia. Com diabetes gestacional, converse com quem te acompanha.",
+    "condition_note": "Com moderação, contando a cafeína do dia.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "sorvete",
+    "name": "Sorvete",
+    "aliases": [
+      "sorvete",
+      "picole",
+      "sorvete de maquina",
+      "gelato",
+      "sorvete caseiro"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Pode, se for industrializado ou de sorveteria confiável. Sorvete caseiro com ovo cru, não.",
+    "details": "Sorvete de máquina mal limpa já foi ligado a listéria. Prefira marcas embaladas ou sorveterias com boa higiene. Sorvete caseiro feito com gema ou clara crua fica de fora.",
+    "condition_note": "Só industrializado ou de sorveteria confiável, sem ovo cru.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "adocante",
+    "name": "Adoçante",
+    "aliases": [
+      "adocante",
+      "sucralose",
+      "stevia",
+      "aspartame",
+      "xilitol",
+      "zero acucar"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Com moderação. A maioria dos adoçantes aprovados pode, em pouca quantidade. Confirme com o médico qual usar.",
+    "details": "A ANVISA aprova vários adoçantes para uso geral, mas na gravidez a orientação é usar pouco. O aspartame é proibido para quem tem fenilcetonúria. O ideal é ir reduzindo o gosto doce. Se tiver diabetes gestacional, a equipe vai indicar o melhor.",
+    "condition_note": "Em pouca quantidade e com o tipo combinado com o médico.",
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  },
+  {
+    "slug": "mel",
+    "name": "Mel",
+    "aliases": [
+      "mel",
+      "mel de abelha",
+      "melado",
+      "mel puro"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, com moderação. O mel não pode é para o bebê antes de 1 ano.",
+    "details": "Na gestante, o intestino adulto dá conta do risco de botulismo do mel. Prefira mel com selo de inspeção. É açúcar: com diabetes gestacional, converse antes.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "mousse-caseira",
+    "name": "Mousse e doces com ovo cru",
+    "aliases": [
+      "mousse",
+      "mousse de maracuja",
+      "mousse de chocolate",
+      "tiramisu",
+      "gemada",
+      "suspiro mole"
+    ],
+    "category": "sweet",
+    "verdict": "avoid",
+    "short_answer": "Evite. Mousse caseira, gemada e tiramisù costumam levar ovo cru, que pode ter salmonela.",
+    "details": "O ovo cru pode causar infecção alimentar forte. Versões com creme de leite e gelatina, sem ovo, ou com ovo pasteurizado, podem. Tiramisù ainda costuma ter licor.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "massa-crua",
+    "name": "Massa crua de bolo",
+    "aliases": [
+      "massa crua",
+      "massa de bolo crua",
+      "massa de cookie",
+      "raspar a tigela",
+      "cookie dough"
+    ],
+    "category": "sweet",
+    "verdict": "avoid",
+    "short_answer": "Não. Massa crua de bolo ou cookie tem ovo cru e farinha crua, que podem ter bactérias.",
+    "details": "A farinha crua também já causou surtos de E. coli. Espere assar. Lamber a colher fica para depois.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "brigadeiro",
+    "name": "Brigadeiro",
+    "aliases": [
+      "brigadeiro",
+      "beijinho",
+      "doce de festa",
+      "cajuzinho"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, com moderação. É cozido e não leva ovo.",
+    "details": "É bem doce, então vale um ou dois. Com diabetes gestacional, converse com a equipe.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "doce-de-leite",
+    "name": "Doce de leite",
+    "aliases": [
+      "doce de leite",
+      "leite condensado",
+      "dulce de leche"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, com moderação. É cozido por bastante tempo.",
+    "details": "Prefira de marca com selo de inspeção. Muito açúcar, então pouco de cada vez.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "pudim",
+    "name": "Pudim",
+    "aliases": [
+      "pudim de leite",
+      "pudim",
+      "flan",
+      "quindim"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, se bem assado. O ovo do pudim cozinha no forno.",
+    "details": "O pudim tem que estar firme, sem parte líquida no meio. Guarde na geladeira. Quindim também é assado e pode.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "bolo",
+    "name": "Bolo",
+    "aliases": [
+      "bolo",
+      "bolo caseiro",
+      "bolo de aniversario",
+      "bolo de pote",
+      "torta doce"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Pode, bolo assado. Cuidado com cobertura e recheio feitos com ovo cru ou clara crua.",
+    "details": "Glacê e merengue de clara crua, e recheio de mousse, podem ter ovo cru. Merengue italiano (com calda quente) e cobertura de chocolate cozida podem. Na festa, pergunte.",
+    "condition_note": "Só se recheio e cobertura não levarem ovo cru.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "rapadura",
+    "name": "Rapadura e doces de rua",
+    "aliases": [
+      "rapadura",
+      "cocada",
+      "pe de moleque",
+      "paçoca",
+      "goiabada",
+      "pacoca"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, com moderação.",
+    "details": "São doces cozidos. Prefira embalados ou de lugar limpo. Amendoim mofado pode ter toxina: descarte se estiver com gosto estranho.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "acucar",
+    "name": "Açúcar",
+    "aliases": [
+      "acucar",
+      "acucar mascavo",
+      "acucar demerara",
+      "doces"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Pode, mas pouco. Excesso de açúcar aumenta o ganho de peso e o risco de diabetes gestacional.",
+    "details": "O Guia Alimentar orienta usar açúcar com moderação. Mascavo e demerara também são açúcar. Se tiver diabetes gestacional, siga a orientação da equipe.",
+    "condition_note": "Em pouca quantidade.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "gelatina",
+    "name": "Gelatina",
+    "aliases": [
+      "gelatina",
+      "gelatina colorida",
+      "gelatina zero"
+    ],
+    "category": "sweet",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. É uma sobremesa leve.",
+    "details": "A versão zero tem adoçante. Gelatina com frutas frescas lavadas é uma boa ideia.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "acai-com-xarope",
+    "name": "Açaí na tigela com complementos",
+    "aliases": [
+      "acai na tigela",
+      "acai com leite em po",
+      "acai com granola",
+      "tigela de acai"
+    ],
+    "category": "sweet",
+    "verdict": "caution",
+    "short_answer": "Pode, com a polpa segura e sem exagero nos complementos. A tigela pode virar uma bomba de açúcar.",
+    "details": "A polpa precisa ser pasteurizada ou branqueada. Xarope de guaraná, leite condensado e leite em pó somam muito açúcar e um pouco de cafeína.",
+    "condition_note": "Só com polpa pasteurizada e porção moderada de doces.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-mate",
+    "name": "Chá-mate",
+    "aliases": [
+      "cha mate",
+      "mate",
+      "mate gelado",
+      "cha mate tostado",
+      "mate de praia"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Pode, com moderação. Tem cafeína, que entra no limite do dia.",
+    "details": "O mate tostado tem cafeína, menos que o café, mas soma. Mate de praia vem com bastante açúcar. Combine com o médico o seu limite de cafeína.",
+    "condition_note": "Com moderação, dentro do limite de cafeína orientado pelo médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-verde",
+    "name": "Chá verde",
+    "aliases": [
+      "cha verde",
+      "green tea",
+      "matcha",
+      "cha verde em capsula"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com moderação. Tem cafeína e, em excesso, pode atrapalhar o uso do ácido fólico.",
+    "details": "O chá verde tem cafeína e catequinas que, em grande quantidade, podem reduzir o aproveitamento do ácido fólico, importante no começo da gravidez. Cápsulas e extratos para emagrecer ficam de fora.",
+    "condition_note": "Só de vez em quando, nunca em cápsula, e com aval do médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-preto",
+    "name": "Chá preto",
+    "aliases": [
+      "cha preto",
+      "cha ingles",
+      "cha com leite",
+      "earl grey",
+      "chai"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com moderação. Chá preto tem cafeína.",
+    "details": "Some com café e refrigerante na conta do dia. Tomar longe das refeições ajuda a absorver o ferro da comida.",
+    "condition_note": "Com moderação, dentro do limite de cafeína orientado pelo médico.",
+    "source_label": "ACOG · Committee Opinion nº 462: Moderate Caffeine Consumption During Pregnancy (2010)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-camomila",
+    "name": "Chá de camomila",
+    "aliases": [
+      "camomila",
+      "cha de camomila",
+      "cha calmante"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Fale com o médico antes. Se liberado, fraco e de vez em quando.",
+    "details": "Muita gente usa camomila para dormir, mas falta estudo de segurança na gravidez, e algumas referências brasileiras pedem cautela em gestantes. Use sachê de marca, fraco, e pare se notar cólica ou sangramento.",
+    "condition_note": "Só com liberação do médico, fraco e de vez em quando.",
+    "source_label": "ANVISA · Memento Fitoterápico da Farmacopeia Brasileira (2016)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-canela",
+    "name": "Chá de canela",
+    "aliases": [
+      "cha de canela",
+      "canela em pau",
+      "agua de canela"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar o chá de canela, principalmente forte. Canela no doce, em pitada, pode.",
+    "details": "Em quantidade alta, a canela tem substâncias que podem fazer mal ao fígado, e o chá é usado popularmente para \"descer a menstruação\". Por isso, na gravidez, a gente evita o chá. Uma pitada no arroz-doce não é problema.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-boldo",
+    "name": "Chá de boldo",
+    "aliases": [
+      "boldo",
+      "cha de boldo",
+      "boldo do chile",
+      "boldo brasileiro",
+      "boldo de jardim"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Boldo é contraindicado na gravidez.",
+    "details": "Boldo-do-chile e boldo-brasileiro aparecem como contraindicados para gestantes nas referências da ANVISA. Podem ter efeito sobre o útero e o bebê. Para enjoo ou má digestão, fale com o médico.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-erva-doce",
+    "name": "Chá de erva-doce",
+    "aliases": [
+      "erva doce",
+      "funcho",
+      "anis",
+      "cha de erva doce",
+      "cha de funcho"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Só com liberação do médico, e fraco.",
+    "details": "Erva-doce e funcho têm substâncias com efeito parecido com hormônio, e as referências pedem cautela na gestação. Erva-doce como tempero, em pouca quantidade, não preocupa.",
+    "condition_note": "Só com liberação do médico, fraco e de vez em quando.",
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-hibisco",
+    "name": "Chá de hibisco",
+    "aliases": [
+      "hibisco",
+      "cha de hibisco",
+      "vinagreira",
+      "cha emagrecedor",
+      "cha seca barriga"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar. Hibisco pode mexer com hormônios e com a pressão, e é vendido como \"detox\".",
+    "details": "Faltam estudos de segurança na gravidez, e há relatos de efeito sobre o útero. Chás \"emagrecedores\" ou \"seca-barriga\" não são para gestantes.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-gengibre",
+    "name": "Chá de gengibre",
+    "aliases": [
+      "cha de gengibre",
+      "gengibre com limao",
+      "agua de gengibre"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Pode ajudar no enjoo, mas fale com o médico antes. Fraco e por pouco tempo.",
+    "details": "O ACOG cita o gengibre como opção para enjoo leve. Mesmo assim, chá forte ou cápsulas não são indicados sem orientação, principalmente perto do parto ou se houver sangramento.",
+    "condition_note": "Só com aval do médico, fraco e em pouca quantidade.",
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  },
+  {
+    "slug": "cha-cidreira",
+    "name": "Chá de erva-cidreira",
+    "aliases": [
+      "erva cidreira",
+      "melissa",
+      "capim cidreira",
+      "capim santo",
+      "capim limao"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Só com liberação do médico.",
+    "details": "O nome \"cidreira\" vale para plantas diferentes (melissa, capim-santo, lípia). Faltam dados de segurança na gravidez, e o capim-santo em alta dose é desaconselhado. Na dúvida, prefira água ou chá liberado pelo médico.",
+    "condition_note": "Só com liberação do médico, fraco e de vez em quando.",
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-hortela",
+    "name": "Chá de hortelã",
+    "aliases": [
+      "hortela",
+      "hortela pimenta",
+      "cha de menta",
+      "menta"
+    ],
+    "category": "herb_tea",
+    "verdict": "caution",
+    "short_answer": "Com cuidado. Fraco e de vez em quando, com aval do médico.",
+    "details": "Hortelã como tempero ou na água não preocupa. O chá forte, todo dia, não tem segurança comprovada. Pode piorar a azia em algumas pessoas.",
+    "condition_note": "Só com aval do médico, fraco e de vez em quando.",
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-arruda",
+    "name": "Chá de arruda",
+    "aliases": [
+      "arruda",
+      "cha de arruda"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Arruda pode provocar aborto e intoxicação.",
+    "details": "A arruda é tóxica e popularmente usada para \"descer a menstruação\". Não tome nem em pequena quantidade.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-poejo",
+    "name": "Chá de poejo",
+    "aliases": [
+      "poejo",
+      "cha de poejo"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Poejo pode ser tóxico e estimular contrações.",
+    "details": "O óleo do poejo é tóxico para o fígado. Na gravidez, fica totalmente de fora.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-sene",
+    "name": "Chá de sene",
+    "aliases": [
+      "sene",
+      "cha laxante",
+      "cha de sena",
+      "cascara sagrada"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Chá laxante, como sene, pode causar cólica forte e contrações.",
+    "details": "Para o intestino preso, que é comum, aumente água, fibras e frutas como mamão. Se não melhorar, peça ao médico uma opção segura.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-alecrim",
+    "name": "Chá de alecrim",
+    "aliases": [
+      "alecrim",
+      "cha de alecrim"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar o chá. Alecrim como tempero na comida pode.",
+    "details": "O chá concentrado de alecrim é desaconselhado na gravidez por possível efeito no útero. No frango assado, em pouca quantidade, sem problema.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-losna",
+    "name": "Chá de losna",
+    "aliases": [
+      "losna",
+      "absinto",
+      "cha de losna",
+      "cha amargo"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Losna é tóxica e contraindicada na gravidez.",
+    "details": "Tem uma substância (tujona) que faz mal ao sistema nervoso e pode estimular o útero.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-espinheira-santa",
+    "name": "Chá de espinheira-santa",
+    "aliases": [
+      "espinheira santa",
+      "cha de espinheira"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Espinheira-santa é contraindicada na gravidez.",
+    "details": "As referências da ANVISA não recomendam para gestantes. Para azia e má digestão, fale com o médico.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-carqueja",
+    "name": "Chá de carqueja",
+    "aliases": [
+      "carqueja",
+      "cha de carqueja"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Carqueja é contraindicada na gravidez.",
+    "details": "Pode estimular o útero e não tem segurança comprovada. Fica para depois.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-salvia",
+    "name": "Chá de sálvia",
+    "aliases": [
+      "salvia",
+      "cha de salvia"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Melhor evitar o chá. Sálvia como tempero, em pitada, pode.",
+    "details": "A sálvia tem tujona, a mesma substância da losna. Em chá, não é recomendada para gestantes.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "cha-quebra-pedra",
+    "name": "Chá de quebra-pedra",
+    "aliases": [
+      "quebra pedra",
+      "cha de quebra pedra"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Quebra-pedra não é indicado na gravidez.",
+    "details": "Não tem segurança comprovada para gestantes. Dor ao urinar ou nas costas na gravidez pode ser infecção urinária: procure o médico.",
+    "condition_note": null,
+    "source_label": "ANVISA · Formulário de Fitoterápicos da Farmacopeia Brasileira, 2ª ed. (2021)",
+    "source_url": null
+  },
+  {
+    "slug": "chas-misturados",
+    "name": "Chás de mistura e \"detox\"",
+    "aliases": [
+      "cha detox",
+      "cha emagrecedor",
+      "cha misto",
+      "garrafada",
+      "cha de ervas"
+    ],
+    "category": "herb_tea",
+    "verdict": "avoid",
+    "short_answer": "Não. Garrafadas, chás \"detox\" e misturas de ervas ficam fora da gravidez.",
+    "details": "Não dá para saber quais plantas e quanto de cada uma tem ali. Algumas podem causar contrações ou intoxicação. A Caderneta da Gestante orienta não usar chás e remédios sem orientação.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Caderneta da Gestante (2022)",
+    "source_url": null
+  },
+  {
+    "slug": "ovo-gema-mole",
+    "name": "Ovo com gema mole",
+    "aliases": [
+      "ovo mole",
+      "ovo poche",
+      "ovo frito mole",
+      "ovo cru",
+      "gema mole",
+      "ovo quente"
+    ],
+    "category": "other",
+    "verdict": "avoid",
+    "short_answer": "Não. Na gravidez, a gente come ovo só bem cozido, com gema e clara firmes.",
+    "details": "Ovo cru ou com gema mole pode ter salmonela, que causa diarreia, febre e desidratação. Frite dos dois lados até a gema endurecer, ou cozinhe por uns 10 minutos.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "ovo-bem-cozido",
+    "name": "Ovo bem cozido",
+    "aliases": [
+      "ovo cozido",
+      "ovo duro",
+      "omelete",
+      "ovo mexido",
+      "ovo frito"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Ovo bem cozido é ótima proteína e tem colina, boa para o bebê.",
+    "details": "Gema e clara têm que estar firmes. Ovo mexido bem seco, sem parte molhada. Guarde ovos na geladeira e não use os rachados.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "maionese-caseira",
+    "name": "Maionese caseira",
+    "aliases": [
+      "maionese caseira",
+      "maionese verde",
+      "molho de alho caseiro",
+      "aioli",
+      "maionese de lanchonete"
+    ],
+    "category": "other",
+    "verdict": "avoid",
+    "short_answer": "Não. Maionese caseira é feita com ovo cru. A industrializada pode.",
+    "details": "A maionese verde de lanchonete e o molho de alho caseiro costumam levar ovo cru. Maionese de pote usa ovo pasteurizado. Salada de maionese: só se feita com a industrializada e bem refrigerada.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "maionese-industrializada",
+    "name": "Maionese industrializada",
+    "aliases": [
+      "maionese de pote",
+      "maionese de sache",
+      "hellmanns"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. A maionese de mercado é feita com ovo pasteurizado.",
+    "details": "Depois de aberta, guarde na geladeira. Salada de maionese não pode ficar fora da geladeira por horas, como em festa.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "comida-de-rua",
+    "name": "Comida de rua",
+    "aliases": [
+      "comida de rua",
+      "food truck",
+      "barraquinha",
+      "espetinho de rua",
+      "lanche de rua"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, escolhendo bem. Prefira o que sai quente na hora, de lugar com boa higiene.",
+    "details": "Veja se a pessoa usa luva ou pegador, se tem água para lavar as mãos e se a comida está quente de verdade. Evite molhos caseiros, vinagrete de verdura crua e o que ficou exposto no calor.",
+    "condition_note": "Só comida quente, feita na hora, em lugar com boa higiene.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "pastel-de-feira",
+    "name": "Pastel de feira",
+    "aliases": [
+      "pastel",
+      "pastel de feira",
+      "pastel de carne",
+      "pastel de queijo"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, frito na hora e bem quente. Atenção ao recheio de queijo e à vinagrete.",
+    "details": "Prefira pastel que acabou de sair do óleo. Recheio de carne tem que estar quente. O queijo costuma ser muçarela, ok quando derretido. O vinagrete de mesa e a pimenta caseira podem ter ficado expostos.",
+    "condition_note": "Só frito na hora e bem quente.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "coxinha",
+    "name": "Coxinha e salgados",
+    "aliases": [
+      "coxinha",
+      "salgado",
+      "risole",
+      "kibe frito",
+      "esfiha",
+      "empada"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, de vez em quando, quente e de lugar confiável.",
+    "details": "Salgado que fica horas na estufa morna pode ter bactéria. Prefira o que saiu na hora. São frituras: com moderação, principalmente se tiver azia.",
+    "condition_note": "Só quente, feito no dia, e com moderação.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "feijoada",
+    "name": "Feijoada",
+    "aliases": [
+      "feijoada",
+      "feijoada completa",
+      "feijao com linguica"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, se as carnes estiverem bem cozidas. É pesada e salgada: vá com calma.",
+    "details": "Na feijoada, tudo ferve por bastante tempo, o que é bom. O problema é o sal e a gordura, que pioram azia e inchaço. Couve bem lavada, laranja junto (ajuda no ferro) e sem a caipirinha.",
+    "condition_note": "Bem cozida e em porção moderada.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "farofa",
+    "name": "Farofa",
+    "aliases": [
+      "farofa",
+      "farofa de ovo",
+      "farofa pronta",
+      "farinha de mandioca"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode. Na farofa de ovo, o ovo tem que estar bem cozido.",
+    "details": "A farofa pronta de pacote costuma ter muito sal e gordura. Farofa caseira com ovo mexido seco e bacon frito pode.",
+    "condition_note": "Só com o ovo bem cozido e com moderação no sal.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "cuscuz",
+    "name": "Cuscuz",
+    "aliases": [
+      "cuscuz",
+      "cuscuz nordestino",
+      "cuscuz paulista",
+      "flocao",
+      "cuscuz de milho"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Cuscuz de milho é uma ótima base de café da manhã.",
+    "details": "Acompanhe com ovo bem cozido, queijo coalho assado de leite pasteurizado ou carne de sol bem cozida. O cuscuz paulista com sardinha também pode.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "tapioca",
+    "name": "Tapioca",
+    "aliases": [
+      "tapioca",
+      "beiju",
+      "goma de tapioca",
+      "crepioca"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. O cuidado fica no recheio.",
+    "details": "Recheios seguros: queijo pasteurizado derretido, ovo bem cozido, frango bem cozido, coco. Evite queijo de origem desconhecida e frios frios.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "pao-de-queijo",
+    "name": "Pão de queijo",
+    "aliases": [
+      "pao de queijo",
+      "chipa",
+      "biscoito de queijo"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, assado. O forno deixa o queijo seguro.",
+    "details": "Massa crua com ovo, não. Assado, quentinho, pode.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "acaraje",
+    "name": "Acarajé",
+    "aliases": [
+      "acaraje",
+      "abara",
+      "vatapa",
+      "caruru"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, frito na hora e de baiana de confiança. O camarão seco e o vatapá precisam estar bem conservados.",
+    "details": "O bolinho frito na hora é seguro. O recheio fica exposto: veja se está quente ou bem guardado. A pimenta forte pode piorar a azia.",
+    "condition_note": "Só frito na hora e de lugar com boa higiene.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "tacaca",
+    "name": "Tacacá e pratos com tucupi",
+    "aliases": [
+      "tacaca",
+      "tucupi",
+      "pato no tucupi",
+      "jambu"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, se o tucupi for bem fervido e de procedência confiável.",
+    "details": "O tucupi vem da mandioca brava e precisa ferver por bastante tempo para ficar seguro. Compre de quem você confia. O camarão tem que estar bem cozido.",
+    "condition_note": "Só com tucupi bem fervido, de procedência confiável.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "marmita-requentada",
+    "name": "Marmita requentada",
+    "aliases": [
+      "marmita",
+      "comida requentada",
+      "marmita congelada",
+      "quentinha"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, se guardada na geladeira logo e requentada até ferver ou soltar vapor.",
+    "details": "Guarde a comida em até 2 horas depois de pronta. Na geladeira, use em até 2 ou 3 dias. Requente até ficar bem quente no meio, mexendo. Não requente a mesma comida mais de uma vez.",
+    "condition_note": "Só se refrigerada logo e reaquecida até soltar vapor.",
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "sobras-de-arroz",
+    "name": "Sobras de arroz",
+    "aliases": [
+      "arroz dormido",
+      "arroz requentado",
+      "arroz de ontem",
+      "sobra de arroz"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, se o arroz foi para a geladeira logo e for requentado bem quente.",
+    "details": "Arroz fora da geladeira por muito tempo pode ter uma bactéria cuja toxina não some com o calor. Esfrie rápido, guarde em até 2 horas e use em até 1 ou 2 dias. Requente uma vez só.",
+    "condition_note": "Só se guardado na geladeira logo e requentado uma vez.",
+    "source_label": "NHS · Foods to avoid in pregnancy",
+    "source_url": "https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/"
+  },
+  {
+    "slug": "comida-congelada",
+    "name": "Comida congelada pronta",
+    "aliases": [
+      "lasanha congelada",
+      "pizza congelada",
+      "nuggets",
+      "comida pronta congelada"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, de vez em quando, bem aquecida. É ultraprocessada e salgada.",
+    "details": "Siga o tempo do rótulo e confira se está quente no meio. Nuggets e empanados também têm que ficar quentes por inteiro.",
+    "condition_note": "Só bem aquecida no meio e de vez em quando.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "buffet-por-quilo",
+    "name": "Restaurante por quilo",
+    "aliases": [
+      "self service",
+      "buffet",
+      "restaurante a quilo",
+      "comida por quilo"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, escolhendo bem. Pratos quentes bem quentes e frios bem gelados.",
+    "details": "Prefira o que está fumegando. Evite saladas com maionese, frios, sushi e carnes rosadas. Lugar movimentado troca a comida mais rápido.",
+    "condition_note": "Só pratos quentes de verdade, evitando os itens crus.",
+    "source_label": "ANVISA · RDC nº 218/2005 (higiene no preparo de alimentos com vegetais)",
+    "source_url": null
+  },
+  {
+    "slug": "pizza",
+    "name": "Pizza",
+    "aliases": [
+      "pizza",
+      "pizza de calabresa",
+      "pizza de queijo",
+      "pizza de rua"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Assada e quente, os queijos e embutidos de cima ficam mais seguros.",
+    "details": "Evite coberturas que vão crus depois do forno, como presunto cru, rúcula mal lavada ou salmão defumado. Pizza fria do dia anterior: requente bem.",
+    "condition_note": null,
+    "source_label": "FDA · People at Risk: Pregnant Women",
+    "source_url": "https://www.fda.gov/food/people-risk-foodborne-illness/people-risk-pregnant-women"
+  },
+  {
+    "slug": "comida-apimentada",
+    "name": "Comida apimentada",
+    "aliases": [
+      "comida picante",
+      "comida mexicana",
+      "comida baiana",
+      "dende",
+      "comida forte"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, se você tolera bem. Não faz mal ao bebê, mas pode piorar azia e enjoo.",
+    "details": "Se sentir queimação, diminua. Molhos de pimenta caseiros precisam estar bem conservados.",
+    "condition_note": null,
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  },
+  {
+    "slug": "pimenta",
+    "name": "Pimenta",
+    "aliases": [
+      "pimenta",
+      "pimenta malagueta",
+      "pimenta do reino",
+      "molho de pimenta",
+      "pimenta biquinho"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, se não der azia. Pimenta não faz mal ao bebê.",
+    "details": "Molho de pimenta caseiro de mesa de bar pode ter ficado exposto. Prefira de garrafa fechada.",
+    "condition_note": null,
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  },
+  {
+    "slug": "alho",
+    "name": "Alho",
+    "aliases": [
+      "alho",
+      "alho cru",
+      "cha de alho",
+      "alho em capsula"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, como tempero. Cápsulas e chá de alho, só com orientação.",
+    "details": "Alho na comida é seguro. Em grande quantidade ou suplemento, pode afinar o sangue, o que não é bom perto do parto.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "gengibre",
+    "name": "Gengibre",
+    "aliases": [
+      "gengibre",
+      "gengibre cru",
+      "gengibre em conserva",
+      "bala de gengibre"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode como tempero. Pode ajudar no enjoo, mas em quantidade maior fale com o médico.",
+    "details": "O ACOG cita o gengibre como opção para enjoo leve. Cápsulas, shots e chá forte: só com orientação, principalmente perto do parto ou se houver sangramento.",
+    "condition_note": "Como tempero; em quantidade maior, só com aval do médico.",
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  },
+  {
+    "slug": "canela-tempero",
+    "name": "Canela (tempero)",
+    "aliases": [
+      "canela",
+      "canela em po",
+      "arroz doce com canela"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim, em pitada na comida. O chá forte de canela é que a gente evita.",
+    "details": "A quantidade que vai no arroz-doce ou no mingau é pequena. Não use canela em cápsula nem em grande quantidade.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "sal",
+    "name": "Sal e comida salgada",
+    "aliases": [
+      "sal",
+      "comida salgada",
+      "salgadinho",
+      "tempero pronto",
+      "caldo em cubo"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode, mas pouco. Sal em excesso piora inchaço e pressão.",
+    "details": "Use temperos naturais (alho, cebola, ervas). Tempero pronto, caldo em cubo e salgadinho de pacote têm muito sódio. Se a pressão subir, procure atendimento.",
+    "condition_note": "Em pouca quantidade.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "fast-food",
+    "name": "Fast-food",
+    "aliases": [
+      "fast food",
+      "mcdonalds",
+      "batata frita",
+      "lanchonete",
+      "nuggets de lanchonete"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Pode de vez em quando, com hambúrguer bem passado. Não é para o dia a dia.",
+    "details": "É rico em gordura, sal e açúcar. Confira se a carne está bem passada e evite molhos da casa feitos com ovo cru.",
+    "condition_note": "Só de vez em quando, com carne bem passada.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "miojo",
+    "name": "Macarrão instantâneo",
+    "aliases": [
+      "miojo",
+      "lamen instantaneo",
+      "macarrao instantaneo",
+      "cup noodles"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "De vez em quando. O tempero tem muito sal.",
+    "details": "Use metade do tempero ou troque por ervas. Acrescente ovo bem cozido e legumes para deixar mais completo.",
+    "condition_note": "Só de vez em quando e com menos tempero.",
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "pipoca",
+    "name": "Pipoca",
+    "aliases": [
+      "pipoca",
+      "pipoca de microondas",
+      "pipoca de cinema"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode, sim. Feita na panela, com pouco sal, é um bom lanche.",
+    "details": "A de micro-ondas e a de cinema têm mais gordura e sal.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "arroz-integral-graos",
+    "name": "Arroz e grãos",
+    "aliases": [
+      "arroz",
+      "arroz integral",
+      "aveia",
+      "quinoa",
+      "granola"
+    ],
+    "category": "other",
+    "verdict": "safe",
+    "short_answer": "Pode e deve. Grãos integrais ajudam o intestino.",
+    "details": "Arroz com feijão é base de uma boa alimentação. Aveia no mingau ajuda na prisão de ventre. Granola pronta pode ter muito açúcar.",
+    "condition_note": null,
+    "source_label": "Ministério da Saúde · Guia Alimentar para a População Brasileira (2014)",
+    "source_url": "https://bvsms.saude.gov.br/bvs/publicacoes/guia_alimentar_populacao_brasileira_2ed.pdf"
+  },
+  {
+    "slug": "suplementos-proteina",
+    "name": "Whey e shakes de proteína",
+    "aliases": [
+      "whey",
+      "whey protein",
+      "shake",
+      "proteina em po",
+      "shake de emagrecer"
+    ],
+    "category": "other",
+    "verdict": "caution",
+    "short_answer": "Só com orientação. Muitos shakes têm cafeína, ervas e adoçantes sem segurança na gravidez.",
+    "details": "Leia o rótulo: alguns têm termogênicos, que são proibidos para gestantes. Shakes para emagrecer não são para a gravidez. Na maioria das vezes, comida de verdade basta.",
+    "condition_note": "Só com orientação do médico ou nutricionista.",
+    "source_label": "ACOG · Nutrition During Pregnancy (FAQ)",
+    "source_url": "https://www.acog.org/womens-health/faqs/nutrition-during-pregnancy"
+  }
+]
