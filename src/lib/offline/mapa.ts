@@ -12,6 +12,7 @@ import {
   faithFavoritos,
   rightsFavoritos,
   nameVotes,
+  cartas,
   appointments,
   bebes,
   bellyPhotos,
@@ -45,6 +46,10 @@ export interface Mapeamento {
   conflito: string;
   /** Ajuste do que vem do Postgres para o formato local (ex.: `time` volta como "08:00:00"). */
   doServidor?: (linha: Record<string, unknown>) => Record<string, unknown>;
+  /** Funcionalidade 14: escrita por função (que valida as regras) em vez de upsert na tabela. */
+  rpcEscrita?: string;
+  /** Funcionalidade 14: leitura por uma view (a tabela não é lida direto). */
+  leitura?: string;
   /** Campos que só existem no aparelho (ex.: `criado_por` em tabelas pessoais, que usam `user_id`). */
   soLocal?: string[];
 }
@@ -96,6 +101,8 @@ export const mapeamentos: Mapeamento[] = [
   { colecao: rightsFavoritos as Colecao<Registro>, tabela: "rights_favorites", conflito: "id", soLocal: ["criado_por"] },
   // Funcionalidade 15: o voto é da pessoa (user_id); a família vem do trigger.
   { colecao: nameVotes as Colecao<Registro>, tabela: "name_votes", conflito: "id", soLocal: ["criado_por"] },
+  // Funcionalidade 14: a carta sobe por `salvar_carta` e volta por `letters_visible` (o lacre vale no banco).
+  { colecao: cartas as Colecao<Registro>, tabela: "letters", conflito: "id", soLocal: ["criado_por"], rpcEscrita: "salvar_carta", leitura: "letters_visible" },
 ];
 
 export function mapeamentoDaColecao(chave: string): Mapeamento | undefined {

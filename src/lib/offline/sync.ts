@@ -71,8 +71,17 @@ export async function empurrar(sb: Cliente): Promise<void> {
   }
 }
 
+/** Recusas definitivas da função de escrita (repetir não adianta): sai da fila. */
+const RECUSA_DEFINITIVA = /carta_lacrada|limite_cartas|premium|caminho_invalido/;
+
 async function enviarItem(sb: Cliente, item: ItemOutbox) {
-  const conflito = mapeamentos.find((m) => m.tabela === item.tabela)?.conflito ?? "id";
+  const m = mapeamentos.find((x) => x.tabela === item.tabela);
+  if (m?.rpcEscrita) {
+    const { error } = await chamarRpc(sb, m.rpcEscrita, { p: limparAutor(item.payload) });
+    if (error && !RECUSA_DEFINITIVA.test(error.message ?? "")) throw new Error(error.message);
+    return;
+  }
+  const conflito = m?.conflito ?? "id";
   const { error } = await tabela(sb, item.tabela).upsert(limparAutor(item.payload), { onConflict: conflito });
   if (error) {
     // 23505 = violação de unique (ex.: o mesmo sintoma do dia criado em dois aparelhos): o servidor já tem; descarta.
@@ -86,7 +95,7 @@ export async function puxar(sb: Cliente): Promise<void> {
   const ultima = lerUltima();
   for (const m of mapeamentos) {
     const desde = ultima[m.tabela] ?? "1970-01-01T00:00:00Z";
-    const { data, error } = await tabela(sb, m.tabela).select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
+    const { data, error } = await tabela(sb, m.leitura ?? m.tabela).select("*").gt("atualizado_em", desde).order("atualizado_em", { ascending: true }).limit(1000);
     if (error || !data) continue;
     const linhas = data as { id: string; atualizado_em: string }[];
     m.colecao.mesclar((m.doServidor ? linhas.map((l) => m.doServidor!(l)) : linhas) as never);

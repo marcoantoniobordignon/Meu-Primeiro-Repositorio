@@ -8,12 +8,14 @@ import { FaixaRede } from "@/components/ui/FaixaRede";
 import { TabBar } from "@/components/ui/TabBar";
 import { track } from "@/lib/analytics";
 import { useTemaDoTrimestre } from "@/lib/artigos/useTemaDoTrimestre";
+import { esquecerArquivosDeLacradas } from "@/lib/cartas/acoes";
 import { useManutencaoExames } from "@/lib/exames/acoes";
 import { useContextoExames } from "@/lib/exames/useExames";
 import { meuId } from "@/lib/familia/useFamilia";
 import { useLembretesNoAparelho } from "@/lib/lembretes/local";
 import { garantirInscricao } from "@/lib/lembretes/push";
 import { fusoDe, fusoDoAparelho, useManutencaoDoses } from "@/lib/medicamentos/acoes";
+import { aoSincronizar } from "@/lib/offline/sync";
 import { estaInstalado, estaOnline } from "@/lib/plataforma";
 import { atualizarPerfil, usePerfil } from "@/lib/perfil";
 
@@ -48,6 +50,8 @@ export default function LayoutApp({ children }: { children: React.ReactNode }) {
   }, [gestante]);
   // Funcionalidade 11 RN-07: o tema do anel acompanha o trimestre (quem acompanha vê o da gestação).
   useTemaDoTrimestre(perfil);
+  // Funcionalidade 14 RN-03: carta lacrada em outro aparelho também some daqui (áudio e foto locais).
+  useEffect(() => aoSincronizar(() => void esquecerArquivosDeLacradas()), []);
 
   if (!perfil) return <div className="min-h-dvh bg-fundo" aria-busy="true" />;
 

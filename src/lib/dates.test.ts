@@ -14,8 +14,7 @@ import {
   saudacaoPorHora,
   semanaExibida,
   semanaGestacional,
-  somarDias,
-} from "./dates";
+  somarDias, formatarComAno } from "./dates";
 
 describe("datas básicas", () => {
   it("soma dias atravessando mês e ano", () => {
@@ -134,5 +133,11 @@ describe("idade do bebê", () => {
     expect(i.dias).toBe(60);
     expect(i.semanas).toBe(8);
     expect(i.meses).toBe(1);
+  });
+});
+
+describe("formatarComAno", () => {
+  it("dia, mês por extenso e ano", () => {
+    expect(formatarComAno("2045-03-08")).toBe("8 de março de 2045");
   });
 });

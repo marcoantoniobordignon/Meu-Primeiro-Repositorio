@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
 import { faqCopy as copy } from "@/copy/faq";
 import { track } from "@/lib/analytics";
-import { formatarLonga } from "@/lib/dates";
+import { formatarComAno } from "@/lib/dates";
 import { alternarFavorito, contarVisualizacao } from "@/lib/faq/acoes";
 import { useFaq } from "@/lib/faq/useFaq";
 
@@ -69,7 +69,7 @@ function Conteudo() {
               {copy.abrirFonte}
             </a>
           )}
-          {v.reviewed_by && v.reviewed_on && <p className="tipo-meta">{copy.revisado(v.reviewed_by, formatarLonga(v.reviewed_on))}</p>}
+          {v.reviewed_by && v.reviewed_on && <p className="tipo-meta">{copy.revisado(v.reviewed_by, formatarComAno(v.reviewed_on))}</p>}
           {(v.asked_count ?? 0) > 0 && <p className="tipo-meta">{copy.perguntadoPor(v.asked_count!)}</p>}
         </div>
         <Card tom="acento">

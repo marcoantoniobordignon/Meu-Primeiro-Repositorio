@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/Toast";
 import { direitosCopy as copy } from "@/copy/direitos";
 import { track, type Eventos } from "@/lib/analytics";
 import { blocos, type Trecho } from "@/lib/conteudo/markdown";
-import { formatarLonga } from "@/lib/dates";
+import { formatarComAno } from "@/lib/dates";
 import { alternarFavoritoDireito } from "@/lib/direitos/acoes";
 import { useDireitos } from "@/lib/direitos/useDireitos";
 import { useFuso } from "@/lib/hooks/useFuso";
@@ -183,7 +183,7 @@ function Conteudo() {
           <p className="tipo-meta" role="note">
             {copy.aviso}
           </p>
-          <p className="tipo-meta">{c.reviewed_on ? copy.cartao.revisado(formatarLonga(c.reviewed_on)) : copy.cartao.rascunhoRodape}</p>
+          <p className="tipo-meta">{c.reviewed_on ? copy.cartao.revisado(formatarComAno(c.reviewed_on)) : copy.cartao.rascunhoRodape}</p>
         </footer>
       </article>
     </div>

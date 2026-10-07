@@ -14,7 +14,7 @@ import { track, type Eventos } from "@/lib/analytics";
 import { alternarFavoritoArtigo, marcarLido, registrarAbertura } from "@/lib/artigos/acoes";
 import { useArtigos } from "@/lib/artigos/useArtigos";
 import { blocos, type Trecho } from "@/lib/conteudo/markdown";
-import { formatarLonga } from "@/lib/dates";
+import { formatarComAno } from "@/lib/dates";
 import { temPlano, usePerfil } from "@/lib/perfil";
 import { fracaoRolada, leituraConcluida, podeLerArtigo } from "@dominio/trimestre.ts";
 
@@ -171,7 +171,7 @@ function Conteudo() {
 
         {/* RN-09: revisor e data no rodapé; sem revisão, o rascunho diz isso com todas as letras. */}
         <footer className="flex flex-col gap-2 border-t border-fio pt-3">
-          {a.reviewed_by && a.reviewed_on ? <p className="tipo-meta">{copy.revisado(a.reviewed_by, formatarLonga(a.reviewed_on))}</p> : <p className="tipo-meta">{copy.rascunhoRodape}</p>}
+          {a.reviewed_by && a.reviewed_on ? <p className="tipo-meta">{copy.revisado(a.reviewed_by, formatarComAno(a.reviewed_on))}</p> : <p className="tipo-meta">{copy.rascunhoRodape}</p>}
           <p className="tipo-meta" role="note">
             {copy.aviso}
           </p>

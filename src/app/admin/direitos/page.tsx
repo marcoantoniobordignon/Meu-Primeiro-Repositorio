@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Card } from "@/components/ui/Card";
 import { adminCopy } from "@/copy/admin";
-import { formatarLonga } from "@/lib/dates";
+import { formatarComAno } from "@/lib/dates";
 import { cartoesParaRevisar, type CartaoVencido } from "@/lib/direitos/admin";
 
 const copy = adminCopy.direitos;
@@ -43,7 +43,7 @@ export default function PaginaAdminDireitos() {
           {lista.map((c) => (
             <li key={c.slug} className="py-3">
               <p className="text-[15px] font-medium text-texto">{c.question}</p>
-              <p className="tipo-meta">{copy.revisadoEm(formatarLonga(c.reviewed_on))}</p>
+              <p className="tipo-meta">{copy.revisadoEm(formatarComAno(c.reviewed_on))}</p>
             </li>
           ))}
         </ul>

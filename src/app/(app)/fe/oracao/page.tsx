@@ -10,7 +10,7 @@ import { Cabecalho } from "@/components/ui/Cabecalho";
 import { Card } from "@/components/ui/Card";
 import { useToast } from "@/components/ui/Toast";
 import { feCopy as copy } from "@/copy/fe";
-import { formatarLonga } from "@/lib/dates";
+import { formatarComAno } from "@/lib/dates";
 import { alternarFavoritoOracao } from "@/lib/fe/acoes";
 import { contarAnonimo } from "@/lib/fe/contadores";
 import { useFe } from "@/lib/fe/useFe";
@@ -144,7 +144,7 @@ function Conteudo() {
         {/* RN-05: fonte e revisão no rodapé; sem revisão, o rascunho diz isso. */}
         <footer className="flex flex-col gap-1 border-t border-fio pt-3">
           <p className="tipo-meta">{copy.origem(o.source_label)}</p>
-          {o.reviewed_by && o.reviewed_on ? <p className="tipo-meta">{copy.revisado(o.reviewed_by, formatarLonga(o.reviewed_on))}</p> : <p className="tipo-meta">{copy.rascunhoRodape}</p>}
+          {o.reviewed_by && o.reviewed_on ? <p className="tipo-meta">{copy.revisado(o.reviewed_by, formatarComAno(o.reviewed_on))}</p> : <p className="tipo-meta">{copy.rascunhoRodape}</p>}
         </footer>
       </article>
     </div>

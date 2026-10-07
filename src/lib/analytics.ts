@@ -67,7 +67,7 @@ export type Eventos = {
   convite_aceito: { papel: string; tinha_conta: boolean };
   membro_removido: { papel: string };
   // paywall (disparado pelas funcionalidades 02, 05 e 06)
-  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan" | "articles"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" | "premium_article" };
+  paywall_shown: { feature: "medications" | "belly_video" | "diary" | "exam_gallery" | "birth_plan" | "articles" | "letters"; trigger: "active_limit" | "hd_export" | "audio_limit" | "pages_limit" | "ai_reading" | "pdf_export" | "attachments_limit" | "premium_article" | "letter_limit" | "letter_media" };
   // funcionalidade 08 · calendário
   cal_viewed: { mode: "month" | "agenda" };
   cal_event_created: { category: string };
@@ -82,6 +82,12 @@ export type Eventos = {
   faq_question_submitted: Record<string, never>;
   faq_question_voted: Record<string, never>;
   faq_answer_push_opened: Record<string, never>;
+  // funcionalidade 14 · cartas (letter_opened e letter_delivery_email_sent são do servidor: ficam no banco)
+  letter_draft_created: Record<string, never>;
+  letter_sealed: { open_rule: string; has_audio: boolean };
+  letter_unsealed: Record<string, never>;
+  letter_share_link_created: Record<string, never>;
+  letter_exported: Record<string, never>;
   // funcionalidade 15 · nomes (nunca o nome em si)
   names_swipe: { vote: "like" | "dislike" };
   names_undo: Record<string, never>;

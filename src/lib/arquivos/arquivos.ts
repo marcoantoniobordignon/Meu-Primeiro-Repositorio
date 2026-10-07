@@ -61,6 +61,33 @@ export async function removerArquivo(caminho: string | null | undefined, agora =
   avisar();
 }
 
+/**
+ * Funcionalidade 14 RN-03: esquece o arquivo só neste aparelho (sem pedir remoção no Storage). É o que o lacre
+ * faz: o áudio e a foto ficam guardados no servidor, mas saem daqui.
+ */
+export async function esquecerArquivoLocal(caminho: string | null | undefined): Promise<void> {
+  if (!caminho) return;
+  await idbApagar(STORE_ARQUIVOS, caminho);
+  avisar();
+}
+
+/** Esquece daqui todos os arquivos de uma pasta (ex.: `cartas/{id}/`), sem pedir remoção no Storage. */
+export async function esquecerPastaLocal(prefixo: string): Promise<number> {
+  const todos = await idbTodos<ArquivoLocal>(STORE_ARQUIVOS);
+  const alvo = todos.filter((a) => a.id.startsWith(prefixo));
+  for (const a of alvo) await idbApagar(STORE_ARQUIVOS, a.id);
+  if (alvo.length) avisar();
+  return alvo.length;
+}
+
+/** Algum destes caminhos ainda não subiu? (lacrar exige tudo no Storage). */
+export async function algumPendente(caminhos: (string | null | undefined)[]): Promise<boolean> {
+  const alvo = new Set(caminhos.filter(Boolean));
+  if (!alvo.size) return false;
+  const todos = await idbTodos<ArquivoLocal>(STORE_ARQUIVOS);
+  return todos.some((a) => alvo.has(a.id) && !a.enviado);
+}
+
 export async function arquivosPendentes(): Promise<number> {
   const todos = await idbTodos<ArquivoLocal>(STORE_ARQUIVOS);
   return todos.filter((a) => !a.enviado).length;

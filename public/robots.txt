@@ -1,0 +1,3 @@
+User-agent: *
+# Funcionalidade 14 RN-06: links de leitura de cartas nunca são indexados.
+Disallow: /carta/

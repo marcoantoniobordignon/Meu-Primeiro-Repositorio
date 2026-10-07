@@ -13,6 +13,8 @@ export interface Prefs {
   faith_weekly_push?: boolean;
   /** Funcionalidade 16 RN-03: cartões de direitos dispensados da home (slugs). */
   rights_dismissed?: string[];
+  /** Funcionalidade 14 RN-11: e-mail anual "Suas cartas estão guardadas" (cancelável). */
+  letters_annual_email?: boolean;
   notifications_suspended?: boolean;
   notifications_discreet?: boolean;
   /** Horário silencioso da fundação, "HH:MM". */
@@ -32,6 +34,7 @@ export const PREFS_PADRAO: Required<Prefs> = {
   faith_mode: false,
   faith_weekly_push: false,
   rights_dismissed: [],
+  letters_annual_email: true,
   notifications_suspended: false,
   // Decisão em aberto (spec 02): discreto por padrão? Por enquanto, não.
   notifications_discreet: false,

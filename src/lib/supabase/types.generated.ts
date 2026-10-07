@@ -158,7 +158,7 @@ export interface Database {
       >;
       document_pages: Tabela<Base & { document_id: string; position: number; storage_path: string; mime: string; bytes: number; width: number | null; height: number | null }>;
       ai_document_reads: Tabela<{ id: string; familia_id: string; document_id: string | null; ok: boolean; criado_em: string }>;
-      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq" | "trimester" | "faith"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
+      reminders_sent: Tabela<{ familia_id: string; chave: string; categoria: "med" | "exam" | "appt" | "belly" | "diary" | "partner" | "calendar" | "birth_plan" | "faq" | "trimester" | "faith" | "letter"; tipo: string; ref: string; essencial: boolean; enviado_em: string }>;
       // Funcionalidade 12 (0005_parceiro.sql)
       avisos: Tabela<{ id: string; familia_id: string | null; para: string; tipo: string; titulo: string; corpo: string | null; url: string | null; lido_em: string | null; criado_em: string; atualizado_em: string; apagado_em: string | null; push_pendente: boolean }>;
       partner_invites: Tabela<{ id: string; familia_id: string; criado_por: string; token_hash: string; code: string; expires_at: string; accepted_by: string | null; accepted_at: string | null; revoked_at: string | null; criado_em: string }>;
@@ -297,12 +297,44 @@ export interface Database {
       names_catalog: Tabela<{ id: string; name: string; sex_hint: "f" | "m" | "u"; origin: string | null; meaning: string | null; ibge_rank_f: number | null; ibge_rank_m: number | null; syllables: number; saint_name: string | null; saint_day: string | null; reviewed: boolean; atualizado_em: string }>;
       name_votes: Tabela<{ id: string; familia_id: string; user_id: string; name_id: string | null; custom_name: string | null; vote: "like" | "dislike"; rank: number | null; chave: string; created_at: string; updated_at: string; atualizado_em: string; apagado_em: string | null }>;
       name_matches: Tabela<{ familia_id: string; chave: string; name_id: string | null; custom_name: string | null; primeiro: string | null; segundo: string | null; criado_em: string; desfeito_em: string | null; atualizado_em: string }>;
+      // Funcionalidade 14 (0013_cartas.sql): sem SELECT para o app; leitura pela view `letters_visible`.
+      letters: Tabela<{
+        id: string;
+        familia_id: string;
+        author_id: string;
+        title: string;
+        body: string | null;
+        audio_path: string | null;
+        audio_seconds: number | null;
+        photo_path: string | null;
+        open_rule: "first_birthday" | "age_5" | "age_10" | "age_15" | "age_18" | "custom" | null;
+        custom_open_on: string | null;
+        open_on: string | null;
+        status: "draft" | "sealed" | "opened";
+        sealed_at: string | null;
+        opened_at: string | null;
+        unsealed_at: string | null;
+        delivery_email: string | null;
+        opened_notified_at: string | null;
+        delivery_sent_at: string | null;
+        storage_cleanup_pending: boolean;
+        created_at: string;
+        updated_at: string;
+        atualizado_em: string;
+        apagado_em: string | null;
+      }>;
+      letter_share_tokens: Tabela<{ id: string; letter_id: string; token_hash: string; expires_at: string; revoked_at: string | null; views: number; criado_em: string }>;
       article_reads: Tabela<{ id: string; user_id: string; article_id: string; first_opened_at: string; read_at: string | null; is_favorite: boolean; criado_em: string; atualizado_em: string; apagado_em: string | null }>;
     };
     Views: {
       v_modo: { Row: { familia_id: string; modo: "gestacao" | "bebe" }; Relationships: [] };
       calendar_items_v: {
         Row: { familia_id: string; item_type: "appointment" | "exam" | "custom" | "edd"; item_id: string; title: string; location: string | null; starts_at: string | null; all_day: boolean; all_day_date: string | null; color_key: string; deep_link: string };
+        Relationships: [];
+      };
+      // Funcionalidade 14: o que a autora lê das próprias cartas (lacrada: sem texto, áudio e foto).
+      letters_visible: {
+        Row: Omit<Tabelas["letters"]["Row"], "opened_notified_at" | "delivery_sent_at" | "storage_cleanup_pending">;
         Relationships: [];
       };
     };
@@ -331,6 +363,14 @@ export interface Database {
       faq_perguntas_abertas: { Args: Record<string, never>; Returns: { id: string; text: string; votes_count: number; created_at: string }[] };
       faq_publicar: { Args: { p_food: string; p_perguntas?: string[]; p_revisor?: string | null; p_revisado_em?: string | null }; Returns: number };
       faq_rejeitar: { Args: { p_pergunta: string; p_motivo: string }; Returns: undefined };
+      // Funcionalidade 14
+      salvar_carta: { Args: { p: Json }; Returns: undefined };
+      lacrar_carta: { Args: { p_id: string; p_atualizado_em: string }; Returns: string };
+      deslacrar_carta: { Args: { p_id: string }; Returns: Omit<Tabelas["letters"]["Row"], "opened_notified_at" | "delivery_sent_at" | "storage_cleanup_pending">[] };
+      criar_link_carta: { Args: { p_id: string }; Returns: string };
+      revogar_link_carta: { Args: { p_id: string }; Returns: undefined };
+      carta_por_token: { Args: { p_token: string }; Returns: { title: string; body: string | null; audio_path: string | null; photo_path: string | null }[] };
+      familia_premium: { Args: { f: string }; Returns: boolean };
       // Funcionalidade 15
       escolher_nome: { Args: { p_chave: string }; Returns: string };
       desfazer_nome: { Args: Record<string, never>; Returns: undefined };

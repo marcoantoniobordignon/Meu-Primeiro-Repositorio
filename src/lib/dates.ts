@@ -230,6 +230,12 @@ export function formatarMinutos(min: number): string {
 
 const fmtLonga = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long" });
 const fmtCurta = new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+const fmtComAno = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+
+/** "8 de março de 2045": para datas fora deste ano (abertura de carta, data de revisão). */
+export function formatarComAno(iso: DataISO): string {
+  return fmtComAno.format(deISO(iso));
+}
 
 export function formatarLonga(iso: DataISO): string {
   return fmtLonga.format(deISO(iso));

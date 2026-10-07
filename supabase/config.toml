@@ -64,3 +64,7 @@ verify_jwt = true
 # Calendário (funcionalidade 08): o feed iCal se autoriza pelo token do link.
 [functions.calendario-ics]
 verify_jwt = false
+
+# Cartas (funcionalidade 14): a leitura pública se autoriza pelo token do link.
+[functions.carta-publica]
+verify_jwt = false

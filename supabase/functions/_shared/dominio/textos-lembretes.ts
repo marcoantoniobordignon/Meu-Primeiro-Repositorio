@@ -3,6 +3,17 @@
  * monta os textos; `src/copy/lembretes.ts` re-exporta para o app. Frases curtas, tom "a gente".
  */
 export const textosLembretes = {
+  // Funcionalidade 14: cartas (push e e-mails; o título é da própria autora).
+  carta: {
+    pushTitulo: "Uma carta pode ser aberta hoje",
+    pushCorpo: (titulo: string) => `"${titulo}" já pode ser lida.`,
+    emailAutoraAssunto: (titulo: string) => `A carta '${titulo}' pode ser aberta hoje`,
+    emailAutoraTexto: (titulo: string, url: string) => `Chegou o dia. A carta '${titulo}' pode ser aberta hoje.\n\nLeia no app: ${url}`,
+    emailEntregaAssunto: (nome: string) => (nome ? `Uma carta para ${nome}` : "Uma carta para você"),
+    emailEntregaTexto: (titulo: string, url: string) => `Alguém que te ama escreveu esta carta e pediu para ela chegar hoje: '${titulo}'.\n\nPara ler: ${url}\n\nO link vale por 30 dias.`,
+    emailAnualAssunto: (nome: string) => (nome ? `Suas cartas para ${nome} estão guardadas` : "Suas cartas estão guardadas"),
+    emailAnualTexto: (nome: string, url: string) => `Mais um ano. ${nome ? `Suas cartas para ${nome}` : "Suas cartas"} continuam lacradas e guardadas até o dia de abrir.\n\nSe este e-mail mudou, atualize no app. Para não receber este aviso, desligue em Cartas: ${url}`,
+  },
   // Funcionalidade 17: modo fé.
   fe: {
     batismo: "Quando pensar no batismo?",

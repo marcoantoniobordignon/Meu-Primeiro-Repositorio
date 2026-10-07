@@ -6,6 +6,7 @@ import type { Artigo } from "@dominio/trimestre.ts";
 import type { Oracao } from "@dominio/fe.ts";
 import type { CanalDeAjuda, CartaoDireito } from "@dominio/direitos.ts";
 import type { NomeCatalogo, VotoNome } from "@dominio/nomes.ts";
+import type { CartaBase } from "@dominio/cartas.ts";
 import type { ItemLista, PlanoParto } from "@dominio/plano-parto.ts";
 import type { ResumoLaudo, TipoDocumento } from "@dominio/galeria.ts";
 import type { DoseSource, DoseStatus, ScheduleType } from "@dominio/medicamentos.ts";
@@ -359,6 +360,17 @@ export interface NameMatch extends Registro {
   criado_em: string;
 }
 
+/**
+ * Funcionalidade 14 · carta (só as minhas). Lacrada, o servidor manda e o aparelho guarda só título e data
+ * (o texto, o áudio e a foto saem também daqui).
+ */
+export interface Carta extends Registro, CartaBase {
+  created_at?: string;
+  sealed_at?: string | null;
+  opened_at?: string | null;
+  unsealed_at?: string | null;
+}
+
 /** Funcionalidade 12: central de avisos (sem push). */
 export interface Aviso extends Registro {
   para: string;
@@ -420,6 +432,7 @@ export const rightsFavoritos = criarColecao<RightsFavorito>("ninho.rights_favori
 export const nomesRemotos = criarColecao<NomeRemoto>("ninho.names_catalog");
 export const nameVotes = criarColecao<NameVote>("ninho.name_votes");
 export const nameMatches = criarColecao<NameMatch>("ninho.name_matches");
+export const cartas = criarColecao<Carta>("ninho.letters");
 
 /** Spec 07 + painel: conteúdos editados no servidor, mesclados ao bundle (só leitura, nunca vai para a outbox). */
 export const conteudosRemotos = criarColecao<Registro & Record<string, unknown>>("ninho.conteudos");
@@ -457,4 +470,5 @@ export const todasColecoes = [
   faithFavoritos,
   rightsFavoritos,
   nameVotes,
+  cartas,
 ];

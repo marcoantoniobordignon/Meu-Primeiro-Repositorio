@@ -3,9 +3,11 @@
 // Para cada gestante: mantém as doses (job diário do modelo, idempotente), planeja os lembretes
 // a partir do estado atual e manda por Web Push só o que venceu agora (`selecionarParaEnvio`),
 // registrando em `reminders_sent`. Toda a regra mora em ../_shared/dominio (testada no Vitest).
-// Também manda os avisos do parceiro (funcionalidade 12) e faz a faxina da galeria: arquivos de documentos excluídos e PDFs exportados vencidos.
+// Também manda os avisos do parceiro (funcionalidade 12), faz a faxina da galeria (arquivos de documentos excluídos e
+// PDFs exportados vencidos) e cuida das cartas (funcionalidade 14: abrir, avisar, entregar e o e-mail anual).
 //
-// Segredos: LEMBRETES_SEGREDO, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:...).
+// Segredos: LEMBRETES_SEGREDO, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, VAPID_SUBJECT (mailto:...), APP_URL e, para os
+// e-mails das cartas, EMAIL_API_KEY e EMAIL_FROM (ver _shared/email.ts).
 import { createClient } from "npm:@supabase/supabase-js@2";
 import webpush from "npm:web-push@3.6.7";
 
@@ -15,6 +17,8 @@ import { planejarParceiro, selecionarParaParceiro } from "../_shared/dominio/par
 import { manutencaoDasDoses, type DoseBase, type MedicamentoAgenda } from "../_shared/dominio/medicamentos.ts";
 import { dataNoFuso, fusoOuPadrao, MS_DIA, normalizarHora } from "../_shared/dominio/tempo.ts";
 import { assinarToken } from "../_shared/dominio/token.ts";
+
+import { processarCartas } from "./cartas.ts";
 
 const URL_SB = Deno.env.get("SUPABASE_URL")!;
 const SEGREDO = Deno.env.get("LEMBRETES_SEGREDO") ?? "";
@@ -200,6 +204,25 @@ Deno.serve(async (req) => {
       resumo.erros++;
       console.error("parceiro", parceiroId, e instanceof Error ? e.message : e);
     }
+  }
+
+  // Funcionalidade 14: abrir cartas, avisar, entregar e o e-mail anual.
+  try {
+    const cartas = await processarCartas(sb, agora, async (profileId, carga) => {
+      const { data: subs } = await sb.from("push_subscriptions").select("endpoint, p256dh, auth").eq("profile_id", profileId);
+      for (const s of subs ?? []) {
+        try {
+          await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, JSON.stringify({ ...carga, acoes: [], ref: carga.tag }), { TTL: 60 * 60 * 24, urgency: "normal" });
+          resumo.enviados++;
+        } catch (e) {
+          const status = (e as { statusCode?: number }).statusCode;
+          if (status === 404 || status === 410) await sb.from("push_subscriptions").delete().eq("endpoint", s.endpoint);
+        }
+      }
+    });
+    Object.assign(resumo, { cartasAbertas: cartas.abertas, emails: cartas.emails });
+  } catch (e) {
+    console.error("cartas", e instanceof Error ? e.message : e);
   }
 
   return json(resumo);
