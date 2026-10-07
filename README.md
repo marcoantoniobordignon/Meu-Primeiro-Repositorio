@@ -25,6 +25,8 @@ Na nuvem: `supabase link`, `supabase db push`, `supabase functions deploy interp
 
 Lembretes (funcionalidades 02–06): `supabase functions deploy enviar-lembretes acao-lembrete`, os segredos do `.env.example` (VAPID e `LEMBRETES_SEGREDO`) e um Cron no painel do Supabase (*Integrations → Cron*) chamando `POST /functions/v1/enviar-lembretes` **a cada minuto** com o header `Authorization: Bearer <LEMBRETES_SEGREDO>`. O app precisa de `NEXT_PUBLIC_VAPID_PUBLIC_KEY`. O mesmo job faz a faxina da galeria (arquivos de documentos excluídos e PDFs exportados com mais de 24 h).
 
+CI (`.github/workflows/ci.yml`): em todo PR e push na `main`, três jobs — app (lint, typecheck, Vitest, build e Playwright), banco (migrations + pgTAP, `scripts/pgtap.sh`, que também roda local: `PSQL="sudo -u postgres psql" scripts/pgtap.sh`) e edge (`deno check` das Edge Functions).
+
 Cartas (funcionalidade 14): `supabase functions deploy carta-publica` e, no job, os segredos `APP_URL` (endereço do app, para os links) e, para os e-mails, `EMAIL_API_KEY` e `EMAIL_FROM` (opcional `EMAIL_API_URL`; o formato é o do Resend e compatíveis — o provedor ainda é decisão em aberto). Sem e-mail configurado, as cartas abrem e o push sai; só os e-mails não.
 
 Calendário (funcionalidade 08): `supabase functions deploy calendario-ics`. O app reescreve `/ics/{token}.ics` para ela quando `NEXT_PUBLIC_SUPABASE_URL` está definido no build.

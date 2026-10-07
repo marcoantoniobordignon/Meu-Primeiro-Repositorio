@@ -1,0 +1,76 @@
+# CI do Ninho: o mesmo que se roda localmente (CLAUDE.md → Comandos), em três jobs paralelos.
+#   app    lint, typecheck, Vitest, build e Playwright (o build de produção, sem Supabase: modo local do app)
+#   banco  migrations + pgTAP num Postgres 16 com pgTAP (scripts/pgtap.sh)
+#   edge   deno check das Edge Functions
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  app:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: Navegador do Playwright
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Playwright
+        run: pnpm e2e
+      - name: Relatório do Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright
+          path: test-results/
+          retention-days: 7
+
+  banco:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Postgres 16 com pgTAP
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-16 postgresql-16-pgtap
+          sudo systemctl start postgresql
+      - name: Migrations e pgTAP
+        env:
+          PSQL: sudo -u postgres psql
+        run: scripts/pgtap.sh
+
+  edge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      # Fora da raiz do app: o package.json/node_modules do Next não entram na resolução do Deno.
+      - name: deno check
+        run: |
+          mkdir -p "$RUNNER_TEMP/fn"
+          cp -r supabase/functions "$RUNNER_TEMP/fn/functions"
+          echo '{"nodeModulesDir":"none"}' > "$RUNNER_TEMP/fn/deno.json"
+          cd "$RUNNER_TEMP/fn" && deno check functions/*/index.ts
