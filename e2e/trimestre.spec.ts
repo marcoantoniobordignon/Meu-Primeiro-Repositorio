@@ -184,7 +184,7 @@ for (const [semana, tri] of [[10, "1"], [20, "2"], [30, "3"]] as const) {
       const stop = document.querySelector("linearGradient stop") as SVGStopElement;
       return { inicio: css.getPropertyValue("--anel-inicio").trim(), fim: css.getPropertyValue("--anel-fim").trim(), fundo: css.getPropertyValue("--fundo").trim(), texto: css.getPropertyValue("--texto").trim(), transicao: getComputedStyle(stop).transitionDuration };
     });
-    expect(r.fundo).toBe("#171513");
+    expect(r.fundo).toBe("#1b1512");
     expect(r.transicao).toBe("0.4s");
     for (const cor of [r.inicio, r.fim]) expect(contraste(cor, r.fundo), `${cor} × fundo`).toBeGreaterThanOrEqual(3);
     expect(contraste(r.texto, r.fundo)).toBeGreaterThanOrEqual(4.5);

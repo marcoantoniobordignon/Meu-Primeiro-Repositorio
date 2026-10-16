@@ -38,7 +38,7 @@ export function ItemDocumento({ doc, paginas, dpp, hoje, vista }: Props) {
     <span className="relative block size-full overflow-hidden bg-fio">
       <Foto caminho={paginas[0]?.storage_path} alt={tituloDoDocumento(doc)} />
       {doc.is_favorite && (
-        <span className="absolute right-1 top-1 grid size-6 place-items-center rounded-full bg-superficie text-acento" aria-label={copy.favorito}>
+        <span className="absolute right-1 top-1 grid size-6 place-items-center rounded-full bg-superficie text-acento-texto" aria-label={copy.favorito}>
           <Star size={13} fill="currentColor" />
         </span>
       )}

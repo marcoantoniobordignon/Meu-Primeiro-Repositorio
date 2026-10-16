@@ -1,24 +1,30 @@
 /* Fonte única de verdade para cor, raio, espaçamento e fonte (spec 02). */
 :root {
-  --cor-primaria: #31bcd3;
-  --cor-primaria-texto: #158fa3;
-  --cor-primaria-suave: #ddf4f7;
-  --cor-acento: #f0707d;
-  --cor-acento-suave: #fde3e5;
+  /* Identidade Ninho (out/2026): marrom quente, rosa, bege e oliva. Todo texto aqui passa AA (≥ 4,5:1) sobre
+     fundo, superfície e os tons suaves; o teste em src/styles/tema-trimestre.test.ts confere. */
+  --cor-primaria: #8b6f5b;
+  --cor-primaria-texto: #6f5545;
+  --cor-primaria-suave: #f6e7e2;
+  /* Rosa queimado: o rosa da marca escurecido. Fundo de botão com texto branco, igual no claro e no escuro. */
+  --cor-acento: #a0514a;
+  /* Texto na cor de destaque (no escuro, um rosa claro que passa AA sobre o fundo). */
+  --cor-acento-texto: #a0514a;
+  --cor-acento-suave: #f1e7de;
 
-  --fundo: #faf6f4;
+  --fundo: #f8f3ec;
   --superficie: #ffffff;
-  --texto: #2b2a28;
-  --texto-mudo: #7a7570;
-  --fio: #ede6e1;
+  --texto: #3a2c25;
+  --texto-mudo: #736052;
+  --fio: #ece2d7;
 
-  --reg-sono: #7b6fe0;
-  --reg-mamada: #f0707d;
-  --reg-fralda: #f2b441;
-  --reg-banho: #5cc8a8;
+  /* Fundos de botão com texto branco (≥ 4,5:1); nos tiles aparecem em transparência, como tons pastel. */
+  --reg-sono: #7068a6;
+  --reg-mamada: #a35a52;
+  --reg-fralda: #8c6430;
+  --reg-banho: #587455;
 
-  --erro: #d7263d;
-  --sucesso: #2e9e6b;
+  --erro: #b83a32;
+  --sucesso: #4a7345;
 
   --raio: 18px;
   --raio-pilula: 999px;
@@ -43,23 +49,23 @@
   --utero-vidro: rgba(42, 18, 16, 0.55);
 
   /* Funcionalidade 07: a retrospectiva tem paleta própria, fixa (o vídeo sai igual no claro e no escuro).
-     Papel quente para os slides claros, noite quente para os escuros; coral, teal e ouro só em detalhe. */
-  --retro-papel: #f8f1ea;
-  --retro-papel-fundo: #efe1d5;
-  --retro-tinta: #2b2a28;
-  --retro-tinta-suave: #6b645e;
-  --retro-noite: #1d1315;
-  --retro-noite-fundo: #3b2226;
-  --retro-luz: #fff4ea;
-  --retro-luz-suave: #dcc6b9;
-  --retro-coral: #f0707d;
-  /* Coral para texto pequeno no papel (o coral puro não passa AA no claro). */
-  --retro-coral-tinta: #a8394a;
-  --retro-teal: #31bcd3;
-  --retro-ouro: #f6c27a;
+     Papel bege para os slides claros, noite marrom para os escuros; rosa, oliva e caramelo só em detalhe. */
+  --retro-papel: #f8f3ec;
+  --retro-papel-fundo: #efe4d8;
+  --retro-tinta: #3a2c25;
+  --retro-tinta-suave: #6e5d51;
+  --retro-noite: #211915;
+  --retro-noite-fundo: #3d2c25;
+  --retro-luz: #fff7ee;
+  --retro-luz-suave: #dccabc;
+  --retro-rosa: #e0a097;
+  /* Rosa para texto pequeno no papel (o rosa claro não passa AA no claro). */
+  --retro-rosa-tinta: #9a4d46;
+  --retro-oliva: #a7b39f;
+  --retro-caramelo: #d9a86c;
 
   /* Única sombra permitida: o botão "+" flutuante. */
-  --sombra-mais: 0 8px 18px rgba(49, 188, 211, 0.4);
+  --sombra-mais: 0 8px 18px rgba(139, 111, 91, 0.35);
 
   --anim-sheet: 240ms;
   --anim-toast: 180ms;
@@ -68,70 +74,76 @@
   /* Funcionalidade 11 RN-07: a troca de tema na virada de trimestre. */
   --anim-tema: 400ms;
 
-  /* Funcionalidade 11: anel por trimestre (provisório, a validar com o design system). 1º: teal claro → teal. */
-  --anel-inicio: #7fd6e4;
-  --anel-fim: #31bcd3;
+  /* Funcionalidade 11: anel por trimestre, nas cores da marca. 1º: oliva claro → oliva. */
+  --anel-inicio: #a7b39f;
+  --anel-fim: #7e9474;
 
   color-scheme: light;
 }
 
-/* 2º: teal → teal escuro. 3º: teal escuro → coral. O atributo vem do app (`data-trimestre` no <html>). */
+/* 2º: rosa → rosa queimado. 3º: caramelo → marrom. O atributo vem do app (`data-trimestre` no <html>). */
 [data-trimestre="2"] {
-  --anel-inicio: #31bcd3;
-  --anel-fim: #158fa3;
+  --anel-inicio: #d9a79b;
+  --anel-fim: #b4635b;
 }
 [data-trimestre="3"] {
-  --anel-inicio: #158fa3;
-  --anel-fim: #f0707d;
+  --anel-inicio: #c9965c;
+  --anel-fim: #8b6f5b;
 }
 
 [data-tema="escuro"] {
-  --fundo: #171513;
-  --superficie: #221f1c;
-  --texto: #f1ece7;
-  --texto-mudo: #a29b94;
-  --fio: #2e2a26;
-  --cor-primaria-texto: #6fd0e0;
-  --cor-primaria-suave: #153840;
-  --cor-acento-suave: #3a2427;
+  --fundo: #1b1512;
+  --superficie: #251e1a;
+  --texto: #f3ece5;
+  --texto-mudo: #ada096;
+  --fio: #352b25;
+  --cor-primaria-texto: #d9b9a3;
+  --cor-primaria-suave: #3a2d25;
+  --cor-acento-texto: #e4a49b;
+  --cor-acento-suave: #3d2a27;
+  --erro: #e8877d;
+  --sucesso: #a3bd96;
   /* RN-07: no escuro o anel clareia para manter contraste ≥ 3:1 com o fundo nos três trimestres. */
-  --anel-inicio: #9be3ee;
-  --anel-fim: #4cc9dd;
+  --anel-inicio: #c9d2bf;
+  --anel-fim: #b8c4ae;
 
   color-scheme: dark;
 }
 [data-tema="escuro"][data-trimestre="2"] {
-  --anel-inicio: #4cc9dd;
-  --anel-fim: #2fa9be;
+  --anel-inicio: #e4b3a8;
+  --anel-fim: #e4a49b;
 }
 [data-tema="escuro"][data-trimestre="3"] {
-  --anel-inicio: #3fb5c9;
-  --anel-fim: #f0707d;
+  --anel-inicio: #e8c9a0;
+  --anel-fim: #d9b9a3;
 }
 
 /* DS-02: 'auto' segue o sistema, sem recarregar a página. */
 @media (prefers-color-scheme: dark) {
   [data-tema="auto"] {
-    --fundo: #171513;
-    --superficie: #221f1c;
-    --texto: #f1ece7;
-    --texto-mudo: #a29b94;
-    --fio: #2e2a26;
-    --cor-primaria-texto: #6fd0e0;
-    --cor-primaria-suave: #153840;
-    --cor-acento-suave: #3a2427;
-    --anel-inicio: #9be3ee;
-    --anel-fim: #4cc9dd;
+    --fundo: #1b1512;
+    --superficie: #251e1a;
+    --texto: #f3ece5;
+    --texto-mudo: #ada096;
+    --fio: #352b25;
+    --cor-primaria-texto: #d9b9a3;
+    --cor-primaria-suave: #3a2d25;
+    --cor-acento-texto: #e4a49b;
+    --cor-acento-suave: #3d2a27;
+    --erro: #e8877d;
+    --sucesso: #a3bd96;
+    --anel-inicio: #c9d2bf;
+    --anel-fim: #b8c4ae;
 
     color-scheme: dark;
   }
   [data-tema="auto"][data-trimestre="2"] {
-    --anel-inicio: #4cc9dd;
-    --anel-fim: #2fa9be;
+    --anel-inicio: #e4b3a8;
+    --anel-fim: #e4a49b;
   }
   [data-tema="auto"][data-trimestre="3"] {
-    --anel-inicio: #3fb5c9;
-    --anel-fim: #f0707d;
+    --anel-inicio: #e8c9a0;
+    --anel-fim: #d9b9a3;
   }
 }
 

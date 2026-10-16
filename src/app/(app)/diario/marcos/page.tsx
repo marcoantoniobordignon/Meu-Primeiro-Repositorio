@@ -41,7 +41,7 @@ export default function PaginaMarcos() {
               onClick={() => abrir(m, e)}
               className="flex min-h-14 w-full items-center gap-3 rounded-card bg-superficie px-4 py-3 text-left disabled:opacity-60 [[data-tema=escuro]_&]:border [[data-tema=escuro]_&]:border-fio"
             >
-              <span aria-hidden className={`grid size-9 shrink-0 place-items-center rounded-full ${e === "respondido" ? "bg-sucesso text-white" : e === "aberto" ? "bg-acento-suave text-texto" : "bg-fio text-texto-mudo"}`}>
+              <span aria-hidden className={`grid size-9 shrink-0 place-items-center rounded-full ${e === "respondido" ? "bg-sucesso text-superficie" : e === "aberto" ? "bg-acento-suave text-texto" : "bg-fio text-texto-mudo"}`}>
                 {e === "respondido" ? <Check size={16} strokeWidth={3} /> : e === "em_breve" ? <Clock size={16} /> : <Sparkles size={16} />}
               </span>
               <span className="min-w-0 flex-1">

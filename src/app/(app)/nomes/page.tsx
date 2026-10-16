@@ -129,7 +129,7 @@ export default function PaginaNomes() {
               onAbrir={() => router.push(`/nomes/nome?id=${atual.id}`)}
             />
             <div className="flex items-center justify-center gap-4">
-              <button type="button" onClick={() => votarAtual("dislike")} aria-label={copy.descartar} className="grid size-16 place-items-center rounded-full border-2 border-acento bg-superficie text-acento">
+              <button type="button" onClick={() => votarAtual("dislike")} aria-label={copy.descartar} className="grid size-16 place-items-center rounded-full border-2 border-acento bg-superficie text-acento-texto">
                 <X size={28} />
               </button>
               <button type="button" onClick={() => votarAtual("like")} aria-label={copy.curtir} className="grid size-16 place-items-center rounded-full border-2 border-sucesso bg-superficie text-sucesso">

@@ -24,11 +24,11 @@ export interface Paleta {
   noiteFundo: string;
   luz: string;
   luzSuave: string;
-  coral: string;
-  /** Coral escurecido para texto no papel (AA). */
-  coralTinta: string;
-  teal: string;
-  ouro: string;
+  rosa: string;
+  /** Rosa escurecido para texto no papel (AA). */
+  rosaTinta: string;
+  oliva: string;
+  caramelo: string;
 }
 
 export interface Estilo {
@@ -62,10 +62,10 @@ export function estiloDoDocumento(o: { semMovimento: boolean; marca: boolean; ki
       noiteFundo: c("noite-fundo"),
       luz: c("luz"),
       luzSuave: c("luz-suave"),
-      coral: c("coral"),
-      coralTinta: c("coral-tinta"),
-      teal: c("teal"),
-      ouro: c("ouro"),
+      rosa: c("rosa"),
+      rosaTinta: c("rosa-tinta"),
+      oliva: c("oliva"),
+      caramelo: c("caramelo"),
     },
     sans: token("--fonte", "system-ui, sans-serif"),
     serifa: token("--fonte-serifa", "Georgia, serif"),
@@ -303,9 +303,9 @@ function slideCapa(q: Quadro, s: Extract<Slide, { tipo: "cover" }>, rec: Recurso
     ctx.fillRect(0, 0, W, H);
   } else {
     fundoLiso(q, c.noite, comAlfa(c.noiteFundo, 0.95), 0.5, 0.3);
-    bokeh(q, 7, 18, [c.coral, c.ouro, c.teal], 0.9);
+    bokeh(q, 7, 18, [c.rosa, c.caramelo, c.oliva], 0.9);
   }
-  rotulo(q, T.rotulo[e.kind], 32, 452, 0.25, c.coral);
+  rotulo(q, T.rotulo[e.kind], 32, 452, 0.25, c.rosa);
   fonte(q, 30, 400, "serifa");
   textoQueSobe(q, T.capa, 32, 498, 0.45, { cor: c.luzSuave });
   const nome = s.nome ?? T.vocesNome;
@@ -313,7 +313,7 @@ function slideCapa(q: Quadro, s: Extract<Slide, { tipo: "cover" }>, rec: Recurso
   fonte(q, tamanho, 500, "serifa", true);
   while (ctx.measureText(nome).width > 296 * u && tamanho > 30) fonte(q, (tamanho -= 2), 500, "serifa", true);
   textoQueSobe(q, nome, 32, 498 + tamanho * 1.05, 0.62, { cor: c.luz, subida: 22, duracao: 1.1 });
-  fio(q, 34, 498 + tamanho * 1.05 + 26, 56, 1.05, c.coral);
+  fio(q, 34, 498 + tamanho * 1.05 + 26, 56, 1.05, c.rosa);
   marcaDagua(q, true);
 }
 
@@ -321,7 +321,7 @@ function slideDuracao(q: Quadro, s: Extract<Slide, { tipo: "duration" }>): void 
   const { ctx, W, u, e } = q;
   const c = e.cores;
   fundoLiso(q, c.papel, comAlfa(c.papelFundo, 0.9), 0.5, 0.42);
-  rotulo(q, T.duracaoRotulo, 180, 128, 0.15, c.coralTinta, "center");
+  rotulo(q, T.duracaoRotulo, 180, 128, 0.15, c.rosaTinta, "center");
   // O anel da home (semana 40 = volta inteira), desenhando junto com a contagem.
   const cx = W / 2;
   const cy = 300 * u;
@@ -337,8 +337,8 @@ function slideDuracao(q: Quadro, s: Extract<Slide, { tipo: "duration" }>): void 
   ctx.stroke();
   if (p > 0) {
     const g = ctx.createLinearGradient(cx - raio, cy - raio, cx + raio, cy + raio);
-    g.addColorStop(0, c.teal);
-    g.addColorStop(1, c.coral);
+    g.addColorStop(0, c.oliva);
+    g.addColorStop(1, c.rosa);
     ctx.strokeStyle = g;
     ctx.beginPath();
     ctx.arc(cx, cy, raio, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * fracao * p);
@@ -346,7 +346,7 @@ function slideDuracao(q: Quadro, s: Extract<Slide, { tipo: "duration" }>): void 
     // Marcador do dia na ponta, como na home.
     const a = -Math.PI / 2 + Math.PI * 2 * fracao * p;
     ctx.fillStyle = c.papel;
-    ctx.strokeStyle = c.coral;
+    ctx.strokeStyle = c.rosa;
     ctx.lineWidth = 3 * u;
     ctx.beginPath();
     ctx.arc(cx + Math.cos(a) * raio, cy + Math.sin(a) * raio, 8 * u, 0, Math.PI * 2);
@@ -397,14 +397,14 @@ function blocoDeFrase(q: Quadro, f: Frase, rotuloTexto: string, y0: number, inic
   const c = e.cores;
   const tinta = escuro ? c.luz : c.tinta;
   const suave = escuro ? c.luzSuave : c.tintaSuave;
-  rotulo(q, rotuloTexto, 32, y0, inicio, escuro ? c.coral : c.coralTinta);
+  rotulo(q, rotuloTexto, 32, y0, inicio, escuro ? c.rosa : c.rosaTinta);
   // Aspas decorativas que crescem de leve.
   const pa = trecho(q.t, inicio + 0.1, 1.0, curva.saidaQuinta);
   if (pa > 0) {
     ctx.save();
     ctx.globalAlpha = 0.22 * pa;
     fonte(q, 150 * lerp(0.86, 1, pa), 400, "serifa");
-    ctx.fillStyle = c.coral;
+    ctx.fillStyle = c.rosa;
     ctx.fillText("“", 22 * q.u, (y0 + 108) * q.u);
     ctx.restore();
   }
@@ -513,12 +513,12 @@ function slideBarriga(q: Quadro, s: Extract<Slide, { tipo: "belly" }>, rec: Recu
   ctx.lineTo(328 * u, y);
   ctx.stroke();
   const frac = n > 1 ? Math.min(1, (pos + mistura * 0) / (n - 1)) : 1;
-  ctx.strokeStyle = c.coral;
+  ctx.strokeStyle = c.rosa;
   ctx.beginPath();
   ctx.moveTo(32 * u, y);
   ctx.lineTo((32 + 296 * frac) * u, y);
   ctx.stroke();
-  ctx.fillStyle = c.coral;
+  ctx.fillStyle = c.rosa;
   ctx.beginPath();
   ctx.arc((32 + 296 * frac) * u, y, 5 * u, 0, Math.PI * 2);
   ctx.fill();
@@ -533,7 +533,7 @@ function slideBarriga(q: Quadro, s: Extract<Slide, { tipo: "belly" }>, rec: Recu
 function slideUltrassom(q: Quadro, s: Extract<Slide, { tipo: "ultrasound" }>, rec: Recursos): void {
   const { ctx, u, e } = q;
   const c = e.cores;
-  fundoLiso(q, c.noite, comAlfa(c.teal, 0.16), 0.5, 0.4);
+  fundoLiso(q, c.noite, comAlfa(c.oliva, 0.16), 0.5, 0.4);
   const img = rec.get(s.caminho);
   const p = trecho(q.t, 0.15, 1.2, curva.saidaQuinta);
   const lado = 296;
@@ -548,7 +548,7 @@ function slideUltrassom(q: Quadro, s: Extract<Slide, { tipo: "ultrasound" }>, re
   ctx.scale(escala, escala);
   ctx.translate(-cx, -cy);
   // Brilho suave em volta da imagem.
-  ctx.shadowColor = comAlfa(c.teal, 0.45);
+  ctx.shadowColor = comAlfa(c.oliva, 0.45);
   ctx.shadowBlur = 40 * u;
   ctx.fillStyle = c.noite;
   ctx.beginPath();
@@ -560,7 +560,7 @@ function slideUltrassom(q: Quadro, s: Extract<Slide, { tipo: "ultrasound" }>, re
   ctx.clip();
   if (img) fotoCover(q, img, x * u, y * u, lado * u, lado * u, lerp(1.08, 1.0, trecho(q.t, 0, SEGUNDOS_POR_SLIDE, curva.seno)));
   ctx.restore();
-  rotulo(q, formatarComAno(s.data), 32, 470, 0.8, c.coral);
+  rotulo(q, formatarComAno(s.data), 32, 470, 0.8, c.rosa);
   fonte(q, 30, 400, "serifa");
   textoQueSobe(q, T.ultrassom, 32, 512, 1.0, { cor: c.luz });
   marcaDagua(q, true);
@@ -570,8 +570,8 @@ function slideNumeros(q: Quadro, s: Extract<Slide, { tipo: "numbers" }>): void {
   const { ctx, u, e } = q;
   const c = e.cores;
   fundoLiso(q, c.papel, comAlfa(c.papelFundo, 0.9), 0.5, 0.1);
-  rotulo(q, T.numeros, 32, 130, 0.15, c.coralTinta);
-  fio(q, 32, 146, 40, 0.35, c.coral);
+  rotulo(q, T.numeros, 32, 130, 0.15, c.rosaTinta);
+  fio(q, 32, 146, 40, 0.35, c.rosa);
   const itens: [number, string][] = [
     [s.consultas, T.consultas(s.consultas)],
     [s.documentos, T.documentos(s.documentos)],
@@ -609,7 +609,7 @@ function slideEncerramento(q: Quadro, s: Extract<Slide, { tipo: "closing" }>): v
   const { ctx, u, e } = q;
   const c = e.cores;
   fundoLiso(q, c.noite, comAlfa(c.noiteFundo, 1), 0.5, 0.45);
-  bokeh(q, 31, 26, [c.coral, c.ouro, c.teal, c.ouro]);
+  bokeh(q, 31, 26, [c.rosa, c.caramelo, c.oliva, c.caramelo]);
   const nome = s.nome ?? T.bebeNome;
   if (s.nascimento) {
     fonte(q, 30, 400, "serifa", true);
@@ -618,7 +618,7 @@ function slideEncerramento(q: Quadro, s: Extract<Slide, { tipo: "closing" }>): v
     fonte(q, tamanho, 500, "serifa");
     while (ctx.measureText(T.chegou(nome)).width > 310 * u && tamanho > 26) fonte(q, (tamanho -= 2), 500, "serifa");
     textoQueSobe(q, T.chegou(nome), 180, 262 + tamanho * 1.2, 0.75, { cor: c.luz, alinhar: "center", subida: 24, duracao: 1.2 });
-    fio(q, 180, 262 + tamanho * 1.2 + 28, 64, 1.4, c.coral, true);
+    fio(q, 180, 262 + tamanho * 1.2 + 28, 64, 1.4, c.rosa, true);
     const n = s.nascimento;
     const detalhes = [formatarComAno(n.data), n.hora ? T.hora(n.hora) : null, n.peso_g ? formatarPeso(n.peso_g) : null, n.comprimento_cm ? formatarComprimento(n.comprimento_cm) : null].filter(Boolean) as string[];
     // Pílulas que entram uma a uma, centralizadas em até duas linhas.
@@ -663,7 +663,7 @@ function slideEncerramento(q: Quadro, s: Extract<Slide, { tipo: "closing" }>): v
     fonte(q, tamanho, 500, "serifa");
     while (ctx.measureText(nome).width > 310 * u && tamanho > 26) fonte(q, (tamanho -= 2), 500, "serifa");
     textoQueSobe(q, nome, 180, 286 + tamanho * 1.15, 0.75, { cor: c.luz, alinhar: "center", subida: 24, duracao: 1.2 });
-    fio(q, 180, 286 + tamanho * 1.15 + 28, 64, 1.4, c.coral, true);
+    fio(q, 180, 286 + tamanho * 1.15 + 28, 64, 1.4, c.rosa, true);
     fonte(q, 14, 400, "sans");
     textoQueSobe(q, T.ateLogoApoio, 180, 286 + tamanho * 1.15 + 66, 1.7, { cor: c.luzSuave, alinhar: "center", subida: 8 });
   }
@@ -683,7 +683,7 @@ function slidePonte(q: Quadro, s: Extract<Slide, { tipo: "bridge" }>): void {
   ctx.beginPath();
   ctx.arc(W / 2, 236 * u, 64 * u, 0, Math.PI * 2);
   ctx.stroke();
-  ctx.strokeStyle = c.teal;
+  ctx.strokeStyle = c.oliva;
   ctx.beginPath();
   ctx.arc(W / 2, 236 * u, 64 * u, -Math.PI / 2, -Math.PI / 2 + Math.PI * 0.35 * p);
   ctx.stroke();
@@ -691,7 +691,7 @@ function slidePonte(q: Quadro, s: Extract<Slide, { tipo: "bridge" }>): void {
   if (p > 0) {
     const a = -Math.PI / 2 + Math.PI * 0.35 * p;
     ctx.fillStyle = c.papel;
-    ctx.strokeStyle = c.teal;
+    ctx.strokeStyle = c.oliva;
     ctx.lineWidth = 3 * u;
     ctx.beginPath();
     ctx.arc(W / 2 + Math.cos(a) * 64 * u, 236 * u + Math.sin(a) * 64 * u, 7 * u * trecho(q.t, 0.3, 0.5, curva.saidaQuinta), 0, Math.PI * 2);

@@ -2,6 +2,12 @@
 
 ## Não lançado
 
+### Identidade visual: cores da marca
+- Paleta nova nos tokens (`src/styles/tokens.css`), sem tocar nas telas: marrom quente como cor primária, rosa queimado como destaque, fundo bege, rosa suave nos fundos de ícone e oliva, rosa e caramelo no anel de cada trimestre. Modo escuro em marrom profundo, com os mesmos papéis.
+- Contraste: todo texto passa AA (≥ 4,5:1) no claro e no escuro, conferido pelo novo `src/styles/paleta.test.ts`. Novo token `--cor-acento-texto` para texto na cor de destaque (no escuro ele clareia; o fundo de botão rosa queimado continua com texto branco). Ícones sobre verde de "feito" usam a cor da superfície, que funciona nos dois temas. As cores de registro do bebê (sono, mamada, fralda, banho) ficaram mais fundas para o texto branco dos botões passar AA.
+- Retrospectiva: a paleta do vídeo segue a marca (papel bege, noite marrom, rosa, oliva e caramelo); os tokens `--retro-coral/teal/ouro` viraram `--retro-rosa/oliva/caramelo`.
+- Ícone do app com o símbolo das folhas (rosa, pêssego e oliva) sobre rosa suave; `theme_color` e fundo do manifesto e do `<meta>` acompanham. A spec 02 registra os novos valores.
+
 ### Offline (correção encontrada pelo CI)
 - O CI (Chromium mais novo, em que `setOffline` também corta a rede do service worker) mostrou que, sem rede, telas com query (`/cartas/escrever?id=`, `/direitos/cartao?slug=`, `/fe/oracao?id=`, `/artigos/artigo?slug=`) caíam em "Sem conexão" e que navegar dentro do app recarregava a página (perdendo o aviso "Evento salvo ✓"). O service worker agora guarda as páginas pelo caminho, sem a query (todas são estáticas), e o RSC de cada tela aberta, para a navegação do app funcionar offline sem recarregar.
 - Voltar a rede não recarrega mais a tela (`reloadOnOnline: false`): o recarregamento apagava o que estava sendo escrito; a fila já sincroniza sozinha.

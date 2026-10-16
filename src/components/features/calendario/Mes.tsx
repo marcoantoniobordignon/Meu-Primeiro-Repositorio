@@ -60,7 +60,7 @@ export function Mes({ ano, mes, itens, hoje, dpp, onMudarMes }: Props) {
               className={`relative flex min-h-14 flex-col items-center justify-start gap-0.5 rounded-card pt-1 active:bg-primaria-suave ${ehHoje ? "bg-primaria-suave" : ""}`}
             >
               <span className={`text-[15px] ${ehHoje ? "font-semibold text-primaria-texto" : "text-texto"}`}>{Number(data.slice(8))}</span>
-              {virada && <span className="text-[10px] font-medium leading-none text-acento">{copy.marcadorSemana(virada)}</span>}
+              {virada && <span className="text-[10px] font-medium leading-none text-acento-texto">{copy.marcadorSemana(virada)}</span>}
               <span className="flex items-center gap-0.5">
                 {cores.map((c, j) => (
                   <span key={j} className={`size-1.5 rounded-full ${FUNDO_DA_COR[c]}`} />

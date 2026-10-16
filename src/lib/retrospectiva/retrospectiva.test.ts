@@ -132,12 +132,12 @@ describe("paleta da retrospectiva (contraste AA do texto nos slides)", () => {
     ["tinta", "papel"],
     ["tinta-suave", "papel"],
     ["tinta-suave", "papel-fundo"],
-    ["coral-tinta", "papel"],
+    ["rosa-tinta", "papel"],
     ["luz", "noite"],
     ["luz-suave", "noite"],
     ["luz-suave", "noite-fundo"],
-    ["coral", "noite"],
-    ["coral", "noite-fundo"],
+    ["rosa", "noite"],
+    ["rosa", "noite-fundo"],
   ])("%s sobre %s ≥ 4,5", (texto, fundo) => {
     expect(contraste(texto, fundo)).toBeGreaterThanOrEqual(4.5);
   });

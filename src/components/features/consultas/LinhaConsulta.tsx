@@ -17,7 +17,7 @@ export function LinhaConsulta({ consulta, agora }: { consulta: Appointment; agor
   return (
     <li>
       <Link href={`/consultas/${c.id}`} className="flex min-h-14 items-center gap-3 rounded-card bg-superficie px-4 py-3 [[data-tema=escuro]_&]:border [[data-tema=escuro]_&]:border-fio">
-        <span aria-hidden className={`grid size-10 shrink-0 place-items-center rounded-full ${c.status === "done" ? "bg-sucesso text-white" : c.status === "cancelled" ? "bg-fio text-texto-mudo" : "bg-primaria-suave text-primaria-texto"}`}>
+        <span aria-hidden className={`grid size-10 shrink-0 place-items-center rounded-full ${c.status === "done" ? "bg-sucesso text-superficie" : c.status === "cancelled" ? "bg-fio text-texto-mudo" : "bg-primaria-suave text-primaria-texto"}`}>
           {c.status === "done" ? <Check size={18} strokeWidth={3} /> : c.status === "cancelled" ? <X size={18} /> : <CalendarDays size={18} />}
         </span>
         <span className="min-w-0 flex-1">

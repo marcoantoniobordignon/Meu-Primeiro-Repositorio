@@ -103,7 +103,7 @@ function Conteudo() {
               return (
                 <li key={d.id} className="flex items-center gap-3 rounded-card bg-superficie px-4 py-3 [[data-tema=escuro]_&]:border [[data-tema=escuro]_&]:border-fio">
                   <button type="button" onClick={() => setAberta({ dose: d, origem: "app" })} className="flex min-h-11 min-w-0 flex-1 items-center gap-3 text-left">
-                    <span aria-hidden className={`grid size-10 shrink-0 place-items-center rounded-full ${d.status === "taken" ? "bg-sucesso text-white" : m?.color_key === "acento" ? "bg-acento-suave text-texto" : "bg-primaria-suave text-primaria-texto"}`}>
+                    <span aria-hidden className={`grid size-10 shrink-0 place-items-center rounded-full ${d.status === "taken" ? "bg-sucesso text-superficie" : m?.color_key === "acento" ? "bg-acento-suave text-texto" : "bg-primaria-suave text-primaria-texto"}`}>
                       {d.status === "taken" ? <Check size={18} strokeWidth={3} /> : <Pill size={18} />}
                     </span>
                     <span className="min-w-0 flex-1">

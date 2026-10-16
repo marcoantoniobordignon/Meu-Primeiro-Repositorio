@@ -103,7 +103,7 @@ export function TelaInstalar({ avancar }: PropsTela) {
       {instalado ? (
         <Card tom="suave">
           <div className="flex items-center gap-3">
-            <span aria-hidden className="grid size-7 place-items-center rounded-full bg-sucesso text-white">
+            <span aria-hidden className="grid size-7 place-items-center rounded-full bg-sucesso text-superficie">
               <Check size={14} strokeWidth={3} />
             </span>
             <p className="tipo-corpo text-texto">{copy.instalar.instalado}</p>

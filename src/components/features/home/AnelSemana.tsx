@@ -23,7 +23,7 @@ export function AnelSemana({ g }: { g: SemanaGestacional }) {
       </Anel>
       <div className="mt-3 flex items-center gap-2">
         <span className="rounded-pilula bg-primaria-suave px-3 py-1 text-[12px] font-medium text-primaria-texto">{copy.trimestre(g.trimestre)}</span>
-        <span className={`tipo-corpo ${legenda.tom === "acento" ? "font-medium text-acento" : "text-texto-mudo"}`}>{legenda.texto}</span>
+        <span className={`tipo-corpo ${legenda.tom === "acento" ? "font-medium text-acento-texto" : "text-texto-mudo"}`}>{legenda.texto}</span>
       </div>
     </div>
   );

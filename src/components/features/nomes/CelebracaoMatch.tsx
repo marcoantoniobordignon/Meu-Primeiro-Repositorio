@@ -53,7 +53,7 @@ export function CelebracaoMatch() {
   return (
     <Sheet aberto onFechar={() => setAtual(null)} titulo={copy.match.titulo}>
       <div className="flex flex-col items-center gap-3 py-2 text-center">
-        <span aria-hidden className="grid size-16 place-items-center rounded-full bg-acento-suave text-acento">
+        <span aria-hidden className="grid size-16 place-items-center rounded-full bg-acento-suave text-acento-texto">
           <Heart size={30} fill="currentColor" />
         </span>
         <p className="font-serifa text-[32px] text-texto">{nome}</p>

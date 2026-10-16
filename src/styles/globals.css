@@ -8,6 +8,7 @@
   --color-primaria-suave: var(--cor-primaria-suave);
   --color-acento: var(--cor-acento);
   --color-acento-suave: var(--cor-acento-suave);
+  --color-acento-texto: var(--cor-acento-texto);
   --color-fundo: var(--fundo);
   --color-superficie: var(--superficie);
   --color-texto: var(--texto);
@@ -29,8 +30,8 @@
   --color-retro-noite-fundo: var(--retro-noite-fundo);
   --color-retro-luz: var(--retro-luz);
   --color-retro-luz-suave: var(--retro-luz-suave);
-  --color-retro-coral: var(--retro-coral);
-  --color-retro-ouro: var(--retro-ouro);
+  --color-retro-rosa: var(--retro-rosa);
+  --color-retro-caramelo: var(--retro-caramelo);
 
   --radius-card: var(--raio);
   --radius-pilula: var(--raio-pilula);

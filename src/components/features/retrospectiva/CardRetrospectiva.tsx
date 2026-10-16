@@ -27,11 +27,11 @@ function Cartao({ kind }: { kind: TipoRetro }) {
       className="group relative flex items-center gap-4 overflow-hidden rounded-card bg-retro-noite p-3 pr-4 text-retro-luz transition-transform duration-200 active:scale-[0.985]"
     >
       {/* Luz quente no canto, como nos slides. */}
-      <span aria-hidden className="pointer-events-none absolute -right-10 -top-16 size-48 rounded-full bg-retro-coral/25 blur-3xl" />
-      <span aria-hidden className="pointer-events-none absolute -bottom-20 right-16 size-40 rounded-full bg-retro-ouro/15 blur-3xl" />
+      <span aria-hidden className="pointer-events-none absolute -right-10 -top-16 size-48 rounded-full bg-retro-rosa/25 blur-3xl" />
+      <span aria-hidden className="pointer-events-none absolute -bottom-20 right-16 size-40 rounded-full bg-retro-caramelo/15 blur-3xl" />
       <MiniaturaRetro slide={r.slides[0]} kind={kind} largura={64} />
       <span className="relative flex min-w-0 flex-1 flex-col gap-1">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-retro-coral">{kind === "final" ? copy.final : copy.previa}</span>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-retro-rosa">{kind === "final" ? copy.final : copy.previa}</span>
         <span className="font-serifa text-[22px] leading-[1.1] text-retro-luz">{titulo}</span>
         <span className="text-[13px] leading-snug text-retro-luz-suave">{apoio}</span>
       </span>

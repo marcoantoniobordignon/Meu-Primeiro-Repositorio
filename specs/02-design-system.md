@@ -16,18 +16,20 @@ Toda tela nova precisa sair com a mesma cara do mockup aprovado (teal do Huckleb
 ## Tokens
 ```css
 :root{
-  --cor-primaria:#31BCD3;  --cor-primaria-texto:#158FA3;  --cor-primaria-suave:#DDF4F7;
-  --cor-acento:#F0707D;    --cor-acento-suave:#FDE3E5;
-  --fundo:#FAF6F4; --superficie:#FFFFFF; --texto:#2B2A28; --texto-mudo:#7A7570; --fio:#EDE6E1;
-  --reg-sono:#7B6FE0; --reg-mamada:#F0707D; --reg-fralda:#F2B441; --reg-banho:#5CC8A8;
-  --erro:#D7263D; --sucesso:#2E9E6B;
+  /* Identidade de out/2026: marrom quente, rosa, bege e oliva (antes: teal #31BCD3 e coral #F0707D). */
+  --cor-primaria:#8B6F5B;  --cor-primaria-texto:#6F5545;  --cor-primaria-suave:#F6E7E2;
+  --cor-acento:#A0514A;    --cor-acento-texto:#A0514A;  --cor-acento-suave:#F1E7DE;
+  --fundo:#F8F3EC; --superficie:#FFFFFF; --texto:#3A2C25; --texto-mudo:#736052; --fio:#ECE2D7;
+  --reg-sono:#7068A6; --reg-mamada:#A35A52; --reg-fralda:#8C6430; --reg-banho:#587455;
+  --erro:#B83A32; --sucesso:#4A7345;
   --raio:18px; --raio-pilula:999px;
   --esp-1:4px; --esp-2:8px; --esp-3:12px; --esp-4:16px; --esp-5:24px; --esp-6:32px; --esp-7:48px;
   --fonte:"Outfit",system-ui,sans-serif; --fonte-serifa:"EB Garamond",Georgia,serif;
 }
 [data-tema="escuro"]{
-  --fundo:#171513; --superficie:#221F1C; --texto:#F1ECE7; --texto-mudo:#A29B94; --fio:#2E2A26;
-  --cor-primaria-texto:#6FD0E0; --cor-primaria-suave:#153840; --cor-acento-suave:#3A2427;
+  --fundo:#1B1512; --superficie:#251E1A; --texto:#F3ECE5; --texto-mudo:#ADA096; --fio:#352B25;
+  --cor-primaria-texto:#D9B9A3; --cor-primaria-suave:#3A2D25; --cor-acento-texto:#E4A49B; --cor-acento-suave:#3D2A27;
+  --erro:#E8877D; --sucesso:#A3BD96;
 }
 ```
 Regra de significado: teal é "o app" (ação, progresso, aba ativa); coral é "você agora" (marcador do dia, chip selecionado, mamada); as quatro cores de registro só aparecem em sono, mamada, fralda e banho. Nunca sombra, exceto o botão "+" flutuante (`0 8px 18px rgba(49,188,211,.4)`).
@@ -47,7 +49,7 @@ Itálica só nestes três lugares. Nunca em parágrafo.
 ## Componentes e estados
 - **Botão** `variant: primario | secundario | fantasma`, `tamanho: md | lg`. Pílula, altura mín. 44, Outfit 500. Estados: normal, pressionado (escurece 8 %), carregando (spinner e texto mantido), desabilitado (opacidade .45). Um primário por tela.
 - **Card** superfície branca, raio 18, padding 14/16, sem borda no claro; no escuro, borda 1 px `--fio`.
-- **Chip** pílula com círculo colorido 18 px à esquerda; `selecionado` troca a borda para coral e o fundo para `--cor-acento-suave`, círculo mostra check. Linha rolável cortada na borda.
+- **Chip** pílula com círculo colorido 18 px à esquerda; `selecionado` troca a borda para o rosa de destaque e o fundo para `--cor-acento-suave`, círculo mostra check. Linha rolável cortada na borda.
 - **Anel** SVG 200 px, traço 12, trilho `--fio`, progresso `--cor-primaria`, marcador do dia branco com borda coral 3 px. Props: `total`, `atual`, `segmentos?` (trimestres). Animação de 600 ms ao montar; respeita `prefers-reduced-motion`.
 - **Tile** card com ícone circular (28 px, cor do registro), nome, contador "há X" em Outfit 300 15 px, meta. `ao_vivo` inverte: fundo na cor do registro, texto branco, contador correndo.
 - **Story** 118 × 118, raio 18, fundo suave da categoria, círculo da cor no canto, título 11,5 px, meta "2 min · expira hoje". `lida` reduz opacidade a .6.

@@ -75,7 +75,7 @@ export function HomeParceiro({ perfil }: { perfil: Perfil }) {
               <ul className="flex flex-col gap-2">
                 {dica.help_tips.map((t) => (
                   <li key={t} className="tipo-corpo flex gap-2 text-texto">
-                    <span aria-hidden className="text-acento">
+                    <span aria-hidden className="text-acento-texto">
                       •
                     </span>
                     {t}

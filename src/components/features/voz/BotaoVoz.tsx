@@ -207,7 +207,7 @@ export function BotaoVoz({ modo, bebes, bebeAtivoId, onCorrigir, onManual, onInt
         )}
         {estado === "ouvindo" && (
           <>
-            <p className="tipo-saudacao text-acento">{copy.ouvindo}</p>
+            <p className="tipo-saudacao text-acento-texto">{copy.ouvindo}</p>
             <p className="tipo-voz mt-1 min-h-5 text-texto">{parcial ? `“${parcial}”` : ""}</p>
           </>
         )}
